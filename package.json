@@ -1,0 +1,13 @@
+{
+  "name": "gyminy-express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ykbhrn/gyminy-express.git",
+  "author": "ykbhrn <jakub.horun@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.0"
+  }
+}
