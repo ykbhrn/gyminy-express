@@ -6,22 +6,34 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   bio: { type: String, required: false, maxlength: 300 },
-  userType: ['student', 'athlete']
+  userType: { type: Number, required: true },
+  sports: [],
+  profileImage: { type: String, required: false }
 })
 
-userSchema.virtual('createdPlants', {
-  ref: 'Plant',
+userSchema.virtual('userImages', {
+  ref: 'Image',
   localField: '_id',
-  foreignField: 'user'
+  foreignField: 'userStuff'
 })
 
+userSchema.virtual('userVideos', {
+  ref: 'Video',
+  localField: '_id',
+  foreignField: 'userStuff'
+}
+)
+userSchema.virtual('userArticles', {
+  ref: 'Article',
+  localField: '_id',
+  foreignField: 'userStuff'
+})
 
-// userSchema.virtual('submittedOffers', {
-//   ref: 'Offer',
-//   localField: '_id',
-//   foreignField: 'user'
-// })
-
+userSchema.virtual('userTrainings', {
+  ref: 'Training',
+  localField: '_id',
+  foreignField: 'userStuff'
+})
 
 userSchema
   .set('toJSON', {
@@ -61,3 +73,4 @@ userSchema
 userSchema.plugin(require('mongoose-unique-validator'))
 
 module.exports = mongoose.model('User', userSchema)
+
