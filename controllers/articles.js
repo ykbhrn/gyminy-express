@@ -54,7 +54,7 @@ async function articleDelete(req, res) {
   try {
     const articleToDelete = await Article.findById(articleId)
     if (!articleToDelete) throw new Error('Not Found')
-    if (!articleToDelete.user.equals(req.currentUser._id)) throw new Error('Not Found')
+    if (!articleToDelete.user._id.equals(req.currentUser._id)) throw new Error('Not Found')
     await articleToDelete.remove()
     res.sendStatus(204)
   } catch (err) {

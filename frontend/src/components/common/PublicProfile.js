@@ -192,7 +192,7 @@ class PublicProfilePage extends React.Component {
 
             <div className="greeting-public"><span className='title is-2'>{this.state.user.name}</span>
               <div className="user-type"><img src={`${this.state.isStudent ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/student_rtpzhv.png' : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/athlete_gwre8y.png'}`} />
-                {this.state.user.userType === '1' ? 'Student' : 'Athlete'} | 
+                {this.state.user.userType === 1 ? 'Student' : 'Athlete'} | 
                 <div className="message" ><img src="https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/message_ffjyj2.png" onClick={this.handleChat}/>
                   {this.state.showChat && 
                     <div className="chat-profile-form">
@@ -248,12 +248,12 @@ class PublicProfilePage extends React.Component {
             <>
               <div className="columns is-multiline scene_element scene_element--fadein">
 
-                {this.state.user.trainings.map(training => (
+                {this.state.user.userTrainings.map(training => (
                   <>
                     {!training.isFull &&
                        <Trainings
-                         key={training.id}
-                         id={training.id}
+                         key={training._id}
+                         id={training._id}
                          name={training.name}
                          date={training.date}
                          time={training.time}

@@ -53,7 +53,7 @@ async function videoDelete(req, res) {
   try {
     const videoToDelete = await Video.findById(videoId)
     if (!videoToDelete) throw new Error('Not Found')
-    if (!videoToDelete.user.equals(req.currentUser._id)) throw new Error('Not Found')
+    if (!videoToDelete.user._id.equals(req.currentUser._id)) throw new Error('Not Found')
     await videoToDelete.remove()
     res.sendStatus(204)
   } catch (err) {

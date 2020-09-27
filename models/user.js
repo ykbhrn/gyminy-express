@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   bio: { type: String, required: false, maxlength: 300 },
   userType: { type: Number, required: true },
   sports: [],
-  profileImage: { type: String, required: false }
+  profileImage: { type: String, required: false },
+  studentTrainings: []
 })
 
 userSchema.virtual('userImages', {

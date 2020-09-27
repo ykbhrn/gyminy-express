@@ -53,7 +53,7 @@ async function imageDelete(req, res) {
   try {
     const imageToDelete = await Image.findById(imageId)
     if (!imageToDelete) throw new Error('Not Found')
-    if (!imageToDelete.user.equals(req.currentUser._id)) throw new Error('Not Found')
+    if (!imageToDelete.user._id.equals(req.currentUser._id)) throw new Error('Not Found')
     await imageToDelete.remove()
     res.sendStatus(204)
   } catch (err) {

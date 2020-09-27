@@ -261,12 +261,12 @@ class ProfilePage extends React.Component {
 
             {this.state.isAthlete &&
             <>
-              {this.state.user.trainings.map(training => (
+              {this.state.user.userTrainings.map(training => (
                 <>
                   {this.handleBookedTraining(training.bookings) &&
                     <Trainings
-                      key={training.id}
-                      id={training.id}
+                      key={training._id}
+                      id={training._id}
                       name={training.name}
                       date={training.date}
                       time={training.time}
@@ -300,12 +300,12 @@ class ProfilePage extends React.Component {
 
             {this.state.isStudent &&
             <>
-              {this.state.user.student_trainings.map(training => (
+              {this.state.user.studentTrainings.map(training => (
                 <>
                   {this.handleBookedTraining(training.bookings) &&
                     <Trainings
-                      key={training.id}
-                      id={training.id}
+                      key={training._id}
+                      id={training._id}
                       name={training.name}
                       date={training.date}
                       time={training.time}
@@ -316,7 +316,7 @@ class ProfilePage extends React.Component {
                       limit={training.limit}
                       bookingForm={this.handleBookingForm}
                       bookings={training.bookings}
-                      profileUrl={training.owner.profileImage}
+                      profileUrl={training.user.profileImage}
                       handleBigPortfolio={this.handleBigTrainingPortfolio}
                       showBigPortfolio={this.state.showBigPortfolio}
                       hideBig={this.hideBig}

@@ -51,10 +51,10 @@ class TrainingsPage extends React.Component {
   async componentDidMount() {
     try {
       const res = await getPortfolio()
-      if (res.data.user_type === 1) {
+      if (res.data.userType === 1) {
         const resTwo = await getAllTrainings()
         this.setState({ user: res.data, trainings: resTwo.data, isStudent: true })
-      } else if (res.data.user_type === 2) {
+      } else if (res.data.userType === 2) {
         this.setState({ user: res.data, isAthlete: true })
       }
 
@@ -271,23 +271,23 @@ class TrainingsPage extends React.Component {
                   <hr />
                   <div className="columns is-multiline scene_element scene_element--fadein">
 
-                    {this.state.user.trainings.map(training => (
+                    {this.state.user.userTrainings.map(training => (
                       <>
                         {this.handleBookedTraining(training.bookings) &&
                         <Trainings
-                          key={training.id}
-                          id={training.id}
+                          key={training._id}
+                          id={training._id}
                           name={training.name}
                           date={training.date}
                           time={training.time}
-                          username={training.owner.username}
-                          userId={training.owner.id}
+                          username={training.user.name}
+                          userId={training.user._id}
                           sports={training.sports.map(sport => (`${sport.name}  `))}
                           description={training.description}
                           limit={training.limit}
                           bookingForm={this.handleBookingForm}
                           bookings={training.bookings}
-                          profileUrl={training.owner.profile_image}
+                          profileUrl={training.user.profileImage}
                           handleBigPortfolio={this.handleBigPortfolio}
                           showBigPortfolio={this.state.showBigPortfolio}
                           hideBig={this.hideBig}
@@ -315,23 +315,23 @@ class TrainingsPage extends React.Component {
                   <h1 className="title is-2 has-text-centered">Your Trainings Without Booking</h1>
                   <hr />
                   <div className="columns is-multiline scene_element scene_element--fadein">
-                    {this.state.user.trainings.map(training => (
+                    {this.state.user.userTrainings.map(training => (
                       <>
                         {!this.handleBookedTraining(training.bookings) &&
                         <Trainings
-                          key={training.id}
-                          id={training.id}
+                          key={training._id}
+                          id={training._id}
                           name={training.name}
                           date={training.date}
                           time={training.time}
-                          username={training.owner.username}
-                          userId={training.owner.id}
+                          username={training.user.name}
+                          userId={training.user._id}
                           sports={training.sports.map(sport => (`${sport.name}  `))}
                           description={training.description}
                           limit={training.limit}
                           bookingForm={this.handleBookingForm}
                           bookings={training.bookings}
-                          profileUrl={training.owner.profile_image}
+                          profileUrl={training.user.profileImage}
                           handleBigPortfolio={this.handleBigPortfolio}
                           showBigPortfolio={this.state.showBigPortfolio}
                           hideBig={this.hideBig}
@@ -396,21 +396,21 @@ class TrainingsPage extends React.Component {
                   <hr />
                   <div className="columns is-multiline scene_element scene_element--fadein">
 
-                    {this.state.user.student_trainings.map(training => (
+                    {this.state.user.studentTrainings.map(training => (
                       <Trainings
-                        key={training.id}
-                        id={training.id}
+                        key={training._id}
+                        id={training._id}
                         name={training.name}
                         date={training.date}
                         time={training.time}
-                        username={training.owner.username}
-                        userId={training.owner.id}
+                        username={training.user.name}
+                        userId={training.user._id}
                         sports={training.sports.map(sport => (`${sport.name}  `))}
                         description={training.description}
                         limit={training.limit}
                         bookingForm={this.handleBookingForm}
                         bookings={training.bookings}
-                        profileUrl={training.owner.profile_image}
+                        profileUrl={training.user.profileImage}
                         handleBigPortfolio={this.handleBigTrainingPortfolio}
                         showBigPortfolio={this.state.showBigPortfolio}
                         hideBig={this.hideBig}
@@ -442,19 +442,19 @@ class TrainingsPage extends React.Component {
                       <>
                         {!training.isFull &&
                       <Trainings
-                        key={training.id}
-                        id={training.id}
+                        key={training._id}
+                        id={training._id}
                         name={training.name}
                         date={training.date}
                         time={training.time}
-                        username={training.owner.username}
-                        userId={training.owner.id}
+                        username={training.user.name}
+                        userId={training.user._id}
                         sports={training.sports.map(sport => (`${sport.name}  `))}
                         description={training.description}
                         limit={training.limit}
                         bookingForm={this.handleBookingForm}
                         bookings={training.bookings}
-                        profileUrl={training.owner.profile_image}
+                        profileUrl={training.user.profileImage}
                         handleBigPortfolio={this.handleBigTrainingPortfolio}
                         showBigPortfolio={this.state.showBigPortfolio}
                         hideBig={this.hideBig}

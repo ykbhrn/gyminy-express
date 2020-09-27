@@ -1,7 +1,5 @@
 const Training = require('../models/training')
 const User = require('../models/user')
-const training = require('../models/training')
-
 async function trainingIndex(req, res) {
   try {
     const trainings = await Training.find()
@@ -38,13 +36,18 @@ async function trainingShow(req, res) {
 async function trainingBooking(req, res) {
   const trainingId = req.params.id
   try {
-    const bookedUser = await User.findById(req.body.student)
+    const bookedUser = await User.findById(req.currentUser._id)
     const training = await Training.findById(trainingId)
     training.bookings += 1
-    training.students.push(bookedUser) 
+    training.students.push(bookedUser._id) 
+    training.students.push(bookedUser.name) 
+    training.students.push(bookedUser.profileImage) 
+
+    bookedUser.studentTrainings.push(training)
     if (training.bookings >= training.limit) {
       training.isFull = true
     }
+    await bookedUser.save()
     await training.save()
     res.status(202).json(training)
   } catch (err) {
@@ -57,7 +60,7 @@ async function trainingDelete(req, res) {
   try {
     const trainingToDelete = await Training.findById(trainingId)
     if (!trainingToDelete) throw new Error('notFound')
-    if (!trainingToDelete.user.equals(req.currentUser._id)) throw new Error('Not Found')
+    if (!trainingToDelete.user._id.equals(req.currentUser._id)) throw new Error('Not Found')
     await trainingToDelete.remove()
     res.sendStatus(204)
   } catch (err) {
