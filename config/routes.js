@@ -6,8 +6,8 @@ const videos = require('../controllers/videos')
 const articles = require('../controllers/articles')
 const like = require('../controllers/likes')
 const training = require('../controllers/trainings')
+const chat = require('../controllers/chats')
 const secureRoute = require('../lib/secureRoute')
-
 
 router.route('/profile')
   .get(secureRoute, user.profile)
@@ -77,5 +77,8 @@ router.route('/trainings/:id')
   .get(secureRoute, training.show)
   .put(secureRoute, training.booking)
   .delete(secureRoute, training.delete)
+
+router.route('/chats/:receiverid')
+  .post(secureRoute, chat.sendChat)
 
 module.exports = router
