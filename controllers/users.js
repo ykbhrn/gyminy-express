@@ -1,5 +1,14 @@
 const User = require('../models/user')
 
+async function usersIndex(req, res) {
+  try {
+    const users = await User.find()
+    res.status(200).json(users)
+  } catch (err) {
+    res.json(err)
+  }
+}
+
 async function userProfile(req, res, next) {
   try {
     const user = await User.findById(req.currentUser._id).populate('userVideos').populate('userImages').populate('userArticles').populate('userTrainings')
@@ -23,5 +32,6 @@ async function publicProfile(req, res, next) {
 
 module.exports = {
   profile: userProfile,
-  publicProfile
+  publicProfile,
+  index: usersIndex
 }

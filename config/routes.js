@@ -9,6 +9,9 @@ const training = require('../controllers/trainings')
 const chat = require('../controllers/chats')
 const secureRoute = require('../lib/secureRoute')
 
+router.route('/users')
+  .get(user.index)
+  
 router.route('/profile')
   .get(secureRoute, user.profile)
 
@@ -80,5 +83,11 @@ router.route('/trainings/:id')
 
 router.route('/chats/:receiverid')
   .post(secureRoute, chat.sendChat)
+
+router.route('/chats')
+  .get(secureRoute, chat.index)
+
+router.route('/chats/:id')
+  .get(secureRoute, chat.show)
 
 module.exports = router

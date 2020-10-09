@@ -10,7 +10,7 @@ class Chat extends React.Component {
     },
     user: null,
     showMessages: false,
-    chats: [],
+    chats: null,
     profileImage: '',
     username: '',
     userId: '',
@@ -26,9 +26,9 @@ class Chat extends React.Component {
     }
   }
 
-  async getData(userId) { //* this function can be called whenever you need to update the info on the page
+  async getData(chatId) { //* this function can be called whenever you need to update the info on the page
     try {
-      const res = await getChat(userId)
+      const res = await getChat(chatId)
       await this.setState({ chats: res.data })
     } catch (error) {
       console.log(error)
@@ -54,7 +54,7 @@ class Chat extends React.Component {
     } catch (err) {
       console.log('response: ', err.response.data)
     }
-    this.getData(userId)
+    this.getData(this.state.chats._id)
   }
 
   getMessages = async (id) => {
@@ -70,61 +70,56 @@ class Chat extends React.Component {
   }
 
   getUser = async () => {
-    let clicker = 0
-    this.state.chats.map(chat => {
-      const notCurrentUser = chat.users.filter(user => {
-        return user.id !== this.state.user.id
+    const clicker = 0
+    if ( this.state.chats.senderId !== this.state.user._id) {
+      this.setState({
+        profileImage: this.state.chats.senderProfileImage,
+        username: this.state.chats.senderName, userId: this.state.chats.senderId
+        // isStudent: chat.userType === 1 ? true : false
       })
-
-      return notCurrentUser.map(userForChat => {
-        clicker++
-        if (clicker <= 1) {
-          this.setState({
-            profileImage: userForChat.profile_image,
-            username: userForChat.username, userId: userForChat.id,
-            isStudent: userForChat.user_type === 1 ? true : false
-          })
-        }
+    } else if ( this.state.chats.receiverId !== this.state.user._id) {
+      this.setState({
+        profileImage: this.state.chats.receiverProfileImage,
+        username: this.state.chats.receiverName, userId: this.state.chats.receiverId
+        // isStudent: chat.userType === 1 ? true : false
       })
-    })
+    }
 
   }
 
-  uniq(a, param){
-    return a.filter(function(item, pos, array){
-        return array.map(function(mapItem){ return mapItem[param]; }).indexOf(item[param]) === pos;
-    })
-  }
 
 
 
 
   render() {
     if (!this.state.user) return null
-
+    console.log(this.state.userId)
     return (
       <div className="chat-profile-container">
         <div className="chat-profile-side">
           {/* Find Users who i have chat history with */}
-          {this.state.user.chats.slice(0).reverse().map(chat => {
-            const notCurrentUser = chat.users.filter(user => {
-              return user.id !== this.state.user.id
-            })
-            const newArray = this.uniq(notCurrentUser, 'id');
-            // const uniqueObjects = [...new Map(arr.map(item => [item.id, item])).values()]
-          
-            return newArray.map(userForChat => (
-              <div onClick={() => {
-                this.getMessages(userForChat.id)
+          {this.state.user.userChats.slice(0).reverse().map(chat => {
+
+            if (chat.receiverId !== this.state.user._id) {
+              return <div onClick={() => {
+                this.getMessages(chat._id)
               }}
-              key={userForChat.id} className="profile-header-chat-page">
-                <img className='profile-image-index' src={userForChat.profile_image} />{userForChat.username}
+              key={chat.receiverId} className="profile-header-chat-page">
+                <img className='profile-image-index' src={chat.receiverProfileImage} />{chat.receiverName}
               </div>
-            ))
+            } else if (chat.senderId !== this.state.user._id) {
+              return <div onClick={() => {
+                this.getMessages(chat._id)
+              }}
+              key={chat.senderId} className="profile-header-chat-page">
+                <img className='profile-image-index' src={chat.senderProfileImage} />{chat.senderName}
+              </div>
+            }
+    
           })}
         </div>
         {/* Show this header when user have no messages */}
-        {this.state.user.chats.length === 0 &&
+        {this.state.user.userChats.length === 0 &&
         <div className="no-messages">
           <h1 className="title is-2">You Have No Messages Yet</h1>
         </div>
@@ -138,7 +133,7 @@ class Chat extends React.Component {
               <img className='profile-image' src={this.state.profileImage} />
               <div className="greeting-public"><span className='title is-2'>{this.state.username}</span>
                 <div className="user-type"><img src={`${this.state.isStudent ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/student_rtpzhv.png' : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/athlete_gwre8y.png'}`} />
-                  {this.state.user.user_type.name}
+                  {this.state.user.userType.name}
                 </div>
               </div>
             </div>
@@ -146,14 +141,12 @@ class Chat extends React.Component {
 
           <div className="chat-history-container">
             <div className="chat-history">
-              {this.state.chats.slice(0).reverse().map(chat => {
-                if (chat.users[0].id === this.state.user.id) {
-                  return <div key={chat.id} className="one-message-container"><span className="one-message">{chat.text}</span></div>
+              {this.state.chats.subChat.slice(0).reverse().map(chat => {
+                if (this.state.user._id === chat.senderId) {
+                  return <div key={chat._id} className="one-message-container"><span className="one-message">{chat.text}</span></div>
                 } else {
-                  return <div key={chat.id} className="one-message-container-other"><span className="one-message-other">{chat.text}</span></div>
+                  return <div key={chat._id} className="one-message-container-other"><span className="one-message-other">{chat.text}</span></div>
                 }
-
-
               })}
             </div>
           </div>

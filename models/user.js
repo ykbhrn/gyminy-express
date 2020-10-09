@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
   userType: { type: Number, required: true },
   sports: [],
   profileImage: { type: String, required: false },
-  studentTrainings: []
+  studentTrainings: [],
+  userChats: []
 })
 
 userSchema.virtual('userImages', {

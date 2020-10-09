@@ -888,12 +888,16 @@ hr{
   transform: rotate(180deg);
   margin: 15px;
   border-radius: 4%;
+  display: flex;
+  justify-content: right;
 }
 
 .one-message-container-other{
   transform: rotate(180deg);
   margin: 15px;
   border-radius: 4%;
+  display: flex;
+  justify-content: left;
 }
 
 .one-message{

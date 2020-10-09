@@ -91,16 +91,16 @@ export const deleteVideoComment = ( videoId, commendId ) => {
   return axios.delete(`/api/videos/${videoId}/comments/${commendId}`, withHeaders())
 }
 
-export const postChat = (formData, id) => {
-  return axios.post(`/api/chat/${id}`, formData, withHeaders())
+export const postChat = (formData, receiverId) => {
+  return axios.post(`/api/chats/${receiverId}`, formData, withHeaders())
 }
 
 export const getChat = (id) => {
-  return axios.get(`/api/chat/${id}`, withHeaders())
+  return axios.get(`/api/chats/${id}`, withHeaders())
 }
 
 export const getAllUsers = () => {
-  return axios.get('/api/users/')
+  return axios.get('/api/users')
 }
 
 export const giveLike = (formData) => {
