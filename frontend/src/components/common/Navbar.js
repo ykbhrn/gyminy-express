@@ -89,6 +89,7 @@ class Navbar extends React.Component{
                 <form>
                   <input
                     type="search"
+                    placeholder="Search for User ..."
                     onChange={this.onChange}
                   />
                 </form>

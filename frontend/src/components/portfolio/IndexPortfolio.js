@@ -1,5 +1,5 @@
 import React from 'react'
-import { getAllImages, getAllVideos } from '../../lib/api'
+import { getAllImages, getAllVideos, getSingleImage, getSingleVideo } from '../../lib/api'
 import { Link } from 'react-router-dom'
 import Images from '../common/Images'
 import Videos from '../common/Videos'
@@ -16,6 +16,7 @@ class IndexPortfolio extends React.Component {
     displayPhotoUrl: '',
     displayTitle: '',
     displayUsername: '',
+    displayLikes: '',
     displayUserId: '',
     displayProfileUrl: '',
     displayDescription: '',
@@ -55,13 +56,22 @@ class IndexPortfolio extends React.Component {
     }
   }
 
-  handleBigPortfolio = (url, title, userId, username, profileUrl, displayDescription, comments, id ) => {
-    this.setState({ showBigPortfolio: true, displayPhotoUrl: url,
-      displayTitle: title, displayUserId: userId,
-      displayUsername: username, displayProfileUrl: profileUrl,
-      displayDescription: displayDescription, displayComments: comments, displayPortfolioId: id
-    })
-  }
+   handleBigPortfolio = async (id) => {
+     let portfolio
+     try {
+       if (this.state.showImages) {
+         portfolio = await getSingleImage(id)
+       } else if (this.state.showVideos) {
+         portfolio = await getSingleVideo(id)
+       }
+       this.setState({ showBigPortfolio: true, displayPhotoUrl: portfolio.data.url, displayUserId: portfolio.data.user._id,
+         displayUsername: portfolio.data.user.name, displayProfileUrl: portfolio.data.user.profileImage,
+         displayDescription: portfolio.data.description, displayComments: portfolio.data.comments, displayPortfolioId: id, displayLikes: portfolio.data.likes.length
+       })
+     } catch (err) {
+       console.log(err)
+     }  
+   }
 
   hideBig = () => {
     this.setState({ showBigPortfolio: false })
@@ -113,17 +123,12 @@ class IndexPortfolio extends React.Component {
                   <Images
                     key={image._id}
                     id={image._id}
-                    title={image.title}
                     url={image.url}
-                    description={image.description}
-                    username={image.user.name}
-                    userId={image.user._id}
-                    comments={image.comments}
-                    profileUrl={image.user.profileImage}
                     handleBigPortfolio={this.handleBigPortfolio}
                     showBigPortfolio={this.state.showBigPortfolio}
                     displayPhotoUrl={this.state.displayPhotoUrl}
                     hideBig={this.hideBig}
+                    displayLikes={this.state.displayLikes}
                     displayTitle={this.state.displayTitle}
                     displayUserId={this.state.displayUserId}
                     displayUsername={this.state.displayUsername}
@@ -150,24 +155,19 @@ class IndexPortfolio extends React.Component {
                   <Videos
                     key={video._id}
                     id={video._id}
-                    title={video.title}
                     url={video.url}
-                    description={video.description}
-                    username={video.user.name}
-                    userId={video.user._id}
-                    profileUrl={video.user.profileImage}
-                    comments={video.comments}
                     handleBigPortfolio={this.handleBigPortfolio}
                     showBigPortfolio={this.state.showBigPortfolio}
                     displayPhotoUrl={this.state.displayPhotoUrl}
                     hideBig={this.hideBig}
+                    displayLikes={this.state.displayLikes}
                     displayTitle={this.state.displayTitle}
                     displayUserId={this.state.displayUserId}
                     displayUsername={this.state.displayUsername}
                     displayProfileUrl={this.state.displayProfileUrl}
                     displayDescription={this.state.displayDescription}
                     displayPortfolioId={this.state.displayPortfolioId}
-                    displayComments={this.state.displayComments.map( comment => (
+                    displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
                       <div className='single-comment' key={comment._id}> 
                         <div className="profile-header-comment">        
                           <Link to={`/profile/${comment.user._id}`}>

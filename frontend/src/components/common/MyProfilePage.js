@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPortfolio } from '../../lib/api'
+import { getPortfolio,getSingleImage, getSingleVideo } from '../../lib/api'
 import { isAuthenticated, logout } from '../../lib/auth'
 import { Link } from 'react-router-dom'
 import Trainings from './Trainings'
@@ -54,10 +54,21 @@ class ProfilePage extends React.Component {
     }
   }
 
-  handleBigPortfolio = (url, title, userId, username, profileUrl, displayDescription, comments, id ) => {
-    this.setState({ showBigPortfolio: true, displayPhotoUrl: url, 
-      displayTitle: title, displayUserId: userId, displayUsername: username, displayProfileUrl: profileUrl,
-      displayDescription: displayDescription, displayComments: comments, displayPortfolioId: id })
+  handleBigPortfolio = async (id) => {
+    let portfolio
+    try {
+      if (this.state.showImages) {
+        portfolio = await getSingleImage(id)
+      } else if (this.state.showVideos) {
+        portfolio = await getSingleVideo(id)
+      }
+      this.setState({ showBigPortfolio: true, displayPhotoUrl: portfolio.data.url, displayUserId: portfolio.data.user._id,
+        displayUsername: portfolio.data.user.name, displayProfileUrl: portfolio.data.user.profileImage,
+        displayDescription: portfolio.data.description, displayComments: portfolio.data.comments, displayPortfolioId: id, displayLikes: portfolio.data.likes.length
+      })
+    } catch (err) {
+      console.log(err)
+    }  
   }
 
   handleBigTrainingPortfolio = (name, date, time, sports, description, bookings, username, userId, limit, profileUrl) => {
@@ -352,31 +363,26 @@ class ProfilePage extends React.Component {
             <div className="columns is-multiline scene_element scene_element--fadein">
               {this.state.user.userImages.map(image => (
                 <Images
-                  key={image.id}
-                  id={image.id}
-                  title={image.title}
+                  key={image._id}
+                  id={image._id}
                   url={image.url}
-                  description={image.description}
-                  username={image.user.name}
-                  userId={image.user._id}
-                  profileUrl={image.user.profileImage}
-                  comments={image.comments}
                   handleBigPortfolio={this.handleBigPortfolio}
                   showBigPortfolio={this.state.showBigPortfolio}
                   displayPhotoUrl={this.state.displayPhotoUrl}
                   hideBig={this.hideBig}
+                  displayLikes={this.state.displayLikes}
                   displayTitle={this.state.displayTitle}
                   displayUserId={this.state.displayUserId}
                   displayUsername={this.state.displayUsername}
                   displayProfileUrl={this.state.displayProfileUrl}
                   displayDescription={this.state.displayDescription}
                   displayPortfolioId={this.state.displayPortfolioId}
-                  displayComments={this.state.displayComments.map( comment => (
-                    <div className='single-comment' key={comment.id}> 
+                  displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
+                    <div className='single-comment' key={comment._id}> 
                       <div className="profile-header-comment">        
-                        <Link to={`/profile/${comment.owner.id}`}>
-                          <img className='profile-image-comment' src={comment.owner.profile_image}/></Link>
-                        <Link to={`/profile/${comment.owner.id}`}>{comment.owner.username}</Link>
+                        <Link to={`/profile/${comment.user._id}`}>
+                          <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
+                        <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
                       </div> {comment.text}
                     </div>
                   ))}
@@ -398,31 +404,26 @@ class ProfilePage extends React.Component {
 
               {this.state.user.userVideos.slice(0).reverse().map(video => (
                 <Videos
-                  key={video.id}
-                  id={video.id}
-                  title={video.title}
+                  key={video._id}
+                  id={video._id}
                   url={video.url}
-                  description={video.description}
-                  username={video.name}
-                  userId={video.user.id}
-                  profileUrl={video.user.profileImage}
-                  comments={video.comments}
                   handleBigPortfolio={this.handleBigPortfolio}
                   showBigPortfolio={this.state.showBigPortfolio}
                   displayPhotoUrl={this.state.displayPhotoUrl}
                   hideBig={this.hideBig}
+                  displayLikes={this.state.displayLikes}
                   displayTitle={this.state.displayTitle}
                   displayUserId={this.state.displayUserId}
                   displayUsername={this.state.displayUsername}
                   displayProfileUrl={this.state.displayProfileUrl}
                   displayDescription={this.state.displayDescription}
                   displayPortfolioId={this.state.displayPortfolioId}
-                  displayComments={this.state.displayComments.map( comment => (
-                    <div className='single-comment' key={comment.id}> 
+                  displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
+                    <div className='single-comment' key={comment._id}> 
                       <div className="profile-header-comment">        
-                        <Link to={`/profile/${comment.user.id}`}>
+                        <Link to={`/profile/${comment.user._id}`}>
                           <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
-                        <Link to={`/profile/${comment.user.id}`}>{comment.user.name}</Link>
+                        <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
                       </div> {comment.text}
                     </div>
                   ))}

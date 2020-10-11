@@ -12,25 +12,27 @@ class Images extends React.Component{
       image: ''
     },
     comments: [],
-    displayNewComments: false
+    displayNewComments: false,
+    displayLikeCounter: null,
+    displayNewLikes: false
   }
 
   async getData(imageId) { //* this function can be called whenever you need to update the info on the page
     try {
       const res = await getSingleImage(imageId)
       this.setState({ comments: res.data.comments, displayNewComments: true })
-      // console.log(this.state.coments)
     } catch (error) {
       console.log(error)
       // this.props.history.push('/notfound')
     }
   }
 
-  async likeImage(id, likes) {
+  async likeImage(id) {
     try {
-      const formData = { image: id }
+      const formData = { imageId: id }
       const res = await giveLike(formData)
-      console.log(likes)
+      const image = await getSingleImage(id)
+      this.setState({ displayLikeCounter: image.data.likes.length, displayNewLikes: true })
     } catch (err) {
       console.log(err)
     }
@@ -62,19 +64,18 @@ class Images extends React.Component{
   }
 
   hideNewComments = () => {
-    this.setState({ displayNewComments: false })
+    this.setState({ displayNewComments: false, displayNewLikes: false })
   }
 
   render ( ) {   
-    console.log(this.state.comments)    
-    const { title, url, id, showBigPortfolio, username, userId, description, likes, handleBigPortfolio, displayPhotoUrl, hideBig, profileUrl,
-      displayTitle, displayUserId, displayUsername, displayProfileUrl, displayDescription, comments,
+    const { title, url, id, showBigPortfolio,  handleBigPortfolio, displayPhotoUrl, hideBig,
+      displayTitle, displayUserId, displayUsername, displayProfileUrl, displayDescription, 
       displayComments, displayPortfolioId, displayLikes } = this.props
     return (
       <>
         <div
           onClick={() => {
-            handleBigPortfolio(url, title, userId, username, profileUrl, description, comments, id, likes)
+            handleBigPortfolio(id)
           }}
           className = "index-portfolio column is-one-quarter-desktop is-one-third-tablet is-8-mobile is-offset-2-mobile" >
           {/* {comments.map(singleComment => {
@@ -82,11 +83,6 @@ class Images extends React.Component{
           })} */}
           <figure className="image is-1by1">
             <img src={url} alt={title} />
-            <div onClick={() => {
-              this.likeImage(id)
-            }}>
-              <img className="likes-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1596516120/iconfinder_166_Heart_Love_Like_Twitter_4541850_an3vro.png" />
-            </div>
           </figure>
         </div>
         {showBigPortfolio &&    
@@ -100,8 +96,17 @@ class Images extends React.Component{
               <Link to={`/profile/${displayUserId}`} className="portfolio-header-part">
                 <img className='profile-image-index' src={displayProfileUrl}/>{displayUsername}</Link>
               <div className="portfolio-header-part">
-                <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1596516120/iconfinder_166_Heart_Love_Like_Twitter_4541850_an3vro.png" />
-                
+                <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1596516120/iconfinder_166_Heart_Love_Like_Twitter_4541850_an3vro.png"
+                  onClick={() => {
+                    this.likeImage(displayPortfolioId)
+                  }}
+                />
+                {!this.state.displayNewLikes && 
+                  displayLikes
+                }
+                {this.state.displayNewLikes && 
+                  this.state.displayLikeCounter
+                }
               </div>
             </div>
             <hr className="hr-comment"/>

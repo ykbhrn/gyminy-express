@@ -54,6 +54,9 @@ router.route('/articles/:id')
 router.route('/likes')
   .post(secureRoute, like.like)
 
+router.route('/videolikes')
+  .post(secureRoute, like.videoLike)
+
 router.route('/images/:id/comments')
   .post(secureRoute, images.commentCreate)
 

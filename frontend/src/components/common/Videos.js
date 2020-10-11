@@ -1,26 +1,40 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { postVideoComment, getSingleVideo } from '../../lib/api'
+import { postVideoComment, getSingleVideo, giveVideoLike } from '../../lib/api'
 
 class Videos extends React.Component{
 
   state = {
     formData: {
-      text: '',
+      text: ''
+    },
+    likeData: {
       video: ''
     },
     comments: [],
-    displayNewComments: false
+    displayNewComments: false,
+    displayLikeCounter: null,
+    displayNewLikes: false
   }
 
   async getData(videoId) { //* this function can be called whenever you need to update the info on the page
     try {
       const res = await getSingleVideo(videoId)
       this.setState({ comments: res.data.comments, displayNewComments: true })
-      // console.log(this.state.coments)
     } catch (error) {
       console.log(error)
       // this.props.history.push('/notfound')
+    }
+  }
+
+  async likeVideo(id) {
+    try {
+      const formData = { videoId: id }
+      const res = await giveVideoLike(formData)
+      const video = await getSingleVideo(id)
+      this.setState({ displayLikeCounter: video.data.likes.length, displayNewLikes: true })
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -50,19 +64,18 @@ class Videos extends React.Component{
   }
 
   hideNewComments = () => {
-    this.setState({ displayNewComments: false })
+    this.setState({ displayNewComments: false, displayNewLikes: false })
   }
 
   render ( ) {   
-    
-    const { title, url, id, showBigPortfolio, username, userId, description, handleBigPortfolio, displayPhotoUrl, hideBig, profileUrl,
-      displayTitle, displayUserId, displayUsername, displayProfileUrl, displayDescription, comments,
-      displayComments, displayPortfolioId } = this.props
+    const { title, url, id, showBigPortfolio,  handleBigPortfolio, displayPhotoUrl, hideBig,
+      displayTitle, displayUserId, displayUsername, displayProfileUrl, displayDescription, 
+      displayComments, displayPortfolioId, displayLikes } = this.props
     return (
       <>
         <div 
           onClick={() => {
-            handleBigPortfolio(url, title, userId, username, profileUrl, description, comments, id)
+            handleBigPortfolio(id)
           }}
           className = "index-portfolio column is-one-quarter-desktop is-one-third-tablet is-8-mobile is-offset-2-mobile" >
           {/* {comments.map(singleComment => {
@@ -80,9 +93,21 @@ class Videos extends React.Component{
           {/* side of big image container */}
           <div className='big-image-side'>
             <div className="profile-header-index">        
-              <Link to={`/profile/${displayUserId}`}>
-                <img className='profile-image-index' src={displayProfileUrl}/></Link>
-              <Link to={`/profile/${displayUserId}`}>{displayUsername}</Link>
+              <Link to={`/profile/${displayUserId}`} className="portfolio-header-part">
+                <img className='profile-image-index' src={displayProfileUrl}/>{displayUsername}</Link>
+              <div className="portfolio-header-part">
+                <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1596516120/iconfinder_166_Heart_Love_Like_Twitter_4541850_an3vro.png"
+                  onClick={() => {
+                    this.likeVideo(displayPortfolioId)
+                  }}
+                />
+                {!this.state.displayNewLikes && 
+                  displayLikes
+                }
+                {this.state.displayNewLikes && 
+                  this.state.displayLikeCounter
+                }
+              </div>
             </div>
             <hr className="hr-comment"/>
             <div className="description-and-comments">
@@ -105,7 +130,7 @@ class Videos extends React.Component{
                       <Link to={`/profile/${comment.user._id}`}>
                         <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
                       <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
-                    </div> {comment.text}
+                    </div> {comment.text} 
                   </div>
                 ))}
               </>
@@ -154,5 +179,3 @@ class Videos extends React.Component{
   
 }
 export default Videos
-
-

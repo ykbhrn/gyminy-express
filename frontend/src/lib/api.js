@@ -104,5 +104,9 @@ export const getAllUsers = () => {
 }
 
 export const giveLike = (formData) => {
-  return axios.post('/api/likes/', formData,  withHeaders())
+  return axios.post('/api/likes', formData,  withHeaders())
+}
+
+export const giveVideoLike = (formData) => {
+  return axios.post('/api/videolikes', formData,  withHeaders())
 }
