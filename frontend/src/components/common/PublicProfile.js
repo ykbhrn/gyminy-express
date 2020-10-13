@@ -141,6 +141,8 @@ class PublicProfilePage extends React.Component {
     }
   }
 
+ 
+
   handleBookingForm = (limit, bookings) => {
     let capacity
 
@@ -190,7 +192,7 @@ class PublicProfilePage extends React.Component {
   }
 
   render() {
-    console.log(this.state.user)
+    this.muie()
     if (!this.state.user) return null
     return (
       <section className="public-profile-container">

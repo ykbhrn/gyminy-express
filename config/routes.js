@@ -7,6 +7,7 @@ const articles = require('../controllers/articles')
 const like = require('../controllers/likes')
 const training = require('../controllers/trainings')
 const chat = require('../controllers/chats')
+const follow = require('../controllers/follows')
 const secureRoute = require('../lib/secureRoute')
 
 router.route('/users')
@@ -92,5 +93,8 @@ router.route('/chats')
 
 router.route('/chats/:id')
   .get(secureRoute, chat.show)
+
+router.route('/follow/:id')
+  .post(secureRoute, follow.follow)
 
 module.exports = router
