@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { postComment, getSingleImage, giveLike } from '../../lib/api'
+import { postComment, getSingleImage, giveLike, follow } from '../../lib/api'
 
 class Images extends React.Component{
 
@@ -15,6 +15,17 @@ class Images extends React.Component{
     displayNewComments: false,
     displayLikeCounter: null,
     displayNewLikes: false
+  }
+
+  handleFollow = async (userId) => {
+    console.log(userId)
+    try {
+      // const userId = this.props.match.params.id
+      const res = await follow(userId)
+      console.log(res.data)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async getData(imageId) { //* this function can be called whenever you need to update the info on the page
@@ -95,6 +106,11 @@ class Images extends React.Component{
             <div className="profile-header-index">        
               <Link to={`/profile/${displayUserId}`} className="portfolio-header-part">
                 <img className='profile-image-index' src={displayProfileUrl}/>{displayUsername}</Link>
+              <span onClick={() => {
+                this.handleFollow(displayUserId)
+              }}
+              className="small-follow"> +Follow</span> 
+
               <div className="portfolio-header-part">
                 <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1596516120/iconfinder_166_Heart_Love_Like_Twitter_4541850_an3vro.png"
                   onClick={() => {

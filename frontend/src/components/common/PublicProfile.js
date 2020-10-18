@@ -1,6 +1,6 @@
 import React from 'react'
-import { getPublicPortfolio, bookTraining, postChat, getSingleImage, getSingleVideo } from '../../lib/api'
-import { Redirect ,Link } from 'react-router-dom'
+import { getPublicPortfolio, bookTraining, postChat, getSingleImage, getSingleVideo, follow } from '../../lib/api'
+import { Redirect , Link } from 'react-router-dom'
 import Trainings from './Trainings'
 import Images from './Images'
 import Videos from './Videos'
@@ -12,6 +12,9 @@ class PublicProfilePage extends React.Component {
     formData: {
       text: ''
     },
+    showFollowers: false,
+    followData: null,
+    displayNewFollowData: false,
     user: null,
     showChat: false,
     showTrainings: false,
@@ -56,6 +59,10 @@ class PublicProfilePage extends React.Component {
     }
   }
 
+  handleShowingFollowers = () => {
+    this.setState({ showFollowers: this.state.showFollowers ? false : true })
+  }
+
   handleChange = event => {
     console.log('change event: ', event.target.name)
     const formData = { ...this.state.formData, [event.target.name]: event.target.value }
@@ -72,6 +79,16 @@ class PublicProfilePage extends React.Component {
       console.log('response: ', err.response.data)
     }
     this.setState({ showChat: false })
+  }
+
+  handleFollow = async () => {
+    try {
+      const id = this.props.match.params.id
+      const res = await follow(id)
+      this.setState({ followData: res.data, displayNewFollowData: true })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   handleChat = () => {
@@ -192,8 +209,8 @@ class PublicProfilePage extends React.Component {
   }
 
   render() {
-    this.muie()
     if (!this.state.user) return null
+    console.log(this.state.muie)
     return (
       <section className="public-profile-container">
         {this.renderRedirect()}
@@ -202,11 +219,21 @@ class PublicProfilePage extends React.Component {
 
             <img className='profile-image' src={this.state.user.profileImage} />
 
-            <div className="greeting-public"><span className='title is-2'>{this.state.user.name}</span>
-              <div className="user-type"><img src={`${this.state.isStudent ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/student_rtpzhv.png' : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/athlete_gwre8y.png'}`} />
-                {this.state.user.userType === 1 ? 'Student' : 'Athlete'} | 
-                <div className="message" ><img src="https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/message_ffjyj2.png" onClick={this.handleChat}/>
-                  {this.state.showChat && 
+            <div className="greeting-public"><span className='title is-2'>{this.state.user.name}
+              {this.state.isAthlete &&  
+             <span onClick={this.handleFollow} className="follow"> +Follow Athlete</span> 
+              }
+            </span>
+            <div className="user-type">{this.state.isStudent && 
+              <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/student_rtpzhv.png' />}
+            {this.state.isStudent ? 'Student |' : <span onClick={this.handleShowingFollowers} className="followers-title">Followers</span>}
+            {this.state.isAthlete &&
+            <>
+            ({this.state.displayNewFollowData ? this.state.followData.followers.length : this.state.user.followers.length})
+            </>
+            }
+            <div className="message" ><img src="https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/message_ffjyj2.png" onClick={this.handleChat}/>
+              {this.state.showChat && 
                     <div className="chat-profile-form">
                       <div className="profile-header-chat">              
                         <img className='profile-image-index' src={this.state.user.profileImage}/>
@@ -224,11 +251,26 @@ class PublicProfilePage extends React.Component {
                       </form>
                      
                     </div>
-                  }
-                </div>
-              </div>
+              }
+            </div>
+            </div>
             </div>  
           </div>
+
+          {this.state.showFollowers &&
+              <div className='followers-container'>
+                <span className='close-follow' onClick={this.handleShowingFollowers}> X </span>
+                <div className="followers-frame">
+                  {this.state.user.followers.map( follower => {
+                    return <div key={follower.userId} className="profile-follow">      
+                      <a href={`/profile/${follower.userId}`}>
+                        <img className='profile-image-follow' src={follower.userProfileImage}/></a>
+                      <a href={`/profile/${follower.userId}`}>{follower.userName}</a>
+                    </div>
+                  })}
+                </div>
+              </div>
+          }
 
           <div className="profile-choices-container">
             <span onClick={() => {

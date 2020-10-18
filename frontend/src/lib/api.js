@@ -110,3 +110,7 @@ export const giveLike = (formData) => {
 export const giveVideoLike = (formData) => {
   return axios.post('/api/videolikes', formData,  withHeaders())
 }
+
+export const follow = (id, formData) => {
+  return axios.post(`/api/follow/${id}`, formData, withHeaders())
+}

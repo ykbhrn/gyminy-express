@@ -948,3 +948,58 @@ hr{
   display: flex;
   align-items: center;
 }
+
+.follow{
+  color: $main;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.small-follow{
+  color: $main;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.followers-title{
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.followers-container{
+  display: flex;
+  flex-direction: column;
+  padding: 13px;
+  border: 1px solid $main;
+  background: white;
+  position: fixed;
+  left: 35%;
+  top: 35%;
+  z-index: 3;
+  border-radius: 5%;
+}
+
+.profile-follow{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.profile-follow img{
+  width: 50px;
+  height: 50px;
+}
+
+.close-follow{
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  width: 20px;
+  right: 10px;
+}
+
+.followers-frame{
+  max-height: 350px;
+  overflow: auto;
+  margin-top: 30px;
+}
