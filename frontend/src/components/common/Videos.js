@@ -106,23 +106,7 @@ class Videos extends React.Component{
             <div className="profile-header-index">        
               <Link to={`/profile/${displayUserId}`} className="portfolio-header-part">
                 <img className='profile-image-index' src={displayProfileUrl}/>{displayUsername}</Link>
-              <span onClick={() => {
-                this.handleFollow(displayUserId)
-              }}
-              className="small-follow"> +Follow</span> 
-              <div className="portfolio-header-part">
-                <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1596516120/iconfinder_166_Heart_Love_Like_Twitter_4541850_an3vro.png"
-                  onClick={() => {
-                    this.likeVideo(displayPortfolioId)
-                  }}
-                />
-                {!this.state.displayNewLikes && 
-                  displayLikes
-                }
-                {this.state.displayNewLikes && 
-                  this.state.displayLikeCounter
-                }
-              </div>
+              
             </div>
             <hr className="hr-comment"/>
             <div className="description-and-comments">
@@ -151,6 +135,29 @@ class Videos extends React.Component{
               </>
                 }
               </div>
+            </div>
+
+            <div className="like-section">
+              <div className="like-img">
+                <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1603135699/clipart1271742_ckxr7n.png"
+                  onClick={() => {
+                    this.likeVideo(displayPortfolioId)
+                  }}
+                />
+                <span className="like-counter">
+                  {!this.state.displayNewLikes && 
+                  displayLikes
+                  }
+                  {this.state.displayNewLikes && 
+                  this.state.displayLikeCounter
+                  }
+                </span>
+              </div>
+
+              <div onClick={() => {
+                this.handleFollow(displayUserId)
+              }}
+              className="small-follow"> +Follow</div> 
             </div>
 
             <div className="post-comment">

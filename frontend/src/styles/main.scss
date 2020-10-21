@@ -2,6 +2,7 @@
 
 $main: #F7B733;
 $font-color: #4a4a4a;
+$decline-color: #ef224b;
 $logo-font: 'Cinzel', serif;
 $slogan: 'Dosis', sans-serif;
 $article-font: BlinkMacSystemFont;
@@ -440,6 +441,9 @@ a{
   margin-left: 20px;
   cursor: pointer;
   position: relative;
+  img:hover{
+    transform: scale(1.1);
+  }
 }
 
 .chat-profile-form{
@@ -705,7 +709,7 @@ a{
 }
 
 .description-and-comments{
-  height: 450px;
+  height: 417px;
   overflow: auto;
 }
 
@@ -944,6 +948,10 @@ hr{
   cursor: pointer;
 }
 
+.small-like-img:hover{
+  transform: scale(1.1);
+}
+
 .portfolio-header-part{
   display: flex;
   align-items: center;
@@ -953,18 +961,44 @@ hr{
   color: $main;
   cursor: pointer;
   font-size: 25px;
+  display: inline-block;
+  margin-left: 12px;
+}
+
+.follow:hover{
+  transform: scale(1.05);
 }
 
 .small-follow{
   color: $main;
   cursor: pointer;
   font-size: 17px;
+  font-weight: bold;
+}
+
+.small-follow:hover{
+  transform: scale(1.1);
 }
 
 .followers-title{
   cursor: pointer;
   font-size: 20px;
 }
+
+.followers-title:hover{
+  color: $main;
+}
+
+.followed-title{
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: 30px;
+}
+
+.followed-title:hover{
+  color: $main;
+}
+
 
 .followers-container{
   display: flex;
@@ -977,15 +1011,17 @@ hr{
   top: 35%;
   z-index: 3;
   border-radius: 5%;
+  min-width: 200px;
 }
 
 .profile-follow{
   display: flex;
   justify-content: left;
   align-items: center;
+  font-size: 20px;
 }
 
-.profile-follow img{
+.profile-follow-image{
   width: 50px;
   height: 50px;
 }
@@ -996,10 +1032,73 @@ hr{
   position: absolute;
   width: 20px;
   right: 10px;
+  font-size: 20px;
 }
 
 .followers-frame{
   max-height: 350px;
   overflow: auto;
-  margin-top: 30px;
+  margin-top: 10px;
+}
+
+.follower-title{
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.already-followed-title{
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+  border: 1px solid $font-color;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.already-followed-title:hover{
+  background: lightgray;
+  opacity: 0.7;
+}
+
+.unfollow{
+  font-weight: normal;
+  font-size: 20px;
+  background: white;
+  position: fixed;
+  left: 35%;
+  top: 35%;
+  padding: 10px;
+  border: 1px solid $font-color;
+  display: flex;
+  flex-direction: column;
+  .unfollow-yes{
+    color: $decline-color;
+    margin-right: 40px;
+  }
+  .unfollow-option{
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+}
+
+.like-section{
+  display: flex; 
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+  .like-img{
+    display: flex;
+    align-items: center;
+  }
+  .like-counter{
+    margin-left: 10px;
+    font-size: 20px;
+  }
 }

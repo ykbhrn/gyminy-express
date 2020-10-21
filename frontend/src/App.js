@@ -4,6 +4,7 @@ import { isAuthenticated } from './lib/auth'
 
 
 import IndexPortfolio from './components/portfolio/IndexPortfolio'
+import Explore from './components/common/Explore'
 import SinglePortfolio from './components/portfolio/SinglePortfolio'
 import AddPortfolio from './components/portfolio/AddPortfolio'
 import AddArticle from './components/portfolio/AddArticle'
@@ -30,6 +31,7 @@ const App = () => (
       <Route path='/portfolio/:id' component={SinglePortfolio} />
       <Route path='/articles/:id' component={SingleArticle} />
       <Route path='/portfolio/' component={IndexPortfolio} />
+      <Route path='/explore' component={Explore} />
       <Route path="/register/" component={Register} />
       <Route path="/login/" component={Login} />
       <Route path='/profile/:id' component={PublicProfilePage} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPortfolio,getSingleImage, getSingleVideo } from '../../lib/api'
+import { getPortfolio, getSingleImage, getSingleVideo } from '../../lib/api'
 import { isAuthenticated, logout } from '../../lib/auth'
 import { Link } from 'react-router-dom'
 import Trainings from './Trainings'

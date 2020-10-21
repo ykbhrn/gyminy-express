@@ -1,5 +1,5 @@
 import React from 'react'
-import { getAllImages, getAllVideos, getSingleImage, getSingleVideo, getPortfolio } from '../../lib/api'
+import { getAllImages, getAllVideos, getSingleImage, getSingleVideo } from '../../lib/api'
 import { Link } from 'react-router-dom'
 import Images from '../common/Images'
 import Videos from '../common/Videos'
@@ -7,7 +7,6 @@ import Articles from '../portfolio/Articles'
 
 class IndexPortfolio extends React.Component {
   state = {
-    user: null,
     images: [],
     videos: [],
     showImages: true,
@@ -28,46 +27,9 @@ class IndexPortfolio extends React.Component {
 
   async componentDidMount() {
     try {
-      const res = await getPortfolio()
-      this.setState({ user: res.data })
-      this.getImages()
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async getImages() {
-    try {
       const res = await getAllImages()
-      const allImages = res.data
       const resTwo = await getAllVideos()
-      const allVideos = resTwo.data
-      const filteredImages = allImages.filter(image => {
-        let followerCounter = 0
-        this.state.user.following.map( user => {
-          if (image.user._id == user.followedUserId) {
-            followerCounter++
-          }
-        })  
-        if (followerCounter > 0) {
-          return image
-        } 
-      })
-
-      const filteredVideos = allVideos.filter(video => {
-        let followerCounter = 0
-        this.state.user.following.map( user => {
-          if (video.user._id == user.followedUserId) {
-            followerCounter++
-          }
-        })  
-        if (followerCounter > 0) {
-          return video
-        } 
-      })
-      
-      console.log(filteredImages)
-      this.setState({ images: filteredImages, videos: filteredVideos })
+      this.setState({ images: res.data, videos: resTwo.data })
     } catch (err) {
       console.log(err)
     }
@@ -117,6 +79,7 @@ class IndexPortfolio extends React.Component {
 
   render() {
     // if (!this.state.images) return null
+    console.log(this.state.images)
     return (
       <>
         <section className="m-scene">

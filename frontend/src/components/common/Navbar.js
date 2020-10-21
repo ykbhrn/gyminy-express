@@ -128,7 +128,7 @@ class Navbar extends React.Component{
           </div>
           <div className={`navbar-menu ${isOpen ? 'is-active' : ''}`}>
             <div className="navbar-end">
-              {isAuthenticated() && <Link to="/portfolio" onClick={this.hideSearch}>
+              {isAuthenticated() && <Link to="/explore" onClick={this.hideSearch}>
                 <img className='navbar-item' src="https://res.cloudinary.com/djq7pruxd/image/upload/v1592484111/home_of6q7k.png" />
               </Link>}
               {isAuthenticated() && <Link to="/trainings" onClick={this.hideSearch}>

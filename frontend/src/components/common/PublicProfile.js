@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPublicPortfolio, bookTraining, postChat, getSingleImage, getSingleVideo, follow } from '../../lib/api'
+import { getPublicPortfolio, getPortfolio, bookTraining, postChat, getSingleImage, getSingleVideo, follow } from '../../lib/api'
 import { Redirect , Link } from 'react-router-dom'
 import Trainings from './Trainings'
 import Images from './Images'
@@ -13,9 +13,11 @@ class PublicProfilePage extends React.Component {
       text: ''
     },
     showFollowers: false,
+    showFollowedAthletes: false,
     followData: null,
     displayNewFollowData: false,
     user: null,
+    currentUser: null,
     showChat: false,
     showTrainings: false,
     showImages: true,
@@ -41,19 +43,36 @@ class PublicProfilePage extends React.Component {
     displayLimit: '',
     displayId: '',
     displayComments: [],
-    displayPortfolioId: ''
+    displayPortfolioId: '',
+    alreadyFollowed: false,
+    showUnfollow: false
   }
 
   async componentDidMount() {
     try {
       const userId = this.props.match.params.id
       const res = await getPublicPortfolio(userId)
+      const resTwo = await getPortfolio()
       console.log(res.data)
       if (res.data.userType === 1) {
-        this.setState({ user: res.data, isStudent: true })
+        this.setState({ user: res.data, isStudent: true, currentUser: resTwo.data })
       } else if (res.data.userType === 2) {
-        this.setState({ user: res.data, isAthlete: true })
+        this.setState({ user: res.data, isAthlete: true, currentUser: resTwo.data })
       }
+      this.alreadyFollowed()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  alreadyFollowed = async () => {
+    try {
+      console.log('hej')
+      this.state.currentUser.following.map( user => {
+        if (user.followedUserId == this.state.user._id) {
+          this.setState({ alreadyFollowed: true })
+        }
+      })
     } catch (err) {
       console.log(err)
     }
@@ -61,6 +80,10 @@ class PublicProfilePage extends React.Component {
 
   handleShowingFollowers = () => {
     this.setState({ showFollowers: this.state.showFollowers ? false : true })
+  }
+
+  handleShowingFollowedAthletes = () => {
+    this.setState({ showFollowedAthletes: this.state.showFollowedAthletes ? false : true })
   }
 
   handleChange = event => {
@@ -85,10 +108,15 @@ class PublicProfilePage extends React.Component {
     try {
       const id = this.props.match.params.id
       const res = await follow(id)
-      this.setState({ followData: res.data, displayNewFollowData: true })
+      this.setState({ followData: res.data, displayNewFollowData: true, 
+        alreadyFollowed: this.state.alreadyFollowed ? false : true, showUnfollow: false })
     } catch (err) {
       console.log(err)
     }
+  }
+
+  handleUnfollow = () => {
+    this.setState({ showUnfollow: this.state.showUnfollow ? false : true })
   }
 
   handleChat = () => {
@@ -210,7 +238,7 @@ class PublicProfilePage extends React.Component {
 
   render() {
     if (!this.state.user) return null
-    console.log(this.state.muie)
+    console.log(this.state.currentUser)
     return (
       <section className="public-profile-container">
         {this.renderRedirect()}
@@ -219,19 +247,70 @@ class PublicProfilePage extends React.Component {
 
             <img className='profile-image' src={this.state.user.profileImage} />
 
-            <div className="greeting-public"><span className='title is-2'>{this.state.user.name}
+            <div className="greeting-public"><span className='title is-2'>{this.state.user.name} 
+              {this.state.isStudent &&
+              <>
+                <span onClick={this.handleShowingFollowedAthletes} className="followed-title">Followed Athletes
+                ({this.state.user.following.length})
+                </span>
+                {this.state.showFollowedAthletes &&
+                <div className='followers-container'>
+                  <span className="follower-title">Athletes</span>
+                  <span className='close-follow' onClick={this.handleShowingFollowedAthletes}> X </span>
+                  <div className="followers-frame">
+                    {this.state.user.following.map( followed => {
+                      return <div key={followed.followedUserId} className="profile-follow">      
+                        <a href={`/profile/${followed.followedUserId}`}>
+                          <img className='profile-image-follow' src={followed.followedUserProfileImage}/></a>
+                        <a href={`/profile/${followed.followedUserId}`}>{followed.followedUserName}</a>
+                      </div>
+                    })}
+                  </div>
+                </div>
+                }
+              </>
+              }
               {this.state.isAthlete &&  
-             <span onClick={this.handleFollow} className="follow"> +Follow Athlete</span> 
+              <>
+                {this.state.alreadyFollowed ? <span onClick={this.handleUnfollow} className="already-followed-title">Following</span>
+                  : <span onClick={this.handleFollow} className="follow"> +Follow Athlete</span> }
+                {this.state.showUnfollow && 
+                  <div className="unfollow">Do you want Unfollow {this.state.user.name}?
+                    <br/><span className="unfollow-option"> <span onClick={this.handleFollow} className="unfollow-yes">Yes</span> <span onClick={this.handleUnfollow}>No</span> </span>
+                  </div>
+                }
+              </>
               }
             </span>
             <div className="user-type">{this.state.isStudent && 
-              <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/student_rtpzhv.png' />}
-            {this.state.isStudent ? 'Student |' : <span onClick={this.handleShowingFollowers} className="followers-title">Followers</span>}
-            {this.state.isAthlete &&
             <>
-            ({this.state.displayNewFollowData ? this.state.followData.followers.length : this.state.user.followers.length})
+              <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/student_rtpzhv.png' />
+              Student |
             </>
             }
+            {this.state.isAthlete &&
+            <div className='followers-title' onClick={this.handleShowingFollowers}>
+              <span onClick={this.handleShowingFollowers} className="followers-title"></span>Followers
+            ({this.state.displayNewFollowData ? this.state.followData.followers.length : this.state.user.followers.length})
+            </div>
+            }
+            
+            {this.state.showFollowers &&
+              <div className='followers-container'>
+                <span className="follower-title">Followers</span>
+                <span className='close-follow' onClick={this.handleShowingFollowers}> X </span>
+                <div className="followers-frame">
+                  {this.state.user.followers.map( follower => {
+                    return <div key={follower.userId} className="profile-follow">      
+                      <a href={`/profile/${follower.userId}`}>
+                        <img className='profile-image-follow' src={follower.userProfileImage}/></a>
+                      <a href={`/profile/${follower.userId}`}>{follower.userName}</a>
+                    </div>
+                  })}
+                </div>
+              </div>
+            }
+
             <div className="message" ><img src="https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/message_ffjyj2.png" onClick={this.handleChat}/>
               {this.state.showChat && 
                     <div className="chat-profile-form">
@@ -256,21 +335,6 @@ class PublicProfilePage extends React.Component {
             </div>
             </div>  
           </div>
-
-          {this.state.showFollowers &&
-              <div className='followers-container'>
-                <span className='close-follow' onClick={this.handleShowingFollowers}> X </span>
-                <div className="followers-frame">
-                  {this.state.user.followers.map( follower => {
-                    return <div key={follower.userId} className="profile-follow">      
-                      <a href={`/profile/${follower.userId}`}>
-                        <img className='profile-image-follow' src={follower.userProfileImage}/></a>
-                      <a href={`/profile/${follower.userId}`}>{follower.userName}</a>
-                    </div>
-                  })}
-                </div>
-              </div>
-          }
 
           <div className="profile-choices-container">
             <span onClick={() => {
