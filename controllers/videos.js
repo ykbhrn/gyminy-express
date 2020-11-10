@@ -13,7 +13,7 @@ async function videosIndex(req, res) {
 async function videoCreate(req, res) {
   try {
     req.body.user = req.currentUser
-    req.body.userStuff = req.currentUser
+    req.body.userStuff = req.currentUser._id
     const createVideo = await Video.create(req.body)
     res.status(201).json(createVideo)
   } catch (err) {

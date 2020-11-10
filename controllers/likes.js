@@ -14,7 +14,7 @@ async function like(req, res) {
       likes = likes.filter(like => like.userId !== user._id.toString())
     } else {
       likeStatus = true
-      const userDetails = { userId: user._id, username: user.name }
+      const userDetails = { userId: user._id, username: user.name, profileImage: user.profileImage }
       likes.push(userDetails)
     }
     image.likes = likes 
@@ -40,7 +40,7 @@ async function videoLike(req, res) {
       likes = likes.filter(like => like.userId !== user._id.toString())
     } else {
       likeStatus = true
-      const userDetails = { userId: user._id, username: user.name }
+      const userDetails = { userId: user._id, username: user.name, profileImage: user.profileImage }
       likes.push(userDetails)
     }
     video.likes = likes 

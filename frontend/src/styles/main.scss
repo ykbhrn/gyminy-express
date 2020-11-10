@@ -1,6 +1,6 @@
 @import '~bulma/bulma.sass';
 
-$main: #F7B733;
+$main:  #FF851B ;
 $font-color: #4a4a4a;
 $decline-color: #ef224b;
 $logo-font: 'Cinzel', serif;
@@ -207,6 +207,82 @@ a{
   padding: 0 140px;
 }
 
+.images-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.small-image{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  margin: 30px;
+  .small-image-header{
+    height: 70px;
+    background: white;
+    display: flex;
+    align-items: center;
+    .small-image-profile{
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+    }
+    img{
+      width: 50px;
+      height: 50px;
+      border: 1px solid $main;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  }
+  .small-image-footer{
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    max-height: 350px;
+    overflow: auto;
+    .profile-footer{
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      margin: 0 0 15px 0;
+      img{
+        width: 30px;
+        height: 30px;
+        border: 1px solid $main;
+        border-radius: 50%;
+        margin-right: 3px;
+      }
+      .username{
+        font-weight: bold;
+        margin-right: 10px;
+        color: $font-color;
+      }
+    }
+    .like-counter{
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .username-footer{
+      font-weight: bold;
+      color: $font-color;
+      margin-right: 7px;
+    }
+    .profile-footer-container{
+      display: flex;
+    }
+    // .usernmae-container{
+    //   display: flex;
+    //   align-items: start;
+    // }
+  }
+}
+
 .article-container{
   display: flex;
   justify-content: space-around;
@@ -396,7 +472,6 @@ a{
 .navbar-item{
   width: 50px;
   height: 50px;
-  margin-left: 10px;
 }
 
 .logout{
@@ -584,7 +659,6 @@ a{
 .upload-portfolio img, video{
   width: 80px;
   height: 80px;
-  margin-left: 30px;
   // display: flex;
 
 }
@@ -638,6 +712,7 @@ a{
   height: 100%;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 
 .big-image-card{
@@ -1021,7 +1096,7 @@ hr{
   font-size: 20px;
 }
 
-.profile-follow-image{
+.profile-image-follow{
   width: 50px;
   height: 50px;
 }
@@ -1076,6 +1151,7 @@ hr{
   border: 1px solid $font-color;
   display: flex;
   flex-direction: column;
+  z-index: 4;
   .unfollow-yes{
     color: $decline-color;
     margin-right: 40px;
@@ -1101,4 +1177,9 @@ hr{
     margin-left: 10px;
     font-size: 20px;
   }
+}
+
+.videoStyle{
+  width: 100%;
+  height: 100%;
 }

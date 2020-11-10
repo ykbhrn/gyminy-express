@@ -14,8 +14,6 @@ class PublicProfilePage extends React.Component {
     },
     showFollowers: false,
     showFollowedAthletes: false,
-    followData: null,
-    displayNewFollowData: false,
     user: null,
     currentUser: null,
     showChat: false,
@@ -41,11 +39,7 @@ class PublicProfilePage extends React.Component {
     displaySports: '',
     displayBookings: '',
     displayLimit: '',
-    displayId: '',
-    displayComments: [],
-    displayPortfolioId: '',
-    alreadyFollowed: false,
-    showUnfollow: false
+    displayId: ''
   }
 
   async componentDidMount() {
@@ -53,7 +47,6 @@ class PublicProfilePage extends React.Component {
       const userId = this.props.match.params.id
       const res = await getPublicPortfolio(userId)
       const resTwo = await getPortfolio()
-      console.log(res.data)
       if (res.data.userType === 1) {
         this.setState({ user: res.data, isStudent: true, currentUser: resTwo.data })
       } else if (res.data.userType === 2) {
@@ -87,7 +80,6 @@ class PublicProfilePage extends React.Component {
   }
 
   handleChange = event => {
-    console.log('change event: ', event.target.name)
     const formData = { ...this.state.formData, [event.target.name]: event.target.value }
     this.setState({ formData })
   }
@@ -97,7 +89,6 @@ class PublicProfilePage extends React.Component {
     try {
       const userId = this.props.match.params.id
       const response = await postChat(this.state.formData, userId)
-      console.log(response.data)  
     } catch (err) {
       console.log('response: ', err.response.data)
     }
@@ -108,8 +99,9 @@ class PublicProfilePage extends React.Component {
     try {
       const id = this.props.match.params.id
       const res = await follow(id)
-      this.setState({ followData: res.data, displayNewFollowData: true, 
-        alreadyFollowed: this.state.alreadyFollowed ? false : true, showUnfollow: false })
+      const userId = this.props.match.params.id
+      const resTwo = await getPublicPortfolio(userId)    
+      this.setState({ user: resTwo.data, alreadyFollowed: this.state.alreadyFollowed ? false : true, showUnfollow: false })
     } catch (err) {
       console.log(err)
     }
@@ -121,23 +113,6 @@ class PublicProfilePage extends React.Component {
 
   handleChat = () => {
     this.setState({ showChat: this.state.showChat === false ? true : false })
-  }
-
-  handleBigPortfolio = async (id) => {
-    let portfolio
-    try {
-      if (this.state.showImages) {
-        portfolio = await getSingleImage(id)
-      } else if (this.state.showVideos) {
-        portfolio = await getSingleVideo(id)
-      }
-      this.setState({ showBigPortfolio: true, displayPhotoUrl: portfolio.data.url, displayUserId: portfolio.data.user._id,
-        displayUsername: portfolio.data.user.name, displayProfileUrl: portfolio.data.user.profileImage,
-        displayDescription: portfolio.data.description, displayComments: portfolio.data.comments, displayPortfolioId: id, displayLikes: portfolio.data.likes.length
-      })
-    } catch (err) {
-      console.log(err)
-    }  
   }
 
   handleBigTrainingPortfolio = (name, date, time, sports, description, bookings, username, userId, limit, profileUrl, id) => {
@@ -154,7 +129,6 @@ class PublicProfilePage extends React.Component {
     try {
       const res = await bookTraining(id)
       this.setState({ redirect: true })
-      console.log(res.data)
     } catch (err) {
       console.log(err)
     }
@@ -238,7 +212,6 @@ class PublicProfilePage extends React.Component {
 
   render() {
     if (!this.state.user) return null
-    console.log(this.state.currentUser)
     return (
       <section className="public-profile-container">
         {this.renderRedirect()}
@@ -290,8 +263,7 @@ class PublicProfilePage extends React.Component {
             }
             {this.state.isAthlete &&
             <div className='followers-title' onClick={this.handleShowingFollowers}>
-              <span onClick={this.handleShowingFollowers} className="followers-title"></span>Followers
-            ({this.state.displayNewFollowData ? this.state.followData.followers.length : this.state.user.followers.length})
+              <span onClick={this.handleShowingFollowers} className="followers-title"></span>Followers ({this.state.user.followers.length})
             </div>
             }
             
@@ -414,28 +386,9 @@ class PublicProfilePage extends React.Component {
                 {this.state.user.userImages.slice(0).reverse().map(image => (
                   <Images
                     key={image._id}
+                    user={this.state.currentUser}
                     id={image._id}
                     url={image.url}
-                    handleBigPortfolio={this.handleBigPortfolio}
-                    showBigPortfolio={this.state.showBigPortfolio}
-                    displayPhotoUrl={this.state.displayPhotoUrl}
-                    hideBig={this.hideBig}
-                    displayLikes={this.state.displayLikes}
-                    displayTitle={this.state.displayTitle}
-                    displayUserId={this.state.displayUserId}
-                    displayUsername={this.state.displayUsername}
-                    displayProfileUrl={this.state.displayProfileUrl}
-                    displayDescription={this.state.displayDescription}
-                    displayPortfolioId={this.state.displayPortfolioId}
-                    displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
-                      <div className='single-comment' key={comment._id}> 
-                        <div className="profile-header-comment">        
-                          <Link to={`/profile/${comment.user._id}`}>
-                            <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
-                          <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
-                        </div> {comment.text}
-                      </div>
-                    ))}
                   />
                 ))}
               </div>
@@ -449,28 +402,9 @@ class PublicProfilePage extends React.Component {
                 {this.state.user.userVideos.slice(0).reverse().map(video => (
                   <Videos
                     key={video._id}
+                    user={this.state.currentUser}
                     id={video._id}
                     url={video.url}
-                    handleBigPortfolio={this.handleBigPortfolio}
-                    showBigPortfolio={this.state.showBigPortfolio}
-                    displayPhotoUrl={this.state.displayPhotoUrl}
-                    hideBig={this.hideBig}
-                    displayLikes={this.state.displayLikes}
-                    displayTitle={this.state.displayTitle}
-                    displayUserId={this.state.displayUserId}
-                    displayUsername={this.state.displayUsername}
-                    displayProfileUrl={this.state.displayProfileUrl}
-                    displayDescription={this.state.displayDescription}
-                    displayPortfolioId={this.state.displayPortfolioId}
-                    displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
-                      <div className='single-comment' key={comment._id}> 
-                        <div className="profile-header-comment">        
-                          <Link to={`/profile/${comment.user._id}`}>
-                            <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
-                          <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
-                        </div> {comment.text}
-                      </div>
-                    ))}
                   />
                 ))}
               </div>

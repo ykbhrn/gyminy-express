@@ -11,39 +11,28 @@ class Images extends React.Component{
     likeData: {
       image: ''
     },
-    comments: [],
-    displayNewComments: false,
-    displayLikeCounter: null,
-    displayNewLikes: false
+    image: false,
+    showBigImage: false,
+    showBigPortfolio: false
   }
 
-  handleFollow = async (userId) => {
-    console.log(userId)
-    try {
-      // const userId = this.props.match.params.id
-      const res = await follow(userId)
-      console.log(res.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async getData(imageId) { //* this function can be called whenever you need to update the info on the page
-    try {
-      const res = await getSingleImage(imageId)
-      this.setState({ comments: res.data.comments, displayNewComments: true })
-    } catch (error) {
-      console.log(error)
-      // this.props.history.push('/notfound')
-    }
-  }
+  // handleFollow = async (userId) => {
+  //   console.log(userId)
+  //   try {
+  //     // const userId = this.props.match.params.id
+  //     const res = await follow(userId)
+  //     console.log(res.data)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   async likeImage(id) {
     try {
       const formData = { imageId: id }
       const res = await giveLike(formData)
-      const image = await getSingleImage(id)
-      this.setState({ displayLikeCounter: image.data.likes.length, displayNewLikes: true })
+      const resTwo = await getSingleImage(id)
+      this.setState({ image: resTwo.data })
     } catch (err) {
       console.log(err)
     }
@@ -54,78 +43,81 @@ class Images extends React.Component{
     this.setState({ formData })
   }
 
-  handleSubmit = async (event, displayPortfolioId) => {
+  handleSubmit = async (event, id) => {
     event.preventDefault()
     try {
       const formData = {
         ...this.state.formData
       }
-      // await this.setState({ formData })
-      const response = await postComment(formData, displayPortfolioId)
-      //reset formdata text ....it need to be in this way because there is two "text" in state and if i put just "text" than it reset wrong one
+      const response = await postComment(formData, id)
+      const res = await getSingleImage(id)
       const textData = {
         ...this.state.formData, text: ''
       }
-      this.setState({ formData: textData })
+      this.setState({ image: res.data, formData: textData })
       
     } catch (err) {
       console.log('response: ', err.response.data)
     }
-    this.getData(displayPortfolioId)
   }
 
-  hideNewComments = () => {
-    this.setState({ displayNewComments: false, displayNewLikes: false })
+  closeImage = () => {
+    this.setState({ showBigPortfolio: false })
+  }
+
+  bigImage = async () => {
+    const res = await getSingleImage(this.props.id)
+    this.setState({ image: res.data, showBigPortfolio: true })
   }
 
   render ( ) {   
-    const { title, url, id, showBigPortfolio,  handleBigPortfolio, displayPhotoUrl, hideBig,
-      displayTitle, displayUserId, displayUsername, displayProfileUrl, displayDescription, 
-      displayComments, displayPortfolioId, displayLikes } = this.props
+    let likeCounter = 0
+    const { title, url, user } = this.props
     return (
       <>
-        <div
-          onClick={() => {
-            handleBigPortfolio(id)
-          }}
-          className = "index-portfolio column is-one-quarter-desktop is-one-third-tablet is-8-mobile is-offset-2-mobile" >
-          {/* {comments.map(singleComment => {
-            return singleComment.text
-          })} */}
+        <div onClick={this.bigImage} className = "index-portfolio column is-one-quarter-desktop is-one-third-tablet is-8-mobile is-offset-2-mobile" >
           <figure className="image is-1by1">
             <img src={url} alt={title} />
           </figure>
         </div>
-        {showBigPortfolio &&    
+        {this.state.showBigPortfolio &&    
       <div className="show-big-image">
-
         <div className="big-image-card">
-          <img className="big-image" src={displayPhotoUrl} alt={displayTitle} />
+          <img className="big-image" src={this.state.image.url} />
           {/* side of big image container */}
           <div className='big-image-side'>
             <div className="profile-header-index">        
-              <Link to={`/profile/${displayUserId}`} className="portfolio-header-part">
-                <img className='profile-image-index' src={displayProfileUrl}/>{displayUsername}</Link>
-              <div className="portfolio-header-part">
-                
+              <Link to={`/profile/${this.state.image.user._id}`} className="portfolio-header-part">
+                <img className='profile-image-index' src={this.state.image.user.profileImage}/>{this.state.image.user.name}</Link>
+              <div className="like-img">
+                        
+                {this.state.image.likes.map( like => {
+                  if (like.userId == user._id) {
+                    likeCounter++
+                  }
+                })}
+                <img className="small-like-img" src={likeCounter == 0 ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238327/muscle_l4iwm8.png' 
+                  : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238630/muscle1_qefxuo.png'} 
+                onClick={() => { 
+                  this.likeImage(this.state.image._id)
+                }}
+                />
+                <span className="like-counter">
+                  {this.state.image.likes.length}
+                </span>
+              </div>
+              <div className="portfolio-header-part">            
               </div>
             </div>
             <hr className="hr-comment"/>
             <div className="description-and-comments">
               <div className="big-image-description">
-                {displayDescription} 
+                {this.state.image.description} 
               </div>
               <hr className="hr-comment"/>
   
               <div className="show-comments">
-                {!this.state.displayNewComments &&
-              <>
-                {displayComments} 
-              </>
-                }
-                {this.state.displayNewComments &&
-              <>
-                {this.state.comments.slice(0).reverse().map( comment => (
+                {this.state.image.comments.slice(0).reverse().map( comment => (
                   <div className='single-comment' key={comment._id}> 
                     <div className="profile-header-comment">        
                       <Link to={`/profile/${comment.user._id}`}>
@@ -134,37 +126,17 @@ class Images extends React.Component{
                     </div> {comment.text} 
                   </div>
                 ))}
-              </>
-                }
               </div>
             </div>
 
-            <div className="like-section">
-              <div className="like-img">
-                <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1603135699/clipart1271742_ckxr7n.png"
-                  onClick={() => {
-                    this.likeImage(displayPortfolioId)
-                  }}
-                />
-                <span className="like-counter">
-                  {!this.state.displayNewLikes && 
-                  displayLikes
-                  }
-                  {this.state.displayNewLikes && 
-                  this.state.displayLikeCounter
-                  }
-                </span>
-              </div>
-
-              <div onClick={() => {
+            {/* <div onClick={() => {
                 this.handleFollow(displayUserId)
               }}
-              className="small-follow"> +Follow</div> 
-            </div>
-
+              className="small-follow"> +Follow</div>  */}
+              
             <div className="post-comment">
               <form onSubmit={(event) => {
-                this.handleSubmit(event, displayPortfolioId)
+                this.handleSubmit(event, this.state.image._id)
               }}>
                 <div className="comment-add-container">
                   <input className="input"
@@ -191,8 +163,8 @@ class Images extends React.Component{
             </style>
   
           </div>
-          <div onClick={this.hideNewComments}>
-            <div className='close' onClick={hideBig}> <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/close_eo3yn4.png' /> </div>
+          <div onClick={this.closeImage} className='close'>
+            <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/close_eo3yn4.png' /> 
           </div>
         </div>
       </div>

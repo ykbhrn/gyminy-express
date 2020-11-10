@@ -11,39 +11,28 @@ class Videos extends React.Component{
     likeData: {
       video: ''
     },
-    comments: [],
-    displayNewComments: false,
-    displayLikeCounter: null,
-    displayNewLikes: false
+    video: false,
+    showBigVideo: false,
+    showBigPortfolio: false
   }
 
-  handleFollow = async (userId) => {
-    console.log(userId)
-    try {
-      // const userId = this.props.match.params.id
-      const res = await follow(userId)
-      console.log(res.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async getData(videoId) { //* this function can be called whenever you need to update the info on the page
-    try {
-      const res = await getSingleVideo(videoId)
-      this.setState({ comments: res.data.comments, displayNewComments: true })
-    } catch (error) {
-      console.log(error)
-      // this.props.history.push('/notfound')
-    }
-  }
+  // handleFollow = async (userId) => {
+  //   console.log(userId)
+  //   try {
+  //     // const userId = this.props.match.params.id
+  //     const res = await follow(userId)
+  //     console.log(res.data)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   async likeVideo(id) {
     try {
       const formData = { videoId: id }
       const res = await giveVideoLike(formData)
-      const video = await getSingleVideo(id)
-      this.setState({ displayLikeCounter: video.data.likes.length, displayNewLikes: true })
+      const resTwo = await getSingleVideo(id)
+      this.setState({ video: resTwo.data })
     } catch (err) {
       console.log(err)
     }
@@ -54,76 +43,79 @@ class Videos extends React.Component{
     this.setState({ formData })
   }
 
-  handleSubmit = async (event, displayPortfolioId) => {
+  handleSubmit = async (event, id) => {
     event.preventDefault()
     try {
       const formData = {
         ...this.state.formData
       }
-      // await this.setState({ formData })
-      const response = await postVideoComment(formData, displayPortfolioId)
-      //reset formdata text ....it need to be in this way because there is two "text" in state and if i put just "text" than it reset wrong one
+      const response = await postVideoComment(formData, id)
+      const res = await getSingleVideo(id)
       const textData = {
         ...this.state.formData, text: ''
       }
-      this.setState({ formData: textData })
+      this.setState({ video: res.data, formData: textData })
       
     } catch (err) {
       console.log('response: ', err.response.data)
     }
-    this.getData(displayPortfolioId)
   }
 
-  hideNewComments = () => {
-    this.setState({ displayNewComments: false, displayNewLikes: false })
+  closeImage = () => {
+    this.setState({ showBigPortfolio: false })
+  }
+
+  bigVideo = async () => {
+    const res = await getSingleVideo(this.props.id)
+    this.setState({ video: res.data, showBigPortfolio: true })
   }
 
   render ( ) {   
-    const { title, url, id, showBigPortfolio,  handleBigPortfolio, displayPhotoUrl, hideBig,
-      displayTitle, displayUserId, displayUsername, displayProfileUrl, displayDescription, 
-      displayComments, displayPortfolioId, displayLikes } = this.props
+    let likeCounter = 0
+    const { title, url, user } = this.props
     return (
       <>
-        <div 
-          onClick={() => {
-            handleBigPortfolio(id)
-          }}
-          className = "index-portfolio column is-one-quarter-desktop is-one-third-tablet is-8-mobile is-offset-2-mobile" >
-          {/* {comments.map(singleComment => {
-            return singleComment.text
-          })} */}
-         
+        <div onClick={this.bigVideo} className = "index-portfolio column is-one-quarter-desktop is-one-third-tablet is-8-mobile is-offset-2-mobile" >
           <video className="index-video" src={url} alt={title} />
-          
         </div>
-        {showBigPortfolio &&    
+        {this.state.showBigPortfolio &&    
       <div className="show-big-image">
-
         <div className="big-image-card">
-          <video className="big-image" src={displayPhotoUrl} alt={displayTitle} controls/>
+          <video className="big-image" src={this.state.video.url} controls/>
           {/* side of big image container */}
           <div className='big-image-side'>
             <div className="profile-header-index">        
-              <Link to={`/profile/${displayUserId}`} className="portfolio-header-part">
-                <img className='profile-image-index' src={displayProfileUrl}/>{displayUsername}</Link>
-              
+              <Link to={`/profile/${this.state.video.user._id}`} className="portfolio-header-part">
+                <img className='profile-image-index' src={this.state.video.user.profileImage}/>{this.state.video.user.name}</Link>
+              <div className="like-img">
+                        
+                {this.state.video.likes.map( like => {
+                  if (like.userId == user._id) {
+                    likeCounter++
+                  }
+                })}
+                <img className="small-like-img" src={likeCounter == 0 ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238327/muscle_l4iwm8.png' 
+                  : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238630/muscle1_qefxuo.png'} 
+                onClick={() => { 
+                  this.likeVideo(this.state.video._id)
+                }}
+                />
+                <span className="like-counter">
+                  {this.state.video.likes.length}
+                </span>
+              </div>
+              <div className="portfolio-header-part">            
+              </div>
             </div>
             <hr className="hr-comment"/>
             <div className="description-and-comments">
               <div className="big-image-description">
-                {displayDescription} 
+                {this.state.video.description} 
               </div>
               <hr className="hr-comment"/>
   
               <div className="show-comments">
-                {!this.state.displayNewComments &&
-              <>
-                {displayComments} 
-              </>
-                }
-                {this.state.displayNewComments &&
-              <>
-                {this.state.comments.slice(0).reverse().map( comment => (
+                {this.state.video.comments.slice(0).reverse().map( comment => (
                   <div className='single-comment' key={comment._id}> 
                     <div className="profile-header-comment">        
                       <Link to={`/profile/${comment.user._id}`}>
@@ -132,37 +124,17 @@ class Videos extends React.Component{
                     </div> {comment.text} 
                   </div>
                 ))}
-              </>
-                }
               </div>
             </div>
 
-            <div className="like-section">
-              <div className="like-img">
-                <img className="small-like-img" src="https://res.cloudinary.com/djq7pruxd/image/upload/v1603135699/clipart1271742_ckxr7n.png"
-                  onClick={() => {
-                    this.likeVideo(displayPortfolioId)
-                  }}
-                />
-                <span className="like-counter">
-                  {!this.state.displayNewLikes && 
-                  displayLikes
-                  }
-                  {this.state.displayNewLikes && 
-                  this.state.displayLikeCounter
-                  }
-                </span>
-              </div>
-
-              <div onClick={() => {
+            {/* <div onClick={() => {
                 this.handleFollow(displayUserId)
               }}
-              className="small-follow"> +Follow</div> 
-            </div>
-
+              className="small-follow"> +Follow</div>  */}
+              
             <div className="post-comment">
               <form onSubmit={(event) => {
-                this.handleSubmit(event, displayPortfolioId)
+                this.handleSubmit(event, this.state.video._id)
               }}>
                 <div className="comment-add-container">
                   <input className="input"
@@ -189,8 +161,8 @@ class Videos extends React.Component{
             </style>
   
           </div>
-          <div onClick={this.hideNewComments}>
-            <div className='close' onClick={hideBig}> <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/close_eo3yn4.png' /> </div>
+          <div onClick={this.closeImage} className='close'>
+            <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/close_eo3yn4.png' /> 
           </div>
         </div>
       </div>
@@ -201,3 +173,4 @@ class Videos extends React.Component{
   
 }
 export default Videos
+

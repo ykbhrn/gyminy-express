@@ -1,5 +1,5 @@
 import React from 'react'
-import { getAllImages, getAllVideos, getSingleImage, getSingleVideo } from '../../lib/api'
+import { getAllImages, getAllVideos, getPortfolio } from '../../lib/api'
 import { Link } from 'react-router-dom'
 import Images from '../common/Images'
 import Videos from '../common/Videos'
@@ -9,6 +9,7 @@ class IndexPortfolio extends React.Component {
   state = {
     images: [],
     videos: [],
+    user: null,
     showImages: true,
     showVideos: false,
     showArticles: false,
@@ -29,7 +30,8 @@ class IndexPortfolio extends React.Component {
     try {
       const res = await getAllImages()
       const resTwo = await getAllVideos()
-      this.setState({ images: res.data, videos: resTwo.data })
+      const resThree = await getPortfolio()
+      this.setState({ images: res.data, videos: resTwo.data, user: resThree.data })
     } catch (err) {
       console.log(err)
     }
@@ -54,27 +56,6 @@ class IndexPortfolio extends React.Component {
     } else if (this.state.showArticles) {
       return portfolioUrl = '/newarticle'
     }
-  }
-
-   handleBigPortfolio = async (id) => {
-     let portfolio
-     try {
-       if (this.state.showImages) {
-         portfolio = await getSingleImage(id)
-       } else if (this.state.showVideos) {
-         portfolio = await getSingleVideo(id)
-       }
-       this.setState({ showBigPortfolio: true, displayPhotoUrl: portfolio.data.url, displayUserId: portfolio.data.user._id,
-         displayUsername: portfolio.data.user.name, displayProfileUrl: portfolio.data.user.profileImage,
-         displayDescription: portfolio.data.description, displayComments: portfolio.data.comments, displayPortfolioId: id, displayLikes: portfolio.data.likes.length
-       })
-     } catch (err) {
-       console.log(err)
-     }  
-   }
-
-  hideBig = () => {
-    this.setState({ showBigPortfolio: false })
   }
 
   render() {
@@ -122,28 +103,9 @@ class IndexPortfolio extends React.Component {
                 {this.state.images.slice(0).reverse().map(image => (
                   <Images
                     key={image._id}
+                    user={this.state.user}
                     id={image._id}
                     url={image.url}
-                    handleBigPortfolio={this.handleBigPortfolio}
-                    showBigPortfolio={this.state.showBigPortfolio}
-                    displayPhotoUrl={this.state.displayPhotoUrl}
-                    hideBig={this.hideBig}
-                    displayLikes={this.state.displayLikes}
-                    displayTitle={this.state.displayTitle}
-                    displayUserId={this.state.displayUserId}
-                    displayUsername={this.state.displayUsername}
-                    displayProfileUrl={this.state.displayProfileUrl}
-                    displayDescription={this.state.displayDescription}
-                    displayPortfolioId={this.state.displayPortfolioId}
-                    displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
-                      <div className='single-comment' key={comment._id}> 
-                        <div className="profile-header-comment">        
-                          <Link to={`/profile/${comment.user._id}`}>
-                            <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
-                          <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
-                        </div> {comment.text}
-                      </div>
-                    ))}
                   />
                 ))}
               </div>
@@ -154,28 +116,9 @@ class IndexPortfolio extends React.Component {
                 {this.state.videos.slice(0).reverse().map(video => (
                   <Videos
                     key={video._id}
+                    user={this.state.user}
                     id={video._id}
                     url={video.url}
-                    handleBigPortfolio={this.handleBigPortfolio}
-                    showBigPortfolio={this.state.showBigPortfolio}
-                    displayPhotoUrl={this.state.displayPhotoUrl}
-                    hideBig={this.hideBig}
-                    displayLikes={this.state.displayLikes}
-                    displayTitle={this.state.displayTitle}
-                    displayUserId={this.state.displayUserId}
-                    displayUsername={this.state.displayUsername}
-                    displayProfileUrl={this.state.displayProfileUrl}
-                    displayDescription={this.state.displayDescription}
-                    displayPortfolioId={this.state.displayPortfolioId}
-                    displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
-                      <div className='single-comment' key={comment._id}> 
-                        <div className="profile-header-comment">        
-                          <Link to={`/profile/${comment.user._id}`}>
-                            <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
-                          <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
-                        </div> {comment.text}
-                      </div>
-                    ))}
                   />
                 ))}
               </div>

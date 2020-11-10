@@ -54,33 +54,11 @@ class ProfilePage extends React.Component {
     }
   }
 
-  handleBigPortfolio = async (id) => {
-    let portfolio
-    try {
-      if (this.state.showImages) {
-        portfolio = await getSingleImage(id)
-      } else if (this.state.showVideos) {
-        portfolio = await getSingleVideo(id)
-      }
-      this.setState({ showBigPortfolio: true, displayPhotoUrl: portfolio.data.url, displayUserId: portfolio.data.user._id,
-        displayUsername: portfolio.data.user.name, displayProfileUrl: portfolio.data.user.profileImage,
-        displayDescription: portfolio.data.description, displayComments: portfolio.data.comments, displayPortfolioId: id, displayLikes: portfolio.data.likes.length
-      })
-    } catch (err) {
-      console.log(err)
-    }  
-  }
-
   handleBigTrainingPortfolio = (name, date, time, sports, description, bookings, username, userId, limit, profileUrl) => {
     this.setState({ showBigPortfolio: true, displayName: name, displayDate: date, displayTime: time, displaySports: sports,
       displayDescription: description, displayBookings: bookings, displayUsername: username, displayUserId: userId,
       displayLimit: limit, displayProfileUrl: profileUrl })
   }
-
-  hideBig = () => {
-    this.setState({ showBigPortfolio: false })
-  }
-
 
   timeOfDay = () => {
     const date = new Date()
@@ -364,28 +342,9 @@ class ProfilePage extends React.Component {
               {this.state.user.userImages.map(image => (
                 <Images
                   key={image._id}
+                  user={this.state.user}
                   id={image._id}
                   url={image.url}
-                  handleBigPortfolio={this.handleBigPortfolio}
-                  showBigPortfolio={this.state.showBigPortfolio}
-                  displayPhotoUrl={this.state.displayPhotoUrl}
-                  hideBig={this.hideBig}
-                  displayLikes={this.state.displayLikes}
-                  displayTitle={this.state.displayTitle}
-                  displayUserId={this.state.displayUserId}
-                  displayUsername={this.state.displayUsername}
-                  displayProfileUrl={this.state.displayProfileUrl}
-                  displayDescription={this.state.displayDescription}
-                  displayPortfolioId={this.state.displayPortfolioId}
-                  displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
-                    <div className='single-comment' key={comment._id}> 
-                      <div className="profile-header-comment">        
-                        <Link to={`/profile/${comment.user._id}`}>
-                          <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
-                        <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
-                      </div> {comment.text}
-                    </div>
-                  ))}
                 />
               ))}
             </div>
@@ -405,28 +364,9 @@ class ProfilePage extends React.Component {
               {this.state.user.userVideos.slice(0).reverse().map(video => (
                 <Videos
                   key={video._id}
+                  user={this.state.user}
                   id={video._id}
                   url={video.url}
-                  handleBigPortfolio={this.handleBigPortfolio}
-                  showBigPortfolio={this.state.showBigPortfolio}
-                  displayPhotoUrl={this.state.displayPhotoUrl}
-                  hideBig={this.hideBig}
-                  displayLikes={this.state.displayLikes}
-                  displayTitle={this.state.displayTitle}
-                  displayUserId={this.state.displayUserId}
-                  displayUsername={this.state.displayUsername}
-                  displayProfileUrl={this.state.displayProfileUrl}
-                  displayDescription={this.state.displayDescription}
-                  displayPortfolioId={this.state.displayPortfolioId}
-                  displayComments={this.state.displayComments.slice(0).reverse().map( comment => (
-                    <div className='single-comment' key={comment._id}> 
-                      <div className="profile-header-comment">        
-                        <Link to={`/profile/${comment.user._id}`}>
-                          <img className='profile-image-comment' src={comment.user.profileImage}/></Link>
-                        <Link to={`/profile/${comment.user._id}`}>{comment.user.name}</Link>
-                      </div> {comment.text}
-                    </div>
-                  ))}
                 />
               ))}
 
