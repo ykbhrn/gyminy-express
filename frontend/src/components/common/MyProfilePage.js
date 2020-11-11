@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPortfolio, getSingleImage, getSingleVideo } from '../../lib/api'
+import { getPortfolio } from '../../lib/api'
 import { isAuthenticated, logout } from '../../lib/auth'
 import { Link } from 'react-router-dom'
 import Trainings from './Trainings'
@@ -19,24 +19,7 @@ class ProfilePage extends React.Component {
     showChoices: true,
     bookedTraining: false,
     isStudent: false,
-    isAthlete: false,
-    trainingOwnerId: '',
-    trainingOwnerUsername: '',
-    showBigPortfolio: false,
-    displayPhotoUrl: '',
-    displayTitle: '',
-    displayUsername: '',
-    displayUserId: '',
-    displayProfileUrl: '',
-    displayDescription: '',
-    displayName: '',
-    displayDate: '',
-    displayTime: '',
-    displaySports: '',
-    displayBookings: '',
-    displayLimit: '',
-    displayComments: [],
-    displayPortfolioId: ''
+    isAthlete: false
   }
 
   async componentDidMount() {
@@ -52,12 +35,6 @@ class ProfilePage extends React.Component {
     } catch (err) {
       console.log(err)
     }
-  }
-
-  handleBigTrainingPortfolio = (name, date, time, sports, description, bookings, username, userId, limit, profileUrl) => {
-    this.setState({ showBigPortfolio: true, displayName: name, displayDate: date, displayTime: time, displaySports: sports,
-      displayDescription: description, displayBookings: bookings, displayUsername: username, displayUserId: userId,
-      displayLimit: limit, displayProfileUrl: profileUrl })
   }
 
   timeOfDay = () => {
@@ -113,60 +90,8 @@ class ProfilePage extends React.Component {
     return  window.location.assign('/')
   }
 
-  handleBookingForm = (limit, bookings) => {
-    let capacity
-
-    if (bookings === 0){
-      if (limit === 1) {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title"> Individual Training </span></div>
-        </>
-      } else if (this.state.isStudent){
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-          <div>Booked: <span className="card-header-title">{bookings} Students</span></div>
-        </>
-      } else {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-        </>
-      } 
-    } else if (bookings >= limit) {
-      if (limit === 1) {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title"> Individual Training </span></div>
-          <div>
-              Training Is Fully Booked
-          </div>
-        </>
-      } else {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-          <div>
-            Training Is Fully Booked
-          </div>
-        </>
-      }
-    } else {
-      if (limit === 1) {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title"> Individual Training </span></div>
-        </>
-      } else {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-          <div>Booked: <span className="card-header-title">{bookings} Students</span></div>
-        </>
-      }
-    }
-  }
-
-
   render() {
     if (!this.state.user) return null
-    console.log(this.state.user)
-    
-
     return (
       <section className="section m-scene">
 
@@ -255,31 +180,7 @@ class ProfilePage extends React.Component {
                   {this.handleBookedTraining(training.bookings) &&
                     <Trainings
                       key={training._id}
-                      id={training._id}
-                      name={training.name}
-                      date={training.date}
-                      time={training.time}
-                      username={training.user.name}
-                      userId={training.user._id}
-                      sports={training.sports.map(sport => (`${sport.name}  `))}
-                      description={training.description}
-                      limit={training.limit}
-                      bookingForm={this.handleBookingForm}
-                      bookings={training.bookings}
-                      profileUrl={training.user.profileImage}
-                      handleBigPortfolio={this.handleBigTrainingPortfolio}
-                      showBigPortfolio={this.state.showBigPortfolio}
-                      hideBig={this.hideBig}
-                      displayName={this.state.displayName}
-                      displayDate={this.state.displayDate}
-                      displayTime={this.state.displayTime}
-                      displaySports={this.state.displaySports}
-                      displayDescription={this.state.displayDescription}
-                      displayBookings={this.state.displayBookings}
-                      displayUsername={this.state.displayUsername}
-                      displayUserId={this.state.displayUserId}
-                      displayLimit={this.state.displayLimit}
-                      displayProfileUrl={this.state.displayProfileUrl}
+                      singleTraining={training}
                     />
                   }
                 </>
@@ -294,48 +195,21 @@ class ProfilePage extends React.Component {
                   {this.handleBookedTraining(training.bookings) &&
                     <Trainings
                       key={training._id}
-                      id={training._id}
-                      name={training.name}
-                      date={training.date}
-                      time={training.time}
-                      username={training.user.name}
-                      userId={training.user._id}
-                      sports={training.sports.map(sport => (`${sport.name}  `))}
-                      description={training.description}
-                      limit={training.limit}
-                      bookingForm={this.handleBookingForm}
-                      bookings={training.bookings}
-                      profileUrl={training.user.profileImage}
-                      handleBigPortfolio={this.handleBigTrainingPortfolio}
-                      showBigPortfolio={this.state.showBigPortfolio}
-                      hideBig={this.hideBig}
-                      displayName={this.state.displayName}
-                      displayDate={this.state.displayDate}
-                      displayTime={this.state.displayTime}
-                      displaySports={this.state.displaySports}
-                      displayDescription={this.state.displayDescription}
-                      displayBookings={this.state.displayBookings}
-                      displayUsername={this.state.displayUsername}
-                      displayUserId={this.state.displayUserId}
-                      displayLimit={this.state.displayLimit}
-                      displayProfileUrl={this.state.displayProfileUrl}
+                      singleTraining={training}
                     />
                   }
                 </>
               ))}
             </>
             }
-
           </div>
         </>
           }
-
+          
           {this.state.showImages &&
           <>
             <div className="profile-header">
-  
-              <img className='profile-image' src={this.state.user.profileImage} />
-              
+              <img className='profile-image' src={this.state.user.profileImage} />            
               <div className="title is-2">{this.state.user.name} <br /><span className="subtitle is-5">Photos</span></div>            </div>
             <hr />
             <div className="columns is-multiline scene_element scene_element--fadein">
@@ -353,10 +227,8 @@ class ProfilePage extends React.Component {
 
           {this.state.showVideos &&
           <>
-            <div className="profile-header">
-             
+            <div className="profile-header">           
               <img className='profile-image' src={this.state.user.profileImage} />
-              
               <div className="title is-2">{this.state.user.name} <br /><span className="subtitle is-5">Videos</span></div>            </div>
             <hr />
             <div className="columns is-multiline scene_element scene_element--fadein">
@@ -377,10 +249,8 @@ class ProfilePage extends React.Component {
 
         {this.state.showArticles &&
           <>
-            <div className="profile-header">
-             
+            <div className="profile-header">       
               <img className='profile-image' src={this.state.user.profileImage} />
-              
               <div className="title is-2">{this.state.user.name} <br /><span className="subtitle is-5">Articles</span></div>
             </div>
             <div className="article-container">

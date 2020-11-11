@@ -1,6 +1,15 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
+const notificationSchema = new mongoose.Schema({ 
+  notificationType: String,
+  username: String,
+  profileImage: String,
+  userId: String,
+  portfolioId: String,
+  url: String
+})
+
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true, maxlength: 20, unique: true },
   email: { type: String, required: true, unique: true },
@@ -9,6 +18,8 @@ const userSchema = new mongoose.Schema({
   userType: { type: Number, required: true },
   sports: [],
   profileImage: { type: String, required: false },
+  notifications: [notificationSchema],
+  newNotification: { type: Boolean, default: false },
   studentTrainings: [],
   userChats: [],
   followers: [],

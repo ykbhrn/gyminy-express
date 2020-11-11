@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import SportSelect from '../common/SportSelect'
 
-const Trainings = ( { renderRedirect, handleChange, handleSelect, handleSubmit, handleErrors, name, date, time, description, sports, limit, errorName, errorDate, errorTime, errorDescription, errorSports } ) => (
+const Trainings = ( { renderRedirect, handleChange, handleSelect, handleSubmit, handleErrors, error, formData } ) => (
   
   <div className="register-container">
     {renderRedirect()}
@@ -12,26 +12,26 @@ const Trainings = ( { renderRedirect, handleChange, handleSelect, handleSubmit, 
           <div className="field">
             <label className="label">Training Name:</label>    
             <input
-              className={`input ${errorName ? 'is-danger' : ''}`}
+              className={`input ${error.name ? 'is-danger' : ''}`}
               placeholder="Name of the training"
               name="name"
               onChange={handleChange}
-              value={name}
+              value={formData.name}
             />
-            {errorName ? <small className="help is-danger">{errorName}</small> : ''}
+            {error.name ? <small className="help is-danger">{error.name}</small> : ''}
           </div>
 
           <div className="field">
             <label className="label">Date:</label>    
             <input
               type='date'
-              className={`input ${errorDate ? 'is-danger' : ''}`}
+              className={`input ${error.date ? 'is-danger' : ''}`}
               placeholder="Date Of The Training"
               name="date"
               onChange={handleChange}
-              value={date}
+              value={formData.date}
             />
-            {errorDate ? <small className="help is-danger">{errorDate}</small> : ''}
+            {error.date ? <small className="help is-danger">{error.date}</small> : ''}
           </div>
 
         </div>
@@ -42,13 +42,13 @@ const Trainings = ( { renderRedirect, handleChange, handleSelect, handleSubmit, 
             <label className="label">Time:</label>    
             <input
               type='time'
-              className={`input ${errorTime ? 'is-danger' : ''}`}
+              className={`input ${error.time ? 'is-danger' : ''}`}
               placeholder="Training Time"
               name="time"
               onChange={handleChange}
-              value={time}
+              value={formData.time}
             />
-            {errorTime && <small className="help is-danger">{errorTime}</small>}
+            {error.time && <small className="help is-danger">{error.time}</small>}
           </div>
 
           <div className="field">
@@ -59,7 +59,7 @@ const Trainings = ( { renderRedirect, handleChange, handleSelect, handleSubmit, 
               placeholder="Training Capacity Limit"
               name="limit"
               onChange={handleChange}
-              value={limit}
+              value={formData.limit}
             />
 
           </div>
@@ -71,13 +71,13 @@ const Trainings = ( { renderRedirect, handleChange, handleSelect, handleSubmit, 
           <div className="field">
             <label className="label">Description:</label>    
             <input
-              className={`input ${errorDescription ? 'is-danger' : ''}`}
+              className={`input ${error.description ? 'is-danger' : ''}`}
               placeholder="Describe Your Training"
               name="description"
               onChange={handleChange}
-              value={description}
+              value={formData.description}
             />
-            {errorDescription && <small className="help is-danger">{errorDescription}</small>}
+            {error.description && <small className="help is-danger">{error.description}</small>}
           </div>
 
           <div className='register-forms field category'>
@@ -85,7 +85,7 @@ const Trainings = ( { renderRedirect, handleChange, handleSelect, handleSubmit, 
             <SportSelect
               handleSelect={handleSelect}
             />
-            {errorSports && <small className="help is-danger">{errorSports}</small>}
+            {error.sports && <small className="help is-danger">{error.sports}</small>}
           </div>
 
         </div>

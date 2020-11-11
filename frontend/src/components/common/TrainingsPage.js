@@ -1,13 +1,12 @@
 import React from 'react'
-import { addTraining, getPortfolio, getAllTrainings, bookTraining } from '../../lib/api'
+import { addTraining, getPortfolio, getAllTrainings } from '../../lib/api'
 import { Redirect, Link } from 'react-router-dom'
 import AddTraining from './AddTraining'
 import Trainings from '../common/Trainings'
-import { getToken } from '../../lib/auth'
 
 class TrainingsPage extends React.Component {
   state = {
-    user: [],
+    user: null,
     trainings: [],
     formData: {
       name: '',
@@ -17,7 +16,6 @@ class TrainingsPage extends React.Component {
       limit: 1,
       sports: []
     },
-    // showRequests: true,
     showAdd: false,
     showBookedTrainings: true,
     showNotBookedTrainings: false,
@@ -28,17 +26,6 @@ class TrainingsPage extends React.Component {
     isGroupTraining: false,
     trainingOwnerId: '',
     trainingOwnerUsername: '',
-    showBigPortfolio: false,
-    displayName: '',
-    displayDate: '',
-    displayTime: '',
-    displaySports: '',
-    displayDescription: '',
-    displayBookings: '',
-    displayUsername: '',
-    displayUserId: '',
-    displayLimit: '',
-    displayProfileUrl: '',
     errors: {
       name: '',
       date: '',
@@ -62,34 +49,6 @@ class TrainingsPage extends React.Component {
       console.log(err)
     }
   }
-
-  handleBigPortfolio = (name, date, time, sports, description, bookings, username, userId, limit, profileUrl) => {
-    this.setState({ showBigPortfolio: true, displayName: name, displayDate: date, displayTime: time, displaySports: sports,
-      displayDescription: description, displayBookings: bookings, displayUsername: username, displayUserId: userId,
-      displayLimit: limit, displayProfileUrl: profileUrl })
-  }
-
-  handleBigTrainingPortfolio = (name, date, time, sports, description, bookings, username, userId, limit, profileUrl, id) => {
-    this.setState({ showBigPortfolio: true, displayName: name, displayDate: date, displayTime: time, displaySports: sports,
-      displayDescription: description, displayBookings: bookings, displayUsername: username, displayUserId: userId,
-      displayLimit: limit, displayProfileUrl: profileUrl, displayId: id })
-  }
-
-  hideBig = () => {
-    this.setState({ showBigPortfolio: false })
-  }
-
-
-   handleBooking = async (id, ownerId, ownerUsername) => {
-     try {
-       await this.setState({ trainingOwnerId: ownerId, trainingOwnerUsername: ownerUsername })
-       const res = await bookTraining(id)
-       this.setState({ studentRedirect: true })
-       console.log(res.data)
-     } catch (err) {
-       console.log(err)
-     }
-   }
 
   handleChange = event => {
     console.log('change event: ', event.target.name)
@@ -168,54 +127,7 @@ class TrainingsPage extends React.Component {
     }
   }
 
-  handleBookingForm = (limit, bookings) => {
-    let capacity
-
-    if (bookings === 0) {
-      if (limit === 1) {
-        return <>
-          Capacity Limit: <span className="card-header-title"> Individual Training </span>
-        </>
-      } else if (this.state.isStudent) {
-        return <>
-          Capacity Limit: <span className="card-header-title">{limit} Students </span>
-          Booked: <span className="card-header-title">{bookings} Students</span>
-        </>
-      } else {
-        return <>
-          Capacity Limit: <span className="card-header-title">{limit} Students </span>
-        </>
-      }
-    } else if (bookings >= limit) {
-      if (limit === 1) {
-        return <>
-          Capacity Limit: <span className="card-header-title"> Individual Training </span>
-          <div>
-            Training Is Fully Booked
-          </div>
-        </>
-      } else {
-        return <>
-          Capacity Limit: <span className="card-header-title">{limit} Students </span>
-          <div>
-            Training Is Fully Booked
-          </div>
-        </>
-      }
-    } else {
-      if (limit === 1) {
-        return <>
-          Capacity Limit: <span className="card-header-title"> Individual Training </span>
-        </>
-      } else {
-        return <>
-          Capacity Limit: <span className="card-header-title">{limit} Students </span>
-          Booked: <span className="card-header-title">{bookings} Students</span>
-        </>
-      }
-    }
-  }
-
+  
   handleBookedTraining = (booking) => {
     if (booking > 0) {
       return true
@@ -224,9 +136,26 @@ class TrainingsPage extends React.Component {
     }
   }
 
+  availableTraining = (training) => {
+    if (training.students.length > 0) {
+      let studentCounter = 0
+      training.students.map( student => {
+        if (this.state.user._id === student.userId) {
+          studentCounter++
+        }
+      })
+      if (studentCounter > 0) {
+        console.log(studentCounter)
+        return false
+      } else {
+        return true
+      }
+    } else {
+      return true
+    }
+  }
+
   render() {
-    console.log(this.state.trainingOwnerId)
-    console.log(this.state.trainingOwnerUsername)
     const { formData, errors } = this.state
     return (
       <>
@@ -236,11 +165,6 @@ class TrainingsPage extends React.Component {
           {this.state.isAthlete &&
             <>
               <div className="profile-choices-container index">
-
-                {/* <span onClick={() => {
-                  this.clickShow('requests')
-                }} className={`small-profile-choices ${this.state.showRequests ? 'selected-menu-choice' : ''}`}>
-                  New Training Requests</span> */}
 
                 <span onClick={() => {
                   this.clickShow('booked')
@@ -259,12 +183,6 @@ class TrainingsPage extends React.Component {
 
               </div>
 
-              {/* {this.state.showRequests &&
-                <div className='portfolio-container'>
-                  Requests here
-                </div>
-              } */}
-
               {this.state.showBookedTrainings &&
                 <div className='portfolio-container'>
                   <h1 className="title is-2 has-text-centered">Your Next Trainings</h1>
@@ -276,31 +194,7 @@ class TrainingsPage extends React.Component {
                         {this.handleBookedTraining(training.bookings) &&
                         <Trainings
                           key={training._id}
-                          id={training._id}
-                          name={training.name}
-                          date={training.date}
-                          time={training.time}
-                          username={training.user.name}
-                          userId={training.user._id}
-                          sports={training.sports.map(sport => (`${sport.name}  `))}
-                          description={training.description}
-                          limit={training.limit}
-                          bookingForm={this.handleBookingForm}
-                          bookings={training.bookings}
-                          profileUrl={training.user.profileImage}
-                          handleBigPortfolio={this.handleBigPortfolio}
-                          showBigPortfolio={this.state.showBigPortfolio}
-                          hideBig={this.hideBig}
-                          displayName={this.state.displayName}
-                          displayDate={this.state.displayDate}
-                          displayTime={this.state.displayTime}
-                          displaySports={this.state.displaySports}
-                          displayDescription={this.state.displayDescription}
-                          displayBookings={this.state.displayBookings}
-                          displayUsername={this.state.displayUsername}
-                          displayUserId={this.state.displayUserId}
-                          displayLimit={this.state.displayLimit}
-                          displayProfileUrl={this.state.displayProfileUrl}
+                          singleTraining={training}
                         />
                         }
                       </>
@@ -320,31 +214,7 @@ class TrainingsPage extends React.Component {
                         {!this.handleBookedTraining(training.bookings) &&
                         <Trainings
                           key={training._id}
-                          id={training._id}
-                          name={training.name}
-                          date={training.date}
-                          time={training.time}
-                          username={training.user.name}
-                          userId={training.user._id}
-                          sports={training.sports.map(sport => (`${sport.name}  `))}
-                          description={training.description}
-                          limit={training.limit}
-                          bookingForm={this.handleBookingForm}
-                          bookings={training.bookings}
-                          profileUrl={training.user.profileImage}
-                          handleBigPortfolio={this.handleBigPortfolio}
-                          showBigPortfolio={this.state.showBigPortfolio}
-                          hideBig={this.hideBig}
-                          displayName={this.state.displayName}
-                          displayDate={this.state.displayDate}
-                          displayTime={this.state.displayTime}
-                          displaySports={this.state.displaySports}
-                          displayDescription={this.state.displayDescription}
-                          displayBookings={this.state.displayBookings}
-                          displayUsername={this.state.displayUsername}
-                          displayUserId={this.state.displayUserId}
-                          displayLimit={this.state.displayLimit}
-                          displayProfileUrl={this.state.displayProfileUrl}
+                          singleTraining={training}
                         />
                         }
                       </>
@@ -361,17 +231,8 @@ class TrainingsPage extends React.Component {
                   handleSelect={this.handleSelect}
                   handleSubmit={this.handleSubmit}
                   handleErrors={this.handleErrors}
-                  name={formData.name}
-                  date={formData.date}
-                  time={formData.time}
-                  limit={formData.limit}
-                  description={formData.description}
-                  sports={formData.sports}
-                  errorName={errors.name}
-                  errorDate={errors.date}
-                  errorTime={errors.time}
-                  errorDescription={errors.description}
-                  errorSports={errors.sports}
+                  formData={formData}
+                  error={errors}
                 />
               }
             </>
@@ -399,33 +260,7 @@ class TrainingsPage extends React.Component {
                     {this.state.user.studentTrainings.map(training => (
                       <Trainings
                         key={training._id}
-                        id={training._id}
-                        name={training.name}
-                        date={training.date}
-                        time={training.time}
-                        username={training.user.name}
-                        userId={training.user._id}
-                        sports={training.sports.map(sport => (`${sport.name}  `))}
-                        description={training.description}
-                        limit={training.limit}
-                        bookingForm={this.handleBookingForm}
-                        bookings={training.bookings}
-                        profileUrl={training.user.profileImage}
-                        handleBigPortfolio={this.handleBigTrainingPortfolio}
-                        showBigPortfolio={this.state.showBigPortfolio}
-                        hideBig={this.hideBig}
-                        displayName={this.state.displayName}
-                        displayDate={this.state.displayDate}
-                        displayTime={this.state.displayTime}
-                        displaySports={this.state.displaySports}
-                        displayDescription={this.state.displayDescription}
-                        displayBookings={this.state.displayBookings}
-                        displayUsername={this.state.displayUsername}
-                        displayUserId={this.state.displayUserId}
-                        displayLimit={this.state.displayLimit}
-                        displayProfileUrl={this.state.displayProfileUrl}
-                        handleBooking={this.handleBooking}
-                        displayId={this.state.displayId}
+                        singleTraining={training}
                       />
                     ))}
                   </div>
@@ -440,39 +275,17 @@ class TrainingsPage extends React.Component {
 
                     {this.state.trainings.map(training => (
                       <>
+                        {this.availableTraining(training) &&
+                      <>
                         {!training.isFull &&
                       <Trainings
                         key={training._id}
-                        id={training._id}
-                        name={training.name}
-                        date={training.date}
-                        time={training.time}
-                        username={training.user.name}
-                        userId={training.user._id}
-                        sports={training.sports.map(sport => (`${sport.name}  `))}
-                        description={training.description}
-                        limit={training.limit}
-                        bookingForm={this.handleBookingForm}
-                        bookings={training.bookings}
-                        profileUrl={training.user.profileImage}
-                        handleBigPortfolio={this.handleBigTrainingPortfolio}
-                        showBigPortfolio={this.state.showBigPortfolio}
-                        hideBig={this.hideBig}
-                        displayName={this.state.displayName}
-                        displayDate={this.state.displayDate}
-                        displayTime={this.state.displayTime}
-                        displaySports={this.state.displaySports}
-                        displayDescription={this.state.displayDescription}
-                        displayBookings={this.state.displayBookings}
-                        displayUsername={this.state.displayUsername}
-                        displayUserId={this.state.displayUserId}
-                        displayLimit={this.state.displayLimit}
-                        displayProfileUrl={this.state.displayProfileUrl}
-                        handleBooking={this.handleBooking}
-                        displayId={this.state.displayId}
+                        singleTraining={training}
                         bookTimeSlot={true}
                         trainingPage={true}
                       />
+                        }
+                      </>
                         }
                       </>
                     ))}

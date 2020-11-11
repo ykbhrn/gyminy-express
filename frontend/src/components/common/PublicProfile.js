@@ -1,5 +1,5 @@
 import React from 'react'
-import { getPublicPortfolio, getPortfolio, bookTraining, postChat, getSingleImage, getSingleVideo, follow } from '../../lib/api'
+import { getPublicPortfolio, getPortfolio, postChat, follow } from '../../lib/api'
 import { Redirect , Link } from 'react-router-dom'
 import Trainings from './Trainings'
 import Images from './Images'
@@ -23,23 +23,8 @@ class PublicProfilePage extends React.Component {
     showVideos: false,
     isStudent: false,
     isAthlete: false,
-    redirect: false,
     trainingOwnerId: '',
-    trainingOwnerUsername: '',
-    showBigPortfolio: false,
-    displayPhotoUrl: '',
-    displayTitle: '',
-    displayUsername: '',
-    displayUserId: '',
-    displayProfileUrl: '',
-    displayDescription: '',
-    displayName: '',
-    displayDate: '',
-    displayTime: '',
-    displaySports: '',
-    displayBookings: '',
-    displayLimit: '',
-    displayId: ''
+    trainingOwnerUsername: ''
   }
 
   async componentDidMount() {
@@ -115,31 +100,6 @@ class PublicProfilePage extends React.Component {
     this.setState({ showChat: this.state.showChat === false ? true : false })
   }
 
-  handleBigTrainingPortfolio = (name, date, time, sports, description, bookings, username, userId, limit, profileUrl, id) => {
-    this.setState({ showBigPortfolio: true, displayName: name, displayDate: date, displayTime: time, displaySports: sports,
-      displayDescription: description, displayBookings: bookings, displayUsername: username, displayUserId: userId,
-      displayLimit: limit, displayProfileUrl: profileUrl, displayId: id })
-  }
-
-  hideBig = () => {
-    this.setState({ showBigPortfolio: false })
-  }
-
-  handleBooking = async (id) => {
-    try {
-      const res = await bookTraining(id)
-      this.setState({ redirect: true })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to={`/done/booking/${this.state.user.id}/${this.state.user.username}`} />
-    }
-  }
-
   clickShow = (type) => {
     if (type === 'training') {
       this.setState({ showTrainings: true, showArticles: false, showImages: false, showVideos: false })
@@ -160,53 +120,22 @@ class PublicProfilePage extends React.Component {
     }
   }
 
- 
-
-  handleBookingForm = (limit, bookings) => {
-    let capacity
-
-    if (bookings === 0){
-      if (limit === 1) {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title"> Individual Training </span></div>
-        </>
-      } else if (this.state.isStudent){
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-          <div>Booked: <span className="card-header-title">{bookings} Students</span></div>
-        </>
+  availableTraining = (training) => {
+    if (training.students.length > 0) {
+      let studentCounter = 0
+      training.students.map( student => {
+        if (this.state.currentUser._id === student.userId) {
+          studentCounter++
+        }
+      })
+      if (studentCounter > 0) {
+        console.log(studentCounter)
+        return false
       } else {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-        </>
-      } 
-    } else if (bookings >= limit) {
-      if (limit === 1) {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title"> Individual Training </span></div>
-          <div>
-              Training Is Fully Booked
-          </div>
-        </>
-      } else {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-          <div>
-            Training Is Fully Booked
-          </div>
-        </>
+        return true
       }
     } else {
-      if (limit === 1) {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title"> Individual Training </span></div>
-        </>
-      } else {
-        return <>
-          <div>Capacity Limit: <span className="card-header-title">{limit} Students </span></div>
-          <div>Booked: <span className="card-header-title">{bookings} Students</span></div>
-        </>
-      }
+      return true
     }
   }
 
@@ -214,7 +143,6 @@ class PublicProfilePage extends React.Component {
     if (!this.state.user) return null
     return (
       <section className="public-profile-container">
-        {this.renderRedirect()}
         <div className="profile-header-container">
           <div className="profile-header">
 
@@ -341,38 +269,18 @@ class PublicProfilePage extends React.Component {
                 {this.state.user.userTrainings.map(training => (
                   <>
                     {!training.isFull &&
-                       <Trainings
-                         key={training._id}
-                         id={training._id}
-                         name={training.name}
-                         date={training.date}
-                         time={training.time}
-                         username={training.user.name}
-                         userId={training.user._id}
-                         sports={training.sports.map(sport => (`${sport.name}  `))}
-                         description={training.description}
-                         limit={training.limit}
-                         bookingForm={this.handleBookingForm}
-                         bookings={training.bookings}
-                         profileUrl={training.user.profileImage}
-                         handleBigPortfolio={this.handleBigTrainingPortfolio}
-                         showBigPortfolio={this.state.showBigPortfolio}
-                         hideBig={this.hideBig}
-                         displayName={this.state.displayName}
-                         displayDate={this.state.displayDate}
-                         displayTime={this.state.displayTime}
-                         displaySports={this.state.displaySports}
-                         displayDescription={this.state.displayDescription}
-                         displayBookings={this.state.displayBookings}
-                         displayUsername={this.state.displayUsername}
-                         displayUserId={this.state.displayUserId}
-                         displayLimit={this.state.displayLimit}
-                         displayProfileUrl={this.state.displayProfileUrl}
-                         handleBooking={this.handleBooking}
-                         bookTimeSlot={true}
-                         displayId={this.state.displayId}
-                         trainingPage={false}
-                       />
+                    <>
+                      {this.availableTraining(training) &&
+                    <>
+                      <Trainings
+                        key={training._id}
+                        singleTraining={training}
+                        bookTimeSlot={true}
+                        trainingPage={false}
+                      />
+                    </>
+                      }
+                    </>
                     }
                   </>
                 ))}

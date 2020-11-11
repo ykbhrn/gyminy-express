@@ -140,6 +140,9 @@ class Navbar extends React.Component{
               {isAuthenticated() && <Link to="/chat" onClick={this.hideSearch}>
                 <img className='navbar-item' src="https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/chat_usiydp.png" />
               </Link>}
+              {isAuthenticated() && <Link to="/portfolio" onClick={this.hideSearch}>
+                <img className='navbar-item' src="https://res.cloudinary.com/djq7pruxd/image/upload/v1605049586/iconfinder_notif_notification_info_information_caution_4831016_lxehyb.png" />
+              </Link>}
               {isAuthenticated() && <Link to="/profile" onClick={this.hideSearch}>
                 <img className='navbar-image navbar-item' src={this.state.user.profileImage} />
               </Link>}

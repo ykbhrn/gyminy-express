@@ -39,9 +39,10 @@ async function trainingBooking(req, res) {
     const bookedUser = await User.findById(req.currentUser._id)
     const training = await Training.findById(trainingId)
     training.bookings += 1
-    training.students.push(bookedUser._id) 
-    training.students.push(bookedUser.name) 
-    training.students.push(bookedUser.profileImage) 
+    req.body.userId = bookedUser._id
+    req.body.name = bookedUser.name
+    req.body.profileImage = bookedUser.profileImage
+    training.students.push(req.body) 
 
     bookedUser.studentTrainings.push(training)
     if (training.bookings >= training.limit) {
