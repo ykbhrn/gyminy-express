@@ -172,7 +172,7 @@ render() {
               }} className='navbar-item' src={this.state.newNotification === false ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1605049586/iconfinder_notif_notification_info_information_caution_4831016_lxehyb.png' : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1605126556/bell_gefhlq.png'} />
             </Link>}
             <div className="notifications-container">
-              {this.state.user.notifications.map( notification => {
+              {this.state.user.notifications.slice(0).reverse().map( notification => {
                 return <div key={notification.userId} className="profile-footer">
                   <div className="profile-footer-container">
                     <img src={notification.profileImage} />

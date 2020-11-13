@@ -44,7 +44,7 @@ async function follow(req, res) {
       res.json(followedUser) 
     }
 
-    notificationsArray = followedUser.notifications.filter( notification => notification.portfolioId != user._id)
+    notificationsArray = followedUser.notifications.filter( notification => notification.portfolioId !== user._id)
     followedUser.notifications = notificationsArray
     await user.save()
     await followedUser.save()   
