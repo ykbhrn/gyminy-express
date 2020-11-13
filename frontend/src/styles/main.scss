@@ -712,7 +712,7 @@ a{
   height: 100%;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 5;
 }
 
 .big-image-card{
@@ -1186,28 +1186,43 @@ hr{
 }
 
 .notifications-container{
-  width: 300px;
-  height: 500px;
+  padding: 20px 0;
+  min-width: 380px;
+  min-height: 200px;
+  max-height: 500px;
+  overflow: auto;
   border: 1px solid black;
   position: absolute;
   top: 52px;
   background: white;
   .profile-footer{
+    margin: 20px 20px;
     display: flex;
-    flex-direction: column;
-    align-items: start;
-    margin: 0 0 15px 0;
-    img{
+    flex-direction: row;
+    a {
+      color: $font-color;
+    }
+    .profile-footer-container{
+      display: flex;
+      flex-direction: row;  
+      align-items: center;
+    }
+    .profile-image{
       width: 30px;
       height: 30px;
       border: 1px solid $main;
       border-radius: 50%;
       margin-right: 3px;
     }
-    .username{
-      font-weight: bold;
-      margin-right: 10px;
-      color: $font-color;
+    .image{
+      width: 30px;
+      height: 30px;
+      margin-left: 20px;
+    }
+    .notification-result{
+      display: flex;
+      align-items: center;
+      margin-left: 6px;
     }
   }
 

@@ -39,7 +39,6 @@ async function follow(req, res) {
         notificationType: 'follow', portfolioId: user._id, url: `/profile/${user._id}`, portfolioType: 'user' }
       followedUser.notifications.push(notificationDetails)
       followedUser.newNotification = true
-      res.status(201).json(followedUser)
     } else {
       res.json(followedUser) 
     }
@@ -48,6 +47,7 @@ async function follow(req, res) {
     followedUser.notifications = notificationsArray
     await user.save()
     await followedUser.save()   
+    res.status(201).json(followedUser)
   } catch (err) {
     console.log(err)
   }

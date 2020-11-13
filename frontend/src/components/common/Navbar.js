@@ -11,7 +11,8 @@ class Navbar extends React.Component{
     searchUsers: [],
     startTyping: false,
     newNotification: false,
-    newChat: false
+    newChat: false,
+    showNotification: false
   }
 
   async componentDidMount() {
@@ -34,7 +35,8 @@ class Navbar extends React.Component{
       const detail = { type: typeDetail }
       const resTwo = await turnOffNotifications(detail)
       const res = await getPortfolio()
-      this.setState({ newChat: res.data.newChat, newNotification: res.data.newNotification })
+      this.setState({ newChat: res.data.newChat, newNotification: res.data.newNotification, 
+        showNotification: this.state.showNotification === true ? false : true })
       console.log(resTwo.data)
     } catch (err) {
       console.log(err)
@@ -80,18 +82,31 @@ class Navbar extends React.Component{
     }
   }
 
-notificationType = (notificationType, portfolioType) => {
+notificationType = (notificationType, portfolioType, url, portfolioId) => {
   if (notificationType === 'like') {
-    return `liked your ${portfolioType}`
+    if (portfolioType === 'image') {
+      return <div className="notification-result">liked your image <Link to={`/images/${portfolioId}`}><img className="image" src={url} /></Link>
+      </div>
+    } else if (portfolioType === 'video') {
+      return <div className="notification-result">liked your video <Link to={`/videos/${portfolioId}`}><video className="image" src={url} /></Link>
+      </div>
+    }
   } else if (notificationType === 'comment') {
-    return `commented on your ${portfolioType}`
+    if (portfolioType === 'image') {
+      return <div className="notification-result">commented your image <Link to={`/images/${portfolioId}`}><img className="image" src={url} /></Link>
+      </div>
+    } else if (portfolioType === 'video') {
+      return <div className="notification-result">commented your video <Link to={`/videos/${portfolioId}`}><video className="image" src={url} /></Link>
+      </div>
+    }
   } else if (notificationType === 'follow') {
-    return 'started following you'
+    return <div className="notification-result">started following you</div>
   }
 }
 
 render() {
   if (!this.state.allUsers) return null
+  console.log(this.state.user.notifications)
   const { isOpen } = this.state
   return (
     <nav className="navbar">
@@ -171,17 +186,19 @@ render() {
                 this.notificationFalse('notification')
               }} className='navbar-item' src={this.state.newNotification === false ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1605049586/iconfinder_notif_notification_info_information_caution_4831016_lxehyb.png' : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1605126556/bell_gefhlq.png'} />
             </Link>}
+            {this.state.showNotification && 
             <div className="notifications-container">
               {this.state.user.notifications.slice(0).reverse().map( notification => {
                 return <div key={notification.userId} className="profile-footer">
-                  <div className="profile-footer-container">
-                    <img src={notification.profileImage} />
-                    <span className="username">{notification.username} {this.notificationType(notification.notificationType, notification.portfolioType)}
-                    </span>
-                  </div>
+                  <Link className="profile-footer-container" to={`/profile/${notification.userId}`}> 
+                    <img className="profile-image" src={notification.profileImage} />
+                    {notification.username}                 
+                  </Link>
+                  {this.notificationType(notification.notificationType, notification.portfolioType, notification.url, notification.portfolioId)}
                 </div>
               })}
             </div>
+            }
 
             {isAuthenticated() && <Link to="/profile" onClick={this.hideSearch}>
               <img className='navbar-image navbar-item' src={this.state.user.profileImage} />

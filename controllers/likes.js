@@ -20,7 +20,7 @@ async function like(req, res) {
       likeStatus = true
       const userDetails = { userId: user._id, username: user.name, profileImage: user.profileImage }
       const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
-        notificationType: 'like', portfolioId: image._id, url: `/images/${image._id}`, portfolioType: 'image' }
+        notificationType: 'like', portfolioId: image._id, url: image.url, portfolioType: 'image' }
       likes.push(userDetails)
       ownerUser.notifications.push(notificationDetails)
       ownerUser.newNotification = true
@@ -53,7 +53,7 @@ async function videoLike(req, res) {
       likeStatus = true
       const userDetails = { userId: user._id, username: user.name, profileImage: user.profileImage }
       const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
-        notificationType: 'like', portfolioId: video._id, url: `/videos/${video._id}`, portfolioType: 'video' }
+        notificationType: 'like', portfolioId: video._id, url: video.url, portfolioType: 'video' }
       likes.push(userDetails)
       ownerUser.notifications.push(notificationDetails)
       ownerUser.newNotification = true

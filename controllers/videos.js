@@ -71,7 +71,7 @@ async function commentCreate(req, res, next) {
     const ownerUser = await User.findById(video.user._id)
 
     const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
-      notificationType: 'comment', portfolioId: video._id, url: `/videos/${video._id}`, portfolioType: 'video' }
+      notificationType: 'comment', portfolioId: video._id, url: video.url , portfolioType: 'video' }
 
     if (!video) throw new Error('notFound')
 

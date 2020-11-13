@@ -70,7 +70,7 @@ async function commentCreate(req, res, next) {
     const ownerUser = await User.findById(image.user._id)
 
     const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
-      notificationType: 'comment', portfolioId: image._id, url: `/images/${image._id}`, portfolioType: 'image' }
+      notificationType: 'comment', portfolioId: image._id, url: image.url, portfolioType: 'image' }
 
     if (!image) throw new Error('notFound')
 
