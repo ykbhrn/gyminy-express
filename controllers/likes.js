@@ -20,7 +20,7 @@ async function like(req, res) {
       likeStatus = true
       const userDetails = { userId: user._id, username: user.name, profileImage: user.profileImage }
       const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
-        notificationType: 'like', portfolioId: image._id, url: `/images/${image._id}` }
+        notificationType: 'like', portfolioId: image._id, url: `/images/${image._id}`, portfolioType: 'image' }
       likes.push(userDetails)
       ownerUser.notifications.push(notificationDetails)
       ownerUser.newNotification = true
@@ -44,25 +44,22 @@ async function videoLike(req, res) {
     const ownerUser = await User.findById(video.user._id)
 
     let likes = video.likes
-    let notificationsArray = ownerUser.notifications
     let likeStatus = false
     const likeCheck = likes.filter(like => like.userId === user._id.toString())
 
     if (likeCheck.length > 0) {
       likes = likes.filter(like => like.userId !== user._id.toString())
-      notificationsArray = ownerUser.notifications.filter( notification => notification.portfolioId !== video._id.toString())
     } else {
       likeStatus = true
       const userDetails = { userId: user._id, username: user.name, profileImage: user.profileImage }
       const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
-        notificationType: 'like', portfolioId: video._id, url: `/videos/${video._id}` }
+        notificationType: 'like', portfolioId: video._id, url: `/videos/${video._id}`, portfolioType: 'video' }
       likes.push(userDetails)
       ownerUser.notifications.push(notificationDetails)
       ownerUser.newNotification = true
     }
     video.likes = likes 
     const updatedVideo = await video.save()
-    ownerUser.notifications = notificationsArray
     const updatedUser = await ownerUser.save()
 
     const data = { likeStatus: likeStatus, likeCount: updatedVideo.likes.length, videoData: updatedVideo, updatedUser: updatedUser }

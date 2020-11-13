@@ -7,7 +7,8 @@ const notificationSchema = new mongoose.Schema({
   profileImage: String,
   userId: String,
   portfolioId: String,
-  url: String
+  url: String,
+  portfolioType: String
 })
 
 const userSchema = new mongoose.Schema({
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema({
   profileImage: { type: String, required: false },
   notifications: [notificationSchema],
   newNotification: { type: Boolean, default: false },
+  newChat: { type: Boolean, default: false },
   studentTrainings: [],
   userChats: [],
   followers: [],

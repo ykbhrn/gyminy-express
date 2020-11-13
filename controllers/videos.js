@@ -65,12 +65,20 @@ async function commentCreate(req, res, next) {
   console.log('comment created')
   try {
     req.body.user = req.currentUser
+    const user = await User.findById(req.currentUser._id)
     const videoId = req.params.id
     const video = await Video.findById(videoId)
+    const ownerUser = await User.findById(video.user._id)
+
+    const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
+      notificationType: 'comment', portfolioId: video._id, url: `/videos/${video._id}`, portfolioType: 'video' }
+
     if (!video) throw new Error('notFound')
+
+    ownerUser.notifications.push(notificationDetails)
+    ownerUser.newNotification = true
     video.comments.push(req.body)
-    console.log(video)
-    console.log(req.body)
+    await ownerUser.save()
     await video.save()
     res.status(201).json(video)
   } catch (err) {

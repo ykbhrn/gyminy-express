@@ -62,15 +62,22 @@ async function imageDelete(req, res) {
 }
 
 async function commentCreate(req, res, next) {
-  console.log('comment created')
   try {
     req.body.user = req.currentUser
+    const user = await User.findById(req.currentUser._id)
     const imageId = req.params.id
     const image = await Image.findById(imageId)
+    const ownerUser = await User.findById(image.user._id)
+
+    const notificationDetails = { userId: user._id, username: user.name, profileImage: user.profileImage, 
+      notificationType: 'comment', portfolioId: image._id, url: `/images/${image._id}`, portfolioType: 'image' }
+
     if (!image) throw new Error('notFound')
+
+    ownerUser.notifications.push(notificationDetails)
+    ownerUser.newNotification = true
     image.comments.push(req.body)
-    console.log(image)
-    console.log(req.body)
+    await ownerUser.save()
     await image.save()
     res.status(201).json(image)
   } catch (err) {

@@ -118,3 +118,7 @@ export const giveVideoLike = (formData) => {
 export const follow = (id, formData) => {
   return axios.post(`/api/follow/${id}`, formData, withHeaders())
 }
+
+export const turnOffNotifications = (formData) => {
+  return axios.post('/api/notifications', formData, withHeaders())
+}

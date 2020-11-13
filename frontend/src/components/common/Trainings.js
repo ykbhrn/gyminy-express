@@ -123,7 +123,7 @@ class Trainings extends React.Component{
           <div className="training-description">
             <h4 className="training-title title is-3 has-text-centered">{this.state.training.name}</h4>
             <Link to={`/profile/${this.state.training.user._id}`}>Instructor: <span className="card-header-title">{this.state.training.user.name}</span></Link>
-           Date: <span className="card-header-title">{this.state.training.date}</span>
+            Date: <span className="card-header-title">{this.state.training.date}</span>
             Time: <span className="card-header-title">{this.state.training.time}</span>
             Sport: <span className="card-header-title">{this.state.training.sports.map(sport => ( sport + ', ' ))}</span> <br />
             {this.bookingForm(this.state.training.limit, this.state.training.bookings)} 

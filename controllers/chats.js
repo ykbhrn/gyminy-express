@@ -10,6 +10,7 @@ async function sendChat(req, res) {
     const chats = await Chat.find()
     let chatCounter = 0
     let singleChat 
+
     chats.map( chat => {
       if ( (chat.senderId == senderId && chat.receiverId == receiverId) || (chat.senderId == receiverId && chat.receiverId == senderId) ) {
         singleChat = chat
@@ -28,6 +29,7 @@ async function sendChat(req, res) {
       await createChat.save()
       sender.userChats.push(createChat)
       receiver.userChats.push(createChat)
+      receiver.newChat = true
       await sender.save()
       await receiver.save()
       res.status(201).json(createChat)
@@ -40,6 +42,8 @@ async function sendChat(req, res) {
       const chat = await Chat.findById(req.body.chatId)
       chat.subChat.push(req.body)
       await chat.save()
+      receiver.newChat = true
+      await receiver.save()
       res.status(201).json(chat)
     }
   } catch (err) {
