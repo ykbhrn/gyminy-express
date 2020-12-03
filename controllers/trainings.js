@@ -38,6 +38,8 @@ async function trainingBooking(req, res) {
   try {
     const bookedUser = await User.findById(req.currentUser._id)
     const training = await Training.findById(trainingId)
+    const trainingOwner = await User.findById(training.user._id)
+
     training.bookings += 1
     req.body.userId = bookedUser._id
     req.body.name = bookedUser.name
@@ -48,9 +50,16 @@ async function trainingBooking(req, res) {
     if (training.bookings >= training.limit) {
       training.isFull = true
     }
+
+    const notificationDetails = { userId: bookedUser._id, username: bookedUser.name, profileImage: bookedUser.profileImage, 
+      notificationType: 'training', portfolioId: training._id, url: training.name, portfolioType: 'training', isFull: training.isFull }
+    trainingOwner.notifications.push(notificationDetails)
+    trainingOwner.newNotification = true
+
+    await trainingOwner.save()
     await bookedUser.save()
     await training.save()
-    res.status(202).json(training)
+    res.status(202).json(training.user)
   } catch (err) {
     console.log(err)
   }

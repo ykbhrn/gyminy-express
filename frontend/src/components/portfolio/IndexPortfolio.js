@@ -219,27 +219,6 @@ class IndexPortfolio extends React.Component {
     }
   }
 
-   handleBigPortfolio = async (id) => {
-     let portfolio
-     try {
-       if (this.state.showImages) {
-         portfolio = await getSingleImage(id)
-       } else if (this.state.showVideos) {
-         portfolio = await getSingleVideo(id)
-       }
-       this.setState({ showBigPortfolio: true, displayPhotoUrl: portfolio.data.url, displayUserId: portfolio.data.user._id,
-         displayUsername: portfolio.data.user.name, displayProfileUrl: portfolio.data.user.profileImage,
-         displayDescription: portfolio.data.description, displayComments: portfolio.data.comments, displayPortfolioId: id, displayLikes: portfolio.data.likes.length
-       })
-     } catch (err) {
-       console.log(err)
-     }  
-   }
-
-  hideBig = () => {
-    this.setState({ showBigPortfolio: false })
-  }
-
   render() {
     console.log(this.state.videos)
     // if (!this.state.images) return null

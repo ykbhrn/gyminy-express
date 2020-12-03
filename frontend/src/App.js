@@ -27,8 +27,8 @@ const App = () => (
     {isAuthenticated() && <Navbar /> }
     <Switch>
       <Route exact path='/' component={Home} />
-      <Route path='/portfolio/:videos/:id' component={SinglePortfolio} />
-      <Route path='/portfolio/:id' component={SinglePortfolio} />
+      <Route path='/videos/:id' component={SinglePortfolio} />
+      <Route path='/images/:id' component={SinglePortfolio} />
       <Route path='/articles/:id' component={SingleArticle} />
       <Route path='/portfolio/' component={IndexPortfolio} />
       <Route path='/explore' component={Explore} />
@@ -42,7 +42,7 @@ const App = () => (
       <SecureRoute path='/done/:type/' component={AddDone} />
       <SecureRoute path='/add/:portfolio/' component={AddPortfolio} />
       <SecureRoute path='/newarticle/' component={AddArticle} />
-      <Route path="/*" component={NotFound} />
+      {/* <Route path="/*" component={NotFound} /> */}
     </Switch>
   </BrowserRouter>
 )

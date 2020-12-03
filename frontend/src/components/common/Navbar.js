@@ -35,8 +35,12 @@ class Navbar extends React.Component{
       const detail = { type: typeDetail }
       const resTwo = await turnOffNotifications(detail)
       const res = await getPortfolio()
-      this.setState({ newChat: res.data.newChat, newNotification: res.data.newNotification, 
-        showNotification: this.state.showNotification === true ? false : true })
+      if (typeDetail === 'chat') {
+        this.setState({ newChat: res.data.newChat })
+      } else {
+        this.setState({ newNotification: res.data.newNotification, 
+          showNotification: this.state.showNotification === true ? false : true })
+      }
       console.log(resTwo.data)
     } catch (err) {
       console.log(err)
@@ -82,25 +86,29 @@ class Navbar extends React.Component{
     }
   }
 
-notificationType = (notificationType, portfolioType, url, portfolioId) => {
+notificationType = (username, notificationType, portfolioType, url, portfolioId, isFull) => {
   if (notificationType === 'like') {
     if (portfolioType === 'image') {
-      return <div className="notification-result">liked your image <Link to={`/images/${portfolioId}`}><img className="image" src={url} /></Link>
+      return <div className="notification-result">{username} liked your image <Link to={`/images/${portfolioId}`}><img className="image" src={url} /></Link>
       </div>
     } else if (portfolioType === 'video') {
-      return <div className="notification-result">liked your video <Link to={`/videos/${portfolioId}`}><video className="image" src={url} /></Link>
+      return <div className="notification-result">{username} liked your video <Link to={`/videos/${portfolioId}`}><video className="image" src={url} /></Link>
       </div>
     }
   } else if (notificationType === 'comment') {
     if (portfolioType === 'image') {
-      return <div className="notification-result">commented your image <Link to={`/images/${portfolioId}`}><img className="image" src={url} /></Link>
+      return <div className="notification-result">{username} commented your image <Link to={`/images/${portfolioId}`}><img className="image" src={url} /></Link>
       </div>
     } else if (portfolioType === 'video') {
-      return <div className="notification-result">commented your video <Link to={`/videos/${portfolioId}`}><video className="image" src={url} /></Link>
+      return <div className="notification-result">{username} commented your video <Link to={`/videos/${portfolioId}`}><video className="image" src={url} /></Link>
       </div>
     }
   } else if (notificationType === 'follow') {
-    return <div className="notification-result">started following you</div>
+    return <div className="notification-result">{username} started following you</div>
+  } else if (notificationType === 'training') {
+    return  <Link to={`/trainings/${portfolioId}`}><div className="notification-result">{username} booked your training {url}.
+      {isFull &&  <> It's fully booked</>}
+    </div></Link>
   }
 }
 
@@ -181,20 +189,19 @@ render() {
                 this.notificationFalse('chat')
               }} className='navbar-item' src={this.state.newChat === false ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/chat_usiydp.png' : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1605126555/chat_usiydp_fxhab5.png'}/>
             </Link>}
-            {isAuthenticated() && <Link to="/portfolio" onClick={this.hideSearch}>
+            {isAuthenticated() && <div onClick={this.hideSearch}>
               <img onClick={() => {
                 this.notificationFalse('notification')
               }} className='navbar-item' src={this.state.newNotification === false ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1605049586/iconfinder_notif_notification_info_information_caution_4831016_lxehyb.png' : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1605126556/bell_gefhlq.png'} />
-            </Link>}
+            </div>}
             {this.state.showNotification && 
             <div className="notifications-container">
               {this.state.user.notifications.slice(0).reverse().map( notification => {
                 return <div key={notification.userId} className="profile-footer">
                   <Link className="profile-footer-container" to={`/profile/${notification.userId}`}> 
                     <img className="profile-image" src={notification.profileImage} />
-                    {notification.username}                 
                   </Link>
-                  {this.notificationType(notification.notificationType, notification.portfolioType, notification.url, notification.portfolioId)}
+                  {this.notificationType(notification.username, notification.notificationType, notification.portfolioType, notification.url, notification.portfolioId, notification.isFull)}
                 </div>
               })}
             </div>

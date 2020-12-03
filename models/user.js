@@ -8,7 +8,8 @@ const notificationSchema = new mongoose.Schema({
   userId: String,
   portfolioId: String,
   url: String,
-  portfolioType: String
+  portfolioType: String,
+  isFull: Boolean
 })
 
 const userSchema = new mongoose.Schema({
