@@ -42,7 +42,7 @@ const App = () => (
       <SecureRoute path='/done/:type/' component={AddDone} />
       <SecureRoute path='/add/:portfolio/' component={AddPortfolio} />
       <SecureRoute path='/newarticle/' component={AddArticle} />
-      {/* <Route path="/*" component={NotFound} /> */}
+      <Route path="/*" component={NotFound} />
     </Switch>
   </BrowserRouter>
 )
