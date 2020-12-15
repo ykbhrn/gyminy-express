@@ -5,6 +5,11 @@
   "repository": "https://github.com/ykbhrn/gyminy-express.git",
   "author": "ykbhrn <jakub.horun@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "serve": "webpack-dev-server --mode=development",
+    "build": "webpack -p",
+    "start": "node index"
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
