@@ -6,7 +6,11 @@
   "author": "ykbhrn <jakub.horun@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node index"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "seed": "node db/seeds.js",
+    "build": "cd frontend && npm install && npm run build",
+    "develop": "nodemon"
   },
   "dependencies": {
     "axios": "^0.19.2",
