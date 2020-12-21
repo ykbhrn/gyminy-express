@@ -2,14 +2,17 @@
   "name": "gyminy-express",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/ykbhrn/gyminy-express.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ykbhrn/gyminy-express.git"
+  },
   "author": "ykbhrn <jakub.horun@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "seed": "node db/seeds.js",
-    "build": "cd frontend && npm install && npm run build",
+    "build": "cd frontend && yarn install && yarn run build",
     "develop": "nodemon"
   },
   "dependencies": {
