@@ -1245,3 +1245,64 @@ hr{
   font-weight: bold;
 }
 
+@media only screen and (max-width: 1000px) {
+
+  .portfolio-container{
+    padding: 0px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+
+  .logo-navbar-container{
+    flex-direction: column;
+  }
+  .input-container{
+    flex-direction: column;
+  }
+  .register-title{
+    font-size: 20px;
+    margin-top: 25px;
+  }
+  .register-forms-container{
+    flex-direction: column;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  .logo{
+    font-size: 50px;
+  }
+  .slogan{
+    font-size: 20px;
+  }
+  .logo-navbar-container{
+    flex-direction: column;
+  }
+  .field{
+    width: 270px;
+    margin-right: 0px;
+  }
+  .register-type{
+    margin: 20px;
+  }
+  .search{
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    margin: 0px;
+  }
+  .add-portfolio{
+    top: 35px;
+  }
+  .m-scene{
+    padding-top: 95px;
+  }
+  .navbar{
+    height: 88px;
+  }
+}
+
+
