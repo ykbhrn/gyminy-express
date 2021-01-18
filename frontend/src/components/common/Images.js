@@ -128,28 +128,22 @@ class Images extends React.Component{
                 ))}
               </div>
             </div>
-
             {/* <div onClick={() => {
                 this.handleFollow(displayUserId)
               }}
               className="small-follow"> +Follow</div>  */}
-              
-            <div className="post-comment">
-              <form onSubmit={(event) => {
+            <form className="comment-add-container" 
+              onSubmit={(event) => {
                 this.handleSubmit(event, this.state.image._id)
               }}>
-                <div className="comment-add-container">
-                  <input className="input"
-                    placeholder="..."
-                    name="text"
-                    value={this.state.formData.text}
-                    onChange={this.handleChange}
-                  />
-                  <button className="comment-button" type="submit">Post</button>
-                </div>
-              </form>
-
-            </div>
+              <input className="input"
+                placeholder="..."
+                name="text"
+                value={this.state.formData.text}
+                onChange={this.handleChange}
+              />
+              <button className="comment-button" type="submit">Post</button>
+            </form>
   
             <style>
               {'\

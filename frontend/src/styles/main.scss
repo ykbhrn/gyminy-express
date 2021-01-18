@@ -746,6 +746,7 @@ a{
   width: 330px;
   background: white;
   margin-right: 20px;
+  position: relative;
 }
 
 .close{
@@ -808,6 +809,9 @@ a{
 
 .comment-add-container{
   display: flex;
+  // position: absolute;
+  bottom: 0px;
+  width: 100%;
 }
 
 .comment-button{
@@ -815,7 +819,6 @@ a{
   font-family: $article-text-font;
   font-size: 14px;
   color: $font-color;
-  padding: 4px;
   border: none;
   padding: 0 10px;
 }
@@ -1245,10 +1248,39 @@ hr{
   font-weight: bold;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1020px) {
 
   .portfolio-container{
     padding: 0px;
+  }
+  .big-image{
+    width: 50vw;
+    height: 50vh;
+  }
+  .big-image-side{
+    width: 30vw;
+    height: 50vh;
+  }
+  .description-and-comments{
+    height: 30vh;
+  }
+  .close{
+    width: 22px;
+    height: 22px;
+  }
+  .navbar-menu{
+    position: fixed; 
+    bottom: 10px;
+    left: 35%;
+  }
+  .navbar-end{
+    display: flex;
+  }
+  .search{
+    right: 13px;
+    top: 12px;
+    position: absolute;
+    margin: 0px;
   }
 }
 
@@ -1266,6 +1298,17 @@ hr{
   }
   .register-forms-container{
     flex-direction: column;
+  }
+  .comment-add-container{
+    input{
+      height: 20px;
+      width: 100%;
+    }
+  }
+  
+  .comment-button{
+    font-size: 8px;
+    padding: 0 10px;
   }
 
 }
@@ -1288,12 +1331,7 @@ hr{
   .register-type{
     margin: 20px;
   }
-  .search{
-    position: absolute;
-    left: 50%;
-    top: 12px;
-    margin: 0px;
-  }
+
   .add-portfolio{
     top: 35px;
   }
@@ -1303,6 +1341,43 @@ hr{
   .navbar{
     height: 88px;
   }
+  .close{
+    width: 15px;
+    height: 15px;
+  }
+  .small-like-img{
+    width: 15px;
+    height: 15px;
+  }
+  .profile-image-index{
+    width: 22px;
+    height: 22px;
+    margin-right: 5px;
+  }
+  .portfolio-header-part{
+    font-size: 11px;
+  }
+  .profile-image-comment{
+    width: 22px;
+    height: 22px;
+    margin-right: 5px;
+  }
+  .profile-header-comment{
+    a{
+    font-size: 10px;
+  }
+}
+.navbar-item{
+  width: 35px;
+  height: 35px;
+  padding: 7px;
+}
+}
+
+@media only screen and (max-width: 450px) {
+.navbar-menu{
+  left: 10%;
+}
 }
 
 

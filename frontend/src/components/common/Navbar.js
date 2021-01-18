@@ -167,13 +167,13 @@ render() {
             </div>
           }
 
-          <span onClick={this.handleToggle} className={`navbar-burger ${isOpen ? 'is-active' : ''}`}>
+          {/* <span onClick={this.handleToggle} className={`navbar-burger ${isOpen ? 'is-active' : ''}`}>
             <span></span>
             <span></span>
             <span></span>
-          </span>
+          </span> */}
         </div>
-        <div className={`navbar-menu ${isOpen ? 'is-active' : ''}`}>
+        <div className="navbar-menu is-active">
           <div className="navbar-end">
             {isAuthenticated() && <Link to="/portfolio" onClick={this.hideSearch}>
               <img className='navbar-item' src="https://res.cloudinary.com/djq7pruxd/image/upload/v1604865766/iconfinder_Sed-07_2232598_lh3apb.png" />
