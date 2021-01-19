@@ -235,7 +235,6 @@ a{
   width: 50%;
   margin: 30px;
   .small-image-header{
-    height: 70px;
     background: white;
     display: flex;
     align-items: center;
@@ -245,11 +244,11 @@ a{
       margin-left: 10px;
     }
     img{
-      width: 50px;
-      height: 50px;
+      width: 12%;
+      height: 12%;
       border: 1px solid $main;
       border-radius: 50%;
-      margin-right: 10px;
+      margin: 6px;
     }
   }
   .small-image-footer{
@@ -265,8 +264,8 @@ a{
       align-items: start;
       margin: 0 0 15px 0;
       img{
-        width: 30px;
-        height: 30px;
+        width: 10%;
+        height: 10%;
         border: 1px solid $main;
         border-radius: 50%;
         margin-right: 3px;
@@ -1212,6 +1211,7 @@ hr{
   position: absolute;
   top: 52px;
   background: white;
+  border-radius: 7px;
   .profile-footer{
     margin: 20px 20px;
     display: flex;
@@ -1248,7 +1248,7 @@ hr{
   font-weight: bold;
 }
 
-@media only screen and (max-width: 1020px) {
+@media only screen and (max-width: 1030px) {
 
   .portfolio-container{
     padding: 0px;
@@ -1282,6 +1282,9 @@ hr{
     position: absolute;
     margin: 0px;
   }
+  .notifications-container{
+    top: -190px;
+  }
 }
 
 @media only screen and (max-width: 800px) {
@@ -1310,11 +1313,14 @@ hr{
     font-size: 8px;
     padding: 0 10px;
   }
+ 
 
 }
 
 @media only screen and (max-width: 600px) {
-
+  body{
+    font-size: 12px;
+  }
   .logo{
     font-size: 50px;
   }
@@ -1333,7 +1339,7 @@ hr{
   }
 
   .add-portfolio{
-    top: 35px;
+    top: 30px;
   }
   .m-scene{
     padding-top: 95px;
@@ -1372,11 +1378,42 @@ hr{
   height: 35px;
   padding: 7px;
 }
+.notifications-container{
+  min-width: 300px;
+  left: -20%;
+}
+.small-image-profile{
+  img{
+    width: 19%!important;
+    height:19%!important;
+  }
+}
+
 }
 
 @media only screen and (max-width: 450px) {
+  body{
+    font-size: 10px;
+  }
 .navbar-menu{
   left: 10%;
+}
+.notifications-container{
+  left: 0%;
+  min-width: 130px;
+  max-width: 215px;
+  min-height: 200px;
+  max-height: 350px;
+}
+.add-portfolio{
+  width: 45px;
+  height: 45px;
+}
+.search{
+  img{
+  height: 23px;
+  height: 23px;
+  }
 }
 }
 
