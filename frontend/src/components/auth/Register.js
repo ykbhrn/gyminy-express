@@ -70,7 +70,7 @@ class Register extends React.Component {
       console.log('response: ', err.response.data)
       //need to send handleErrors function the errors array from the 422 response as args
       this.handleErrors(err.response.data)
-      this.setState({ loading: false })
+      this.setState({ isLoading: false })
     }
   }
 
