@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/ykbhrn/gyminy-express.git",
-  "author": "ykbhrn <jakub.horun@gmail.com>",
+  "author": "ykbhrn <jakub.horun@mail.com>",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
