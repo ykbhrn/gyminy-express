@@ -21,18 +21,23 @@ class Articles extends React.Component {
     console.log(this.state.articles)
     return (
       <div className="article-container">
-        {this.state.articles.slice(0).reverse().map( article => (
+
+        {this.state.articles.length === 0 &&
+          <h1>Media Of Your Followed Athletes Will Appear Here</h1>
+        }
+
+        {this.state.articles.slice(0).reverse().map(article => (
           <div key={article._id}>
             <div className="card-article">
 
-              < Link to = {`/articles/${article._id}`}> 
+              < Link to={`/articles/${article._id}`}>
                 <img className='image-article' src={article.imageUrl} alt={article.title} />
-              </Link >    
+              </Link >
               <span className='article-author'>
                 <Link to={`/profile/${article.user._id}`}>{article.user.name}</Link>
               </span>
               <div className='article-text'>
-                < Link to = {`/articles/${article._id}`}> 
+                < Link to={`/articles/${article._id}`}>
                   <div className="article-title">{article.title}</div>
                   <div className='article-border'></div>
                 </ Link>

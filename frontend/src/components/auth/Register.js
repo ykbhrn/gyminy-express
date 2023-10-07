@@ -5,9 +5,8 @@ import { setToken } from '../../lib/auth'
 import SportSelect from '../common/SportSelect'
 import axios from 'axios'
 
-
 const uploadUrl = process.env.REACT_APP_CLOUDINARY_URL
-const uploadPreset = process.env.REACT_APP_CLOUDINARY_BUCKET
+const uploadPreset = 'rkx7ycea'
 
 class Register extends React.Component {
   state = {
@@ -44,13 +43,13 @@ class Register extends React.Component {
   // this.state.formData.sports.push( event.target.value )
   // this.setState({ sports })
 
-    handleSelect = event => {
-      const sport = this.state.formData.sports.concat(event.target.value)
-      const formData = {
-        ...this.state.formData, sports: sport 
-      }
-      this.setState({ formData })
+  handleSelect = event => {
+    const sport = this.state.formData.sports.concat(event.target.value)
+    const formData = {
+      ...this.state.formData, sports: sport
     }
+    this.setState({ formData })
+  }
 
 
   handleSubmit = async event => {
@@ -58,9 +57,9 @@ class Register extends React.Component {
     try {
       this.setState({ loading: true })
       const response = await registerUser(this.state.formData)
-      
+
       //If registration goes well, run the login user function with the formdata, then set token and redirect to profile page
-      if (response.status === 201){
+      if (response.status === 201) {
         const loginResponse = await loginUser(this.state.formData)
         setToken(loginResponse.data.token)
         this.setState({ redirect: true })
@@ -82,16 +81,16 @@ class Register extends React.Component {
     let sports = ''
     let userType = 1
 
-    if (errors.name){
+    if (errors.name) {
       name = 'Your Username Is Required'
     }
-    if (errors.email){
+    if (errors.email) {
       email = errors.email
     }
     if (errors.password) {
       password = 'Password is required'
     }
-    if (errors.passwordConfirmation){
+    if (errors.passwordConfirmation) {
       passwordConfirmation = 'Password confirmation does not match'
     }
     if (errors.sports) {
@@ -105,7 +104,7 @@ class Register extends React.Component {
   }
 
   renderRedirect = () => {
-    if (this.state.redirect){
+    if (this.state.redirect) {
       return <Redirect to="/done/register" />
     }
   }
@@ -133,7 +132,7 @@ class Register extends React.Component {
 
   render() {
     const { formData, errors } = this.state
-    console.log(this.state.formData)
+    console.log(process.env.REACT_APP_CLOUDINARY_BUCKET)
     return (
       <>
         <Link to="/" className="navbar-item">
@@ -148,7 +147,7 @@ class Register extends React.Component {
 
                 <div className="input-container">
                   <div className="field">
-                    <label className="label">Username:</label>        
+                    <label className="label">Username:</label>
                     <input
                       className={`input ${errors.name ? 'is-danger' : ''}`}
                       placeholder="name"
@@ -210,19 +209,19 @@ class Register extends React.Component {
                     {errors.sports && <small className="help is-danger">{errors.sports}</small>}
                   </div>
 
-                  <div className='register-forms register-type'>   
+                  <div className='register-forms register-type'>
                     <label className="label">Do You Wanna Offer Trainings(Athlete) Or Find Trainings(Student)</label>
                     <label className='radio'>
-                      <input type="radio" 
+                      <input type="radio"
                         name="userType"
                         value={1}
                         onChange={this.handleChange}
                       ></input>
                       <span className="register-forms-span">Student</span>
                     </label>
-                   
+
                     <label className='radio'>
-                      <input type="radio" 
+                      <input type="radio"
                         name="userType"
                         value={2}
                         onChange={this.handleChange}
@@ -235,7 +234,7 @@ class Register extends React.Component {
 
                 <div className="input-container">
                   <div className="field">
-                    <label className="label">Bio:</label>     
+                    <label className="label">Bio:</label>
                     <textarea
                       className='textarea'
                       rows="4"
@@ -263,15 +262,15 @@ class Register extends React.Component {
 
                 </div>
 
-                {this.state.isLoading && 
-                <>
-                  <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/loading_ngtamg.svg' className='loading-image-register' />
-                </>
+                {this.state.isLoading &&
+                  <>
+                    <img src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484110/loading_ngtamg.svg' className='loading-image-register' />
+                  </>
                 }
                 {!this.state.isLoading &&
-                <div className="field">
-                  <button type="submit"  className={`button is-fullwidth register-button ${this.state.loading ? 'is-loading' : ''}`}>Register</button>
-                </div>
+                  <div className="field">
+                    <button type="submit" className={`button is-fullwidth register-button ${this.state.loading ? 'is-loading' : ''}`}>Register</button>
+                  </div>
                 }
               </form>
             </div>

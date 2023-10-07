@@ -25,47 +25,46 @@ class IndexPortfolio extends React.Component {
 
   async componentDidMount() {
     try {
-      const res = await getPortfolio()
-      this.setState({ user: res.data })
-      this.getImages()
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async getImages() {
-    try {
+      const resThree = await getPortfolio()
       const resTwo = await getAllVideos()
       const allVideos = resTwo.data
       const res = await getAllImages()
       const allImages = res.data
 
       const filteredImages = allImages.filter(image => {
+
         let followerCounter = 0
-        this.state.user.following.map( user => {
+
+        resThree.data.following.map(user => {
+
           if (image.user._id == user.followedUserId) {
             followerCounter++
           }
-        })  
+
+        })
+
         if (followerCounter > 0) {
           return image
-        } 
+        }
+
       })
+
+      console.log(allImages)
 
       const filteredVideos = allVideos.filter(video => {
         let followerCounter = 0
-        this.state.user.following.map( user => {
-          // console.log(video)
+        resThree.data.following.map(user => {
           if (video.user._id == user.followedUserId) {
             followerCounter++
           }
-        })  
+        })
         if (followerCounter > 0) {
           return video
-        } 
+        }
       })
-      
-      this.setState({ images: filteredImages, videos: filteredVideos })
+
+      this.setState({ user: resThree.data, images: filteredImages, videos: filteredVideos })
+
     } catch (err) {
       console.log(err)
     }
@@ -97,19 +96,22 @@ class IndexPortfolio extends React.Component {
 
       const filteredImages = allImages.filter(image => {
         let followerCounter = 0
-        this.state.user.following.map( user => {
+        this.state.user.following.map(user => {
           if (image.user._id == user.followedUserId) {
             followerCounter++
           }
-        })  
+        })
         if (followerCounter > 0) {
           return image
-        } 
+        }
       })
       //reset formdata text ....it need to be in this way because there is two "text" in state and if i put just "text" than it reset wrong one
       const textData = {
         ...this.state.formData, text: ''
       }
+
+      console.log(filteredImages)
+
       this.setState({ formData: textData, images: filteredImages })
     } catch (err) {
       console.log('response: ', err.response.data)
@@ -129,15 +131,15 @@ class IndexPortfolio extends React.Component {
 
       const filteredVideos = allVideos.filter(video => {
         let followerCounter = 0
-        this.state.user.following.map( user => {
+        this.state.user.following.map(user => {
           // console.log(video)
           if (video.user._id == user.followedUserId) {
             followerCounter++
           }
-        })  
+        })
         if (followerCounter > 0) {
           return video
-        } 
+        }
       })
       //reset formdata text ....it need to be in this way because there is two "text" in state and if i put just "text" than it reset wrong one
       const textData = {
@@ -158,14 +160,14 @@ class IndexPortfolio extends React.Component {
 
       const filteredImages = allImages.filter(image => {
         let followerCounter = 0
-        this.state.user.following.map( user => {
+        this.state.user.following.map(user => {
           if (image.user._id == user.followedUserId) {
             followerCounter++
           }
-        })  
+        })
         if (followerCounter > 0) {
           return image
-        } 
+        }
       })
       this.setState({ images: filteredImages })
     } catch (err) {
@@ -182,15 +184,15 @@ class IndexPortfolio extends React.Component {
 
       const filteredVideos = allVideos.filter(video => {
         let followerCounter = 0
-        this.state.user.following.map( user => {
+        this.state.user.following.map(user => {
           // console.log(video)
           if (video.user._id == user.followedUserId) {
             followerCounter++
           }
-        })  
+        })
         if (followerCounter > 0) {
           return video
-        } 
+        }
       })
       this.setState({ videos: filteredVideos })
     } catch (err) {
@@ -199,11 +201,11 @@ class IndexPortfolio extends React.Component {
   }
 
   clickShow = (type) => {
-    if (type === 'videos'){
+    if (type === 'videos') {
       this.setState({ showVideos: true, showImages: false, showArticles: false })
-    } else if (type === 'images'){
+    } else if (type === 'images') {
       this.setState({ showImages: true, showVideos: false, showArticles: false })
-    } else if (type === 'articles'){
+    } else if (type === 'articles') {
       this.setState({ showArticles: true, showVideos: false, showImages: false })
     }
   }
@@ -220,26 +222,26 @@ class IndexPortfolio extends React.Component {
   }
 
   render() {
-    console.log(this.state.videos)
-    // if (!this.state.images) return null
+    // if (!this.state.user) return null
+
     return (
       <>
         <section className="m-scene">
 
           {this.state.showImages &&
-        <Link to={this.portfolioUrl}>
-          <img className='add-portfolio' src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/addimage_nqxehf.png'></img>
-        </Link>
+            <Link to={this.portfolioUrl}>
+              <img className='add-portfolio' src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/addimage_nqxehf.png'></img>
+            </Link>
           }
           {this.state.showVideos &&
-        <Link to={this.portfolioUrl}>
-          <img className='add-portfolio' src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/addvideo_oufawy.png'></img>
-        </Link>
+            <Link to={this.portfolioUrl}>
+              <img className='add-portfolio' src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/addvideo_oufawy.png'></img>
+            </Link>
           }
           {this.state.showArticles &&
-        <Link to={this.portfolioUrl}>
-          <img className='add-portfolio' src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/addarticle_f8vkg3.png'></img>
-        </Link>
+            <Link to={this.portfolioUrl}>
+              <img className='add-portfolio' src='https://res.cloudinary.com/djq7pruxd/image/upload/v1592484109/addarticle_f8vkg3.png'></img>
+            </Link>
           }
 
           <div className="profile-choices-container index">
@@ -250,7 +252,7 @@ class IndexPortfolio extends React.Component {
             <span onClick={() => {
               this.clickShow('videos')
             }} className={`small-profile-choices ${this.state.showVideos ? 'selected-menu-choice' : ''}`}>Videos</span>
-      
+
             <span onClick={() => {
               this.clickShow('articles')
             }} className={`small-profile-choices ${this.state.showArticles ? 'selected-menu-choice' : ''}`}>Articles</span>
@@ -261,6 +263,11 @@ class IndexPortfolio extends React.Component {
 
             {this.state.showImages &&
               <div className="images-container">
+
+                {this.state.images.length === 0 &&
+                  <h1>Media Of Your Followed Athletes Will Appear Here</h1>
+                }
+
                 {this.state.images.slice(0).reverse().map(image => {
                   let likeCounter = 0
                   return <div
@@ -269,7 +276,7 @@ class IndexPortfolio extends React.Component {
                     <div className="small-image-header">
                       <Link to={`/profile/${image.user._id}`}>
                         <div className="small-image-profile">
-                          <img src={image.user.profileImage}/>
+                          <img src={image.user.profileImage} />
                           {image.user.name}
                         </div>
                       </Link>
@@ -279,22 +286,22 @@ class IndexPortfolio extends React.Component {
                     </figure>
                     <div className="small-image-footer">
                       <div>
-                        {image.likes.map( like => {
+                        {image.likes.map(like => {
                           if (like.userId == this.state.user._id) {
                             likeCounter++
                           }
                         })}
-                        
-                        <img className="small-like-img" src={likeCounter == 0 ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238327/muscle_l4iwm8.png' 
-                          : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238630/muscle1_qefxuo.png'} 
-                        onClick={() => { 
-                          this.likeImage(image._id)
-                        }}
+
+                        <img className="small-like-img" src={likeCounter == 0 ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238327/muscle_l4iwm8.png'
+                          : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238630/muscle1_qefxuo.png'}
+                          onClick={() => {
+                            this.likeImage(image._id)
+                          }}
                         />
-                        <span onClick={ () => {
+                        <span onClick={() => {
                           this.handleShowingLikes(image)
                         }}
-                        className="like-counter">
+                          className="like-counter">
                           {image.likes.length} Likes
                         </span>
                       </div>
@@ -305,19 +312,19 @@ class IndexPortfolio extends React.Component {
                         {image.description}
                       </span>
                       {this.state.showLikes &&
-                      <div className='followers-container'>
-                        <span className="follower-title">Likes</span>
-                        <span className='close-follow' onClick={this.handleShowingLikes}> X </span>
-                        <div className="followers-frame">
-                          {this.state.image.likes.map( like => {
-                            return <div key={like._id} className="profile-follow">      
-                              <a href={`/profile/${like.userId}`}>
-                                <img className='profile-image-follow' src={like.profileImage}/></a>
-                              <a href={`/profile/${like.userId}`}>{like.username}</a>
-                            </div>
-                          })}
+                        <div className='followers-container'>
+                          <span className="follower-title">Likes</span>
+                          <span className='close-follow' onClick={this.handleShowingLikes}> X </span>
+                          <div className="followers-frame">
+                            {this.state.image.likes.map(like => {
+                              return <div key={like._id} className="profile-follow">
+                                <a href={`/profile/${like.userId}`}>
+                                  <img className='profile-image-follow' src={like.profileImage} /></a>
+                                <a href={`/profile/${like.userId}`}>{like.username}</a>
+                              </div>
+                            })}
+                          </div>
                         </div>
-                      </div>
                       }
                       <hr />
                       <div>
@@ -330,10 +337,10 @@ class IndexPortfolio extends React.Component {
                             </div>
                             <div className="footer-comment-text">
                               {comment.text}
-                            </div> 
+                            </div>
                           </div>
                         })}
-                       
+
                       </div>
 
                     </div>
@@ -341,7 +348,7 @@ class IndexPortfolio extends React.Component {
                       this.handleSubmit(event, image._id)
                     }}>
                       <div className="comment-add-container">
-                        <input 
+                        <input
                           className="input"
                           name="text"
                           placeholder="..."
@@ -358,6 +365,11 @@ class IndexPortfolio extends React.Component {
 
             {this.state.showVideos &&
               <div className="images-container">
+
+                {this.state.videos.length === 0 &&
+                  <h1>Media Of Your Followed Athletes Will Appear Here</h1>
+                }
+
                 {this.state.videos.slice(0).reverse().map(video => {
                   let likeCounter = 0
                   return <div
@@ -366,30 +378,30 @@ class IndexPortfolio extends React.Component {
                     <div className="small-image-header">
                       <Link to={`/profile/${video.user._id}`}>
                         <div className="small-image-profile">
-                          <img src={video.user.profileImage}/>
+                          <img src={video.user.profileImage} />
                           {video.user.name}
                         </div>
                       </Link>
                     </div>
-                    <video className="videoStyle" src={video.url} alt={video.title} controls/>
+                    <video className="videoStyle" src={video.url} alt={video.title} controls />
                     <div className="small-image-footer">
                       <div>
-                        {video.likes.map( like => {
+                        {video.likes.map(like => {
                           if (like.userId == this.state.user._id) {
                             likeCounter++
                           }
                         })}
-                      
-                        <img className="small-like-img" src={likeCounter == 0 ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238327/muscle_l4iwm8.png' 
-                          : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238630/muscle1_qefxuo.png'} 
-                        onClick={() => { 
-                          this.likeVideo(video._id)
-                        }}
+
+                        <img className="small-like-img" src={likeCounter == 0 ? 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238327/muscle_l4iwm8.png'
+                          : 'https://res.cloudinary.com/djq7pruxd/image/upload/v1604238630/muscle1_qefxuo.png'}
+                          onClick={() => {
+                            this.likeVideo(video._id)
+                          }}
                         />
-                        <span onClick={ () => {
+                        <span onClick={() => {
                           this.handleShowingVideoLikes(video)
                         }}
-                        className="like-counter">
+                          className="like-counter">
                           {video.likes.length} Likes
                         </span>
                       </div>
@@ -400,19 +412,19 @@ class IndexPortfolio extends React.Component {
                         {video.description}
                       </span>
                       {this.state.showLikes &&
-                    <div className='followers-container'>
-                      <span className="follower-title">Likes</span>
-                      <span className='close-follow' onClick={this.handleShowingVideoLikes}> X </span>
-                      <div className="followers-frame">
-                        {this.state.video.likes.map( like => {
-                          return <div key={like._id} className="profile-follow">      
-                            <a href={`/profile/${like.userId}`}>
-                              <img className='profile-image-follow' src={like.profileImage}/></a>
-                            <a href={`/profile/${like.userId}`}>{like.username}</a>
+                        <div className='followers-container'>
+                          <span className="follower-title">Likes</span>
+                          <span className='close-follow' onClick={this.handleShowingVideoLikes}> X </span>
+                          <div className="followers-frame">
+                            {this.state.video.likes.map(like => {
+                              return <div key={like._id} className="profile-follow">
+                                <a href={`/profile/${like.userId}`}>
+                                  <img className='profile-image-follow' src={like.profileImage} /></a>
+                                <a href={`/profile/${like.userId}`}>{like.username}</a>
+                              </div>
+                            })}
                           </div>
-                        })}
-                      </div>
-                    </div>
+                        </div>
                       }
                       <hr />
                       <div>
@@ -425,10 +437,10 @@ class IndexPortfolio extends React.Component {
                             </div>
                             <div className="footer-comment-text">
                               {comment.text}
-                            </div> 
+                            </div>
                           </div>
                         })}
-                     
+
                       </div>
 
                     </div>
@@ -436,7 +448,7 @@ class IndexPortfolio extends React.Component {
                       this.handleVideoSubmit(event, video._id)
                     }}>
                       <div className="comment-add-container">
-                        <input 
+                        <input
                           className="input"
                           name="text"
                           placeholder="..."
@@ -450,11 +462,11 @@ class IndexPortfolio extends React.Component {
                 })}
               </div>
             }
-              
+
           </div>
         </section>
         {this.state.showArticles &&
-        <Articles />
+          <Articles />
         }
       </>
     )
