@@ -1,29 +1,30 @@
 @import '~bulma/bulma.sass';
 
-$main:  #FF851B ;
+$main: #FF851B;
 $font-color: #4a4a4a;
 $decline-color: #ef224b;
 $logo-font: 'Cinzel', serif;
 $slogan: 'Dosis', sans-serif;
 $article-font: BlinkMacSystemFont;
-$article-text-font: Roboto,sans-serif;
+$article-text-font: Roboto, sans-serif;
 // #e1b382
 
-html{
+html {
   background: #f0f4f8;
 }
-a{
+
+a {
   color: $main;
 }
 
-.home-container{
+.home-container {
   background-image: url('./images/background.jpg');
   background-position: center;
   background-size: cover;
   height: 100vh;
 }
 
-.register-container{
+.register-container {
   display: flex;
   justify-content: center;
   width: 100vw;
@@ -31,12 +32,12 @@ a{
   margin-top: -40px;
 }
 
-.radio{
+.radio {
   display: inline-block;
-  
+
 }
 
-.register-forms-container{
+.register-forms-container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -46,73 +47,74 @@ a{
   box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
 }
 
-.register-forms-container:hover{
+.register-forms-container:hover {
   box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.25);
 }
 
-.register-forms{
+.register-forms {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
 }
 
-.category{
+.category {
   flex-direction: row;
   justify-content: space-between;
 }
 
-.category label{
+.category label {
   margin-right: 20px;
 }
 
-.register-type{
+.register-type {
   margin-left: 40px;
 }
 
-.register-forms-span{
+.register-forms-span {
   display: inline-block;
- margin: 30px 0 0 10px;
+  margin: 30px 0 0 10px;
 }
 
-.register-section{
+.register-section {
   margin-top: 10px;
   padding: 0 20px;
 }
 
-.register-section.add-training .button{
+.register-section.add-training .button {
   margin: 40px 0 0 40%;
   display: inline-block;
 }
 
-.register-section .input{
+.register-section .input {
   width: 360px;
 }
 
-.field{
+.field {
   margin-right: 40px;
 }
 
-.input-container{
+.input-container {
   display: flex;
   justify-content: space-between;
 }
 
-.select,.is-multiple{
+.select,
+.is-multiple {
   margin-top: 5px;
 }
 
-.profile-choices-container{
+.profile-choices-container {
   display: flex;
   justify-content: space-evenly;
- 
+
 }
 
-.index{
+.index {
   margin-bottom: 30px;
 }
 
-.profile-choices{
+.profile-choices {
   width: 200px;
   height: 200px;
   // border: 2px solid black;
@@ -123,91 +125,89 @@ a{
   font-size: 25px;
 }
 
-.small-profile-choices{
+.small-profile-choices {
   width: 150px;
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid #f0f4f8;
 }
 
-.small-profile-choices:hover{
+.small-profile-choices:hover {
   color: $main;
   border-bottom: 1px solid $main;
 }
 
-.card-header-title{
+.card-header-title {
   display: inline-block;
 }
 
-.card{
+.card {
   padding: 10px;
 }
 
-.done{
+.done {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   padding: 50px;
 }
 
-.done-booking{
+.done-booking {
   padding-bottom: 20px;
   width: 620px;
   border-bottom: 3px solid $main;
 }
 
-.done .subtitle{
+.done .subtitle {
   text-align: center;
 }
 
-.done-subtitle-wrap{
+.done-subtitle-wrap {
   margin-top: -140px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.selected-menu-choice{
+.selected-menu-choice {
   color: $main;
 }
 
-.add-portfolio{
+.add-portfolio {
   position: fixed;
   top: 0px;
   left: 48%;
   animation: heartbeat 4s infinite;
-  z-index: 1000;
+  z-index: 2;
 }
 
-@keyframes heartbeat
-{
-  0%
-  {
-    transform: scale( 1 );
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
   }
-  20%
-  {
-    transform: scale( 0.9 );
+
+  20% {
+    transform: scale(0.9);
   }
-  50%
-  {
-    transform: scale( 1 );
+
+  50% {
+    transform: scale(1);
   }
-  80%
-  {
-    transform: scale( 0.9 );
+
+  80% {
+    transform: scale(0.9);
   }
-  100%
-  {
-    transform: scale( 1 );
+
+  100% {
+    transform: scale(1);
   }
 }
 
-.portfolio-container{
+.portfolio-container {
   padding: 0 140px;
 }
 
-.images-container{
+.images-container {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -215,79 +215,92 @@ a{
 
 }
 
-.single{
+.single {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-  video{
+
+  video {
     width: 100%;
   }
-  .small-image{
+
+  .small-image {
     width: 40%;
   }
 }
 
-.small-image{
+.small-image {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 50%;
   margin: 30px;
-  .small-image-header{
+
+  .small-image-header {
     background: white;
     display: flex;
     align-items: center;
-    .small-image-profile{
+
+    .small-image-profile {
       display: flex;
       align-items: center;
       margin-left: 10px;
     }
-    img{
-      width: 12%;
-      height: 12%;
+
+    img {
+      width: 41px;
+      height: 41px;
       border: 1px solid $main;
       border-radius: 50%;
       margin: 6px;
     }
   }
-  .small-image-footer{
+
+  .small-image-footer {
     background: white;
     display: flex;
     flex-direction: column;
     padding: 15px;
     max-height: 350px;
     overflow: auto;
-    .profile-footer{
+
+    .profile-footer {
       display: flex;
       flex-direction: column;
       align-items: start;
       margin: 0 0 15px 0;
-      img{
+
+      img {
         width: 10%;
         height: 10%;
         border: 1px solid $main;
         border-radius: 50%;
         margin-right: 3px;
       }
-      .username{
+
+      .username {
         font-weight: bold;
         margin-right: 10px;
         color: $font-color;
       }
     }
-    .like-counter{
+
+    .like-counter {
       margin-left: 10px;
       cursor: pointer;
     }
-    .username-footer{
+
+    .username-footer {
       font-weight: bold;
       color: $font-color;
       margin-right: 7px;
     }
-    .profile-footer-container{
+
+    .profile-footer-container {
       display: flex;
     }
+
     // .usernmae-container{
     //   display: flex;
     //   align-items: start;
@@ -295,7 +308,7 @@ a{
   }
 }
 
-.article-container{
+.article-container {
   display: flex;
   justify-content: space-around;
   align-items: stretch;
@@ -305,7 +318,7 @@ a{
   padding: 0 40px;
 }
 
-.card-article{
+.card-article {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -318,7 +331,7 @@ a{
 }
 
 
-.article-title{
+.article-title {
   padding: 0 10px;
   font-family: $article-font;
   margin: 10px 0;
@@ -331,40 +344,40 @@ a{
   color: $font-color;
 }
 
-.article-author{
+.article-author {
   display: inline-block;
   width: 100%;
   text-align: left;
   padding: 8px 0 0 57px;
 }
 
-.article-author a{
+.article-author a {
   color: $main;
 }
 
-.article-border{
+.article-border {
   border-bottom: 2px solid $font-color;
   width: 90%;
   margin: 0 auto;
 }
 
-.image-article{
+.image-article {
   width: 400px;
   height: 300px;
 }
 
-.subtitle-article{
+.subtitle-article {
   font-family: $article-font;
   padding: 10px 25px;
   height: 170px;
   overflow: hidden;
 }
 
-.article-text{
+.article-text {
   width: 400px
 }
 
-.article-image-container{
+.article-image-container {
   width: 100vw;
   height: 400px;
   background-attachment: fixed;
@@ -374,7 +387,7 @@ a{
   margin-top: -20px;
 }
 
-.single-article-container{
+.single-article-container {
   padding-top: 60px;
   // margin: 20px 0;
   display: flex;
@@ -383,12 +396,12 @@ a{
   align-items: center;
 }
 
-.single-article-title{
+.single-article-title {
   width: 1000px;
   margin-top: 20px;
 }
 
-.single-article-text{
+.single-article-text {
   width: 960px;
   font-family: $article-text-font;
   font-size: 20px;
@@ -396,9 +409,7 @@ a{
   padding: 30px 80px;
 }
 
-.single-article-author{
-
-}
+.single-article-author {}
 
 
 
@@ -407,15 +418,15 @@ a{
 //   height: 120px;
 // }
 
-.profile-image{
-  width: 14%;
-  height: 14%;
+.profile-image {
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   margin-right: 30px;
   border: 2px solid $main;
 }
 
-.profile-header{
+.profile-header {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -424,32 +435,35 @@ a{
 }
 
 //Navbar
-.navbar{
+.navbar {
   border-bottom: 1px solid $main;
   position: fixed;
   width: 100%;
   height: 53px;
   opacity: 0.9;
+  z-index: 1;
 }
 
-.logo-search{
+.logo-search {
   display: flex;
 }
 
-.search{
+.search {
   position: relative;
   margin: auto 140px;
-  img{
+
+  img {
     width: 30px;
     height: 30px;
     cursor: pointer;
   }
-  input{
+
+  input {
     width: 230px;
   }
 }
 
-.search-results{
+.search-results {
   position: absolute;
   width: 230px;
   max-height: 300px;
@@ -459,7 +473,7 @@ a{
   border: 1px solid $main;
 }
 
-.no-results{
+.no-results {
   position: absolute;
   text-align: center;
   padding: 5px;
@@ -468,71 +482,74 @@ a{
   border: 1px solid $main;
 }
 
-.search-profile{
+.search-profile {
   cursor: pointer;
   padding: 0px 20px;
   margin-bottom: 10px;
-  :hover{
+
+  :hover {
     opacity: 0.6;
   }
 }
 
-.navbar-image{
+.navbar-image {
   border-radius: 50%;
 }
 
-.navbar-item{
+.navbar-item {
   width: 50px;
   height: 50px;
   cursor: pointer;
 }
 
-.logout{
+.logout {
   position: fixed;
   bottom: 17px;
   right: 17px;
   cursor: pointer;
 }
 
-.logo{
+.logo {
   font-family: 'Cinzel', serif;
   font-size: 90px;
 
 }
 
-.logo-navbar{
+.logo-navbar {
   font-family: 'Cinzel', serif;
   font-size: 30px;
 }
 
-.greeting{
+.greeting {
   color: $main;
 }
 
-.greeting-public{
+.greeting-public {
   display: flex;
   flex-direction: column;
-  img{
+
+  img {
     width: 25%;
     height: 25%;
   }
 }
 
-.user-type{
+.user-type {
   display: flex;
   align-items: center;
 }
 
-.message{
+.message {
   margin-left: 20px;
   cursor: pointer;
   position: relative;
-  img:hover{
+
+  img:hover {
     transform: scale(1.1);
   }
 }
 
-.chat-profile-form{
+.chat-profile-form {
   position: fixed;
   bottom: 10px;
   right: 5%;
@@ -546,37 +563,37 @@ a{
   cursor: default;
 }
 
-.chat-profile-form form{
+.chat-profile-form form {
   display: flex;
   width: 300px;
 }
 
-.close-message{
+.close-message {
   margin-left: 140px;
   font-weight: bold;
   cursor: pointer;
 }
 
-.profile-header-chat{
+.profile-header-chat {
   display: flex;
   justify-content: center;
-  margin: 10px 0 -12px 0 ;
+  margin: 10px 0 -12px 0;
   align-items: center;
   text-align: left;
 }
 
-.sign-container{
+.sign-container {
   display: flex;
   justify-content: left;
   align-items: end;
   margin: 18% 0px 0 20px;
 }
 
-.sign-card{
+.sign-card {
   width: 400px;
 }
 
-.logo-container{
+.logo-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -584,21 +601,21 @@ a{
   margin-left: 20px;
 }
 
-.slogan{
+.slogan {
   font-size: 33px;
   font-family: $slogan;
 }
 
-.logo-navbar-container{
+.logo-navbar-container {
   display: flex;
   justify-content: space-between;
 }
 
-.home-navbar{
+.home-navbar {
   margin: 30px 60px 0 0;
 }
 
-.home-navbar-item{
+.home-navbar-item {
   color: white;
   font-family: $slogan;
   font-size: 20px;
@@ -607,86 +624,88 @@ a{
   margin-left: 50px;
 }
 
-.register-title{
+.register-title {
   color: $main;
 }
 
-.register-button{
+.register-button {
   background: $main;
   color: white;
   margin-top: -20px;
 }
 
-.loading-image-register{
+.loading-image-register {
   display: inline-block;
   margin-left: 40%;
   margin-top: -20px;
 }
 
-.profile-header-container{
+.profile-header-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 30px 0;
 }
 
-.public-profile-container{
+.public-profile-container {
   padding-top: 53px;
 }
 
-.m-scene{
+.m-scene {
   padding-top: 73px;
 }
 
-.add-training{
+.add-training {
   margin-top: 90px;
   border: 2px solid $main;
   padding: 40px;
 }
 
-.add-form-section{
+.add-form-section {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  
+
 }
 
-.add-form-container form{
+.add-form-container form {
   width: 600px;
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding: 40px; 
+  padding: 40px;
   border: 2px solid $main;
 }
 
-.add-form-section .textarea, .button{
+.add-form-section .textarea,
+.button {
   width: 300px;
   margin-bottom: 30px;
 }
 
-.upload-portfolio img, video{
+.upload-portfolio img,
+video {
   width: 80px;
   height: 80px;
   // display: flex;
 
 }
 
-.upload-portfolio{
+.upload-portfolio {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
 }
 
-.loading-image{
+.loading-image {
   display: inline-block;
   margin: 0 auto;
 }
 
-.add-article-section{
+.add-article-section {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -695,26 +714,26 @@ a{
   padding-top: 73px;
 }
 
-.add-article-container form{
+.add-article-container form {
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding: 0px 40px 40px 40px; 
+  padding: 0px 40px 40px 40px;
 }
 
-.done-button{
+.done-button {
   display: inline-block;
   margin: 0 auto;
 }
 
-.done-button .button{
+.done-button .button {
   margin: 0 20px;
   width: 230px;
 }
 
 // Index page show big photos
 
-.show-big-image{
+.show-big-image {
   display: flex;
   position: absolute;
   top: 1px;
@@ -726,19 +745,22 @@ a{
   z-index: 5;
 }
 
-.big-image-card{
+.big-image-card {
   position: fixed;
   display: flex;
   margin-top: 10px;
+  max-height: 90vh;
 }
 
-.big-image{
+.big-image {
   width: 570px;
   height: 570px;
+  max-height: 80vh;
+  max-width: 70vw;
   display: inline-block;
 }
 
-.big-image-side{
+.big-image-side {
   height: 570px;
   width: 330px;
   background: white;
@@ -746,28 +768,28 @@ a{
   position: relative;
 }
 
-.close{
+.close {
   width: 40px;
   height: 40px;
   cursor: pointer;
 }
 
-.close-training{
+.close-training {
   width: 40px;
   height: 40px;
   cursor: pointer;
   margin-top: 80px;
 }
 
-.index-portfolio{
+.index-portfolio {
   cursor: pointer;
   position: relative;
 }
 
-.profile-header-index{
+.profile-header-index {
   display: flex;
   justify-content: space-around;
-  margin: 10px 0 -12px 0 ;
+  margin: 10px 0 -12px 0;
   align-items: center;
   text-align: left;
 }
@@ -777,7 +799,7 @@ a{
   font-weight: 700;
 }
 
-.profile-image-index{
+.profile-image-index {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -785,33 +807,33 @@ a{
   border: 2px solid $main;
 }
 
-.big-image-description{
+.big-image-description {
   padding: 10px 20px;
 }
 
-.show-comments{
+.show-comments {
   padding: 0 12px;
   // height: 393px;
   // overflow: auto;
 }
 
-.description-and-comments{
+.description-and-comments {
   height: 417px;
   overflow: auto;
 }
 
-.single-comment{
+.single-comment {
   margin: 10px 0;
 }
 
-.comment-add-container{
+.comment-add-container {
   display: flex;
   // position: absolute;
   bottom: 0px;
   width: 100%;
 }
 
-.comment-button{
+.comment-button {
   cursor: pointer;
   font-family: $article-text-font;
   font-size: 14px;
@@ -820,20 +842,20 @@ a{
   padding: 0 10px;
 }
 
-.profile-header-comment{
+.profile-header-comment {
   display: flex;
   justify-content: left;
   align-items: center;
   text-align: left;
 }
 
-.profile-header-comment a{
+.profile-header-comment a {
   color: $font-color;
   font-weight: 700;
   font-size: 15px;
 }
 
-.profile-image-comment{
+.profile-image-comment {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -841,16 +863,16 @@ a{
   border: 1px solid $main;
 }
 
-.hr-comment{
+.hr-comment {
   margin-bottom: 0
 }
 
-.index-video{
+.index-video {
   width: 250px;
   height: 250px;
 }
 
-.upload-portfolio-register{
+.upload-portfolio-register {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -858,13 +880,13 @@ a{
   margin-bottom: 30px;
 }
 
-.upload-portfolio-register img{
+.upload-portfolio-register img {
   width: 80px;
   height: 80px;
   margin-top: 10px;
 }
 
-.show-big-training{
+.show-big-training {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -877,16 +899,16 @@ a{
   z-index: 3;
 }
 
-.training-description{
+.training-description {
   padding: 20px;
 }
 
-.big-training-card{
+.big-training-card {
   position: fixed;
   display: flex;
 }
 
-.big-training-side{
+.big-training-side {
   height: 650px;
   width: 870px;
   background: white;
@@ -896,7 +918,7 @@ a{
 }
 
 
-.profile-header-training{
+.profile-header-training {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -904,28 +926,28 @@ a{
   margin-bottom: -8px;
 }
 
-.training-title{
+.training-title {
   margin-top: -30px
 }
 
-.training-item{
+.training-item {
   cursor: pointer;
 }
 
-hr{
+hr {
   margin: 1rem 0;
 }
 
 // Chats
-.chat-profile-container{
+.chat-profile-container {
   display: flex;
   padding: 53px 0px 0px 40px;
 }
 
-.profile-header-chat-page{
+.profile-header-chat-page {
   display: flex;
   justify-content: center;
-  margin: 5px 15px 5px 0px ;
+  margin: 5px 15px 5px 0px;
   align-items: center;
   text-align: left;
   border-bottom: 1px solid $font-color;
@@ -934,10 +956,11 @@ hr{
   padding-bottom: 15px;
 }
 
-.profile-header-chat-page a{
+.profile-header-chat-page a {
   color: $font-color;
 }
-.chat-profile-side{
+
+.chat-profile-side {
   display: flex;
   flex-direction: column;
   padding: 30px;
@@ -947,7 +970,7 @@ hr{
   overflow: auto;
 }
 
-.messages-section{
+.messages-section {
   width: 70%;
   height: 85vh;
   display: flex;
@@ -955,30 +978,30 @@ hr{
   justify-content: space-between;
 }
 
-.profile-messages{
+.profile-messages {
   border-bottom: 1px solid $font-color;
   padding-bottom: 15px;
   margin-top: 10px;
 }
 
-.messages-section form{
+.messages-section form {
   display: flex;
   width: 400px;
 }
 
-.messages-form-container{
+.messages-form-container {
   display: flex;
   justify-content: center;
 }
 
-.chat-history{
+.chat-history {
   width: 93%;
   height: 400px;
   overflow: auto;
   transform: rotate(180deg);
 }
 
-.one-message-container{
+.one-message-container {
   transform: rotate(180deg);
   margin: 15px;
   border-radius: 4%;
@@ -986,7 +1009,7 @@ hr{
   justify-content: right;
 }
 
-.one-message-container-other{
+.one-message-container-other {
   transform: rotate(180deg);
   margin: 15px;
   border-radius: 4%;
@@ -994,7 +1017,7 @@ hr{
   justify-content: left;
 }
 
-.one-message{
+.one-message {
   display: inline-block;
   background: $main;
   text-align: center;
@@ -1003,7 +1026,7 @@ hr{
   font-family: $article-text-font;
 }
 
-.one-message-other{
+.one-message-other {
   display: inline-block;
   background: $font-color;
   text-align: center;
@@ -1013,41 +1036,41 @@ hr{
   color: white;
 }
 
-.chat-history-container{
+.chat-history-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.no-messages{
+.no-messages {
   margin-top: 100px;
 }
 
 //likes
-.likes-img{
-  position:absolute!important;
-  left: 50%!important;
-  top: 50%!important;
-  width: 30px!important;
-  height: 30px!important;
+.likes-img {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 30px !important;
+  height: 30px !important;
 }
 
-.small-like-img{
+.small-like-img {
   width: 30px;
   height: 30px;
   cursor: pointer;
 }
 
-.small-like-img:hover{
+.small-like-img:hover {
   transform: scale(1.1);
 }
 
-.portfolio-header-part{
+.portfolio-header-part {
   display: flex;
   align-items: center;
 }
 
-.follow{
+.follow {
   color: $main;
   cursor: pointer;
   font-size: 25px;
@@ -1055,42 +1078,42 @@ hr{
   margin-left: 12px;
 }
 
-.follow:hover{
+.follow:hover {
   transform: scale(1.05);
 }
 
-.small-follow{
+.small-follow {
   color: $main;
   cursor: pointer;
   font-size: 17px;
   font-weight: bold;
 }
 
-.small-follow:hover{
+.small-follow:hover {
   transform: scale(1.1);
 }
 
-.followers-title{
+.followers-title {
   cursor: pointer;
   font-size: 20px;
 }
 
-.followers-title:hover{
+.followers-title:hover {
   color: $main;
 }
 
-.followed-title{
+.followed-title {
   cursor: pointer;
   font-size: 20px;
   margin-left: 30px;
 }
 
-.followed-title:hover{
+.followed-title:hover {
   color: $main;
 }
 
 
-.followers-container{
+.followers-container {
   display: flex;
   flex-direction: column;
   padding: 13px;
@@ -1104,19 +1127,19 @@ hr{
   min-width: 200px;
 }
 
-.profile-follow{
+.profile-follow {
   display: flex;
   justify-content: left;
   align-items: center;
   font-size: 20px;
 }
 
-.profile-image-follow{
+.profile-image-follow {
   width: 50px;
   height: 50px;
 }
 
-.close-follow{
+.close-follow {
   font-weight: bold;
   cursor: pointer;
   position: absolute;
@@ -1125,23 +1148,23 @@ hr{
   font-size: 20px;
 }
 
-.followers-frame{
+.followers-frame {
   max-height: 350px;
   overflow: auto;
   margin-top: 10px;
 }
 
-.follower-title{
+.follower-title {
   text-align: center;
   font-weight: bold;
   font-size: 20px;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-.already-followed-title{
+.already-followed-title {
   cursor: pointer;
   font-size: 20px;
   padding: 5px;
@@ -1150,12 +1173,12 @@ hr{
   margin-left: 10px;
 }
 
-.already-followed-title:hover{
+.already-followed-title:hover {
   background: lightgray;
   opacity: 0.7;
 }
 
-.unfollow{
+.unfollow {
   font-weight: normal;
   font-size: 20px;
   background: white;
@@ -1167,11 +1190,13 @@ hr{
   display: flex;
   flex-direction: column;
   z-index: 4;
-  .unfollow-yes{
+
+  .unfollow-yes {
     color: $decline-color;
     margin-right: 40px;
   }
-  .unfollow-option{
+
+  .unfollow-option {
     text-align: center;
     display: inline-block;
     cursor: pointer;
@@ -1179,27 +1204,29 @@ hr{
   }
 }
 
-.like-section{
-  display: flex; 
+.like-section {
+  display: flex;
   justify-content: space-evenly;
   align-items: center;
   padding: 5px;
-  .like-img{
+
+  .like-img {
     display: flex;
     align-items: center;
   }
-  .like-counter{
+
+  .like-counter {
     margin-left: 10px;
     font-size: 20px;
   }
 }
 
-.videoStyle{
+.videoStyle {
   width: 100%;
   height: 100%;
 }
 
-.notifications-container{
+.notifications-container {
   padding: 20px 0;
   min-width: 380px;
   min-height: 200px;
@@ -1210,31 +1237,37 @@ hr{
   top: 52px;
   background: white;
   border-radius: 7px;
-  .profile-footer{
+
+  .profile-footer {
     margin: 20px 20px;
     display: flex;
     flex-direction: row;
+
     a {
       color: $font-color;
     }
-    .profile-footer-container{
+
+    .profile-footer-container {
       display: flex;
-      flex-direction: row;  
+      flex-direction: row;
       align-items: center;
     }
-    .profile-image{
+
+    .profile-image {
       width: 30px;
       height: 30px;
       border: 1px solid $main;
       border-radius: 50%;
       margin-right: 3px;
     }
-    .image{
+
+    .image {
       width: 30px;
       height: 30px;
       margin-left: 20px;
     }
-    .notification-result{
+
+    .notification-result {
       display: flex;
       align-items: center;
       margin-left: 6px;
@@ -1242,177 +1275,233 @@ hr{
   }
 }
 
-.training-name{
+.training-name {
   font-weight: bold;
 }
 
 @media only screen and (max-width: 1030px) {
 
-  .portfolio-container{
+  .portfolio-container {
     padding: 0px;
   }
-  .big-image{
-    width: 50vw;
-    height: 50vh;
+
+  .big-image-card {
+    flex-direction: column;
+    align-items: center;
+    max-height: 90vh;
   }
-  .big-image-side{
-    width: 30vw;
-    height: 50vh;
+
+  .big-image {
+    max-width: 70vw;
+    order: 2;
   }
-  .description-and-comments{
-    height: 30vh;
+
+  .big-image-side {
+    width: 70vw;
+    height: unset;
+    margin-right: 0px;
+    order: 3;
+    overflow: auto;
   }
-  .close{
+
+  .description-and-comments {
+    height: unset;
+  }
+
+  .profile-header-index,
+  .description-and-comments {
+    transform: scale(0.8);
+  }
+
+  .comment-add-container {
+    margin: 0 auto;
+    margin-bottom: 10px;
+    max-width: 50vw;
+  }
+
+  .hr-comment {
+    margin: 7px 0;
+  }
+
+  .close {
     width: 22px;
     height: 22px;
+    order: 1;
+    align-self: flex-end;
   }
-  .navbar-menu{
-    position: fixed; 
+
+  .navbar-menu {
+    position: fixed;
     bottom: 10px;
     left: 35%;
   }
-  .navbar-end{
+
+  .navbar-end {
     display: flex;
   }
-  .search{
+
+  .search {
     right: 13px;
     top: 12px;
     position: absolute;
     margin: 0px;
   }
-  .notifications-container{
+
+  .notifications-container {
     top: -190px;
   }
 }
 
 @media only screen and (max-width: 800px) {
 
-  .logo-navbar-container{
+  .logo-navbar-container {
     flex-direction: column;
   }
-  .input-container{
+
+  .input-container {
     flex-direction: column;
   }
-  .register-title{
+
+  .register-title {
     font-size: 20px;
     margin-top: 25px;
   }
-  .register-forms-container{
+
+  .register-forms-container {
     flex-direction: column;
   }
-  .comment-add-container{
-    input{
+
+  .comment-add-container {
+    input {
       height: 20px;
       width: 100%;
     }
   }
-  
-  .comment-button{
+
+  .comment-button {
     font-size: 8px;
     padding: 0 10px;
   }
- 
+
 
 }
 
 @media only screen and (max-width: 600px) {
-  body{
+  body {
     font-size: 12px;
   }
-  .logo{
+
+  .logo {
     font-size: 50px;
   }
-  .slogan{
+
+  .slogan {
     font-size: 20px;
   }
-  .logo-navbar-container{
+
+  .logo-navbar-container {
     flex-direction: column;
   }
-  .field{
+
+  .field {
     width: 270px;
     margin-right: 0px;
   }
-  .register-type{
+
+  .register-type {
     margin: 20px;
   }
 
-  .add-portfolio{
+  .add-portfolio {
     top: 30px;
   }
-  .m-scene{
+
+  .m-scene {
     padding-top: 95px;
   }
-  .navbar{
+
+  .navbar {
     height: 88px;
   }
-  .close{
+
+  .close {
     width: 15px;
     height: 15px;
   }
-  .small-like-img{
+
+  .small-like-img {
     width: 15px;
     height: 15px;
   }
-  .profile-image-index{
+
+  .profile-image-index {
     width: 22px;
     height: 22px;
     margin-right: 5px;
   }
-  .portfolio-header-part{
+
+  .portfolio-header-part {
     font-size: 11px;
   }
-  .profile-image-comment{
+
+  .profile-image-comment {
     width: 22px;
     height: 22px;
     margin-right: 5px;
   }
-  .profile-header-comment{
-    a{
-    font-size: 10px;
+
+  .profile-header-comment {
+    a {
+      font-size: 10px;
+    }
   }
-}
-.navbar-item{
-  width: 35px;
-  height: 35px;
-  padding: 7px;
-}
-.notifications-container{
-  min-width: 300px;
-  left: -20%;
-}
-.small-image-profile{
-  img{
-    width: 19%!important;
-    height:19%!important;
+
+  .navbar-item {
+    width: 35px;
+    height: 35px;
+    padding: 7px;
   }
-}
+
+  .notifications-container {
+    min-width: 300px;
+    left: -20%;
+  }
+
+  .small-image-profile {
+    img {
+      width: 19% !important;
+      height: 19% !important;
+    }
+  }
 
 }
 
 @media only screen and (max-width: 450px) {
-  body{
+  body {
     font-size: 10px;
   }
-.navbar-menu{
-  left: 10%;
-}
-.notifications-container{
-  left: 0%;
-  min-width: 130px;
-  max-width: 215px;
-  min-height: 200px;
-  max-height: 350px;
-}
-.add-portfolio{
-  width: 45px;
-  height: 45px;
-}
-.search{
-  img{
-  height: 23px;
-  height: 23px;
+
+  .navbar-menu {
+    left: 10%;
+  }
+
+  .notifications-container {
+    left: 0%;
+    min-width: 130px;
+    max-width: 215px;
+    min-height: 200px;
+    max-height: 350px;
+  }
+
+  .add-portfolio {
+    width: 45px;
+    height: 45px;
+  }
+
+  .search {
+    img {
+      height: 23px;
+      height: 23px;
+    }
   }
 }
-}
-
-
