@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: gyminy
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: master
+
+    # Installs the API's dependencies, then builds the CRA frontend into
+    # frontend/build, which index.js serves statically. The build directory is
+    # not committed, so this step is required — without it the app boots but
+    # every page returns a missing index.html.
+    buildCommand: yarn install --frozen-lockfile && yarn build
+    startCommand: node index.js
+
+    healthCheckPath: /api/users
+
+    envVars:
+      # Signs and verifies JWTs. Generate once and keep it stable: changing it
+      # invalidates every issued token and signs everyone out.
+      - key: JWT_SECRET
+        generateValue: true
+
+      # Full Atlas connection string, including the database name.
+      - key: MONGODB_URI
+        sync: false
+
+      # Cloudinary's unsigned upload endpoint. Create React App inlines every
+      # REACT_APP_* variable into the bundle at BUILD time, so this must be set
+      # before the build runs — if it is missing the bundle ships `undefined`
+      # and uploads fail silently at runtime rather than erroring at build.
+      - key: REACT_APP_CLOUDINARY_URL
+        sync: false
+
+      - key: NODE_ENV
+        value: production

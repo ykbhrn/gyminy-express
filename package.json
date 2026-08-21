@@ -11,7 +11,6 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "http-proxy-middleware": "^1.0.5",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.0",
     "mongoose-unique-validator": "^2.0.3"
@@ -19,6 +18,10 @@
   "scripts": {
     "start": "node index.js",
     "seed": "node db/seeds.js",
-    "seed:dry": "node db/seeds.js --dry-run"
+    "seed:dry": "node db/seeds.js --dry-run",
+    "build": "yarn --cwd frontend install --frozen-lockfile && yarn --cwd frontend build"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }
