@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img">
+
+  <defs>
+    <linearGradient id="bg-7" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101d2e"/><stop offset="100%" stop-color="#1d3b5c"/>
+    </linearGradient>
+  <filter id="grain-7" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="7"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+  </filter>
+  <radialGradient id="vig-7" cx="50%" cy="42%" r="78%">
+    <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0.42"/>
+  </radialGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg-7)"/>
+  <g opacity="0.5">
+    <path d="M0 900 L1200 0" stroke="#8ab6ff" stroke-opacity="0.06" stroke-width="140"/>
+    <path d="M-200 840 L1000 -60" stroke="#8ab6ff" stroke-opacity="0.05" stroke-width="90"/>
+  </g>
+  
+  <g fill="none" stroke="#8ab6ff" stroke-linecap="round">
+    <path d="M100 660 h1000" stroke-width="6" opacity="0.30"/>
+    <path d="M100 586 h1000" stroke-width="5" opacity="0.20"/>
+    <path d="M100 512 h1000" stroke-width="4" opacity="0.13"/>
+  </g>
+  <g fill="none" stroke="#8ab6ff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M470 640 L560 566 L612 470"/>
+    <path d="M612 470 L690 540 L742 660"/>
+    <path d="M612 470 L556 392"/>
+    <path d="M556 392 L470 424"/>
+    <path d="M556 392 L680 350"/>
+  </g>
+  <circle cx="616" cy="292" r="46" fill="#8ab6ff"/>
+  <g stroke="#8ab6ff" fill="none" stroke-width="5" stroke-linecap="round" opacity="0.42">
+    <path d="M330 372 h150"/><path d="M292 434 h120"/><path d="M346 496 h96"/>
+  </g>
+  <g stroke="#8ab6ff" fill="none" stroke-width="4" opacity="0.15"><circle cx="600" cy="450" r="272"/></g>
+  <rect width="1200" height="900" filter="url(#grain-7)" opacity="0.9"/>
+   <rect width="1200" height="900" fill="url(#vig-7)"/>
+  <g font-family="'Dosis','Avenir Next',sans-serif">
+    <text x="80" y="804" fill="#ffffff" fill-opacity="0.94" font-size="52" font-weight="700" letter-spacing="1.5">Aerobic Conditioning</text>
+    <text x="82" y="846" fill="#8ab6ff" fill-opacity="0.85" font-size="24" font-weight="600" letter-spacing="6">GYMINY</text>
+  </g>
+</svg>

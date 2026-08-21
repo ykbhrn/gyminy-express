@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img">
+
+  <defs>
+    <linearGradient id="bg-8" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#241a10"/><stop offset="100%" stop-color="#4d3312"/>
+    </linearGradient>
+  <filter id="grain-8" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="8"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+  </filter>
+  <radialGradient id="vig-8" cx="50%" cy="42%" r="78%">
+    <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0.42"/>
+  </radialGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg-8)"/>
+  <g opacity="0.5">
+    <path d="M0 900 L1200 0" stroke="#e1b382" stroke-opacity="0.06" stroke-width="140"/>
+    <path d="M-200 840 L1000 -60" stroke="#e1b382" stroke-opacity="0.05" stroke-width="90"/>
+  </g>
+  
+  <g fill="none" stroke="#e1b382" stroke-linecap="round">
+    <path d="M420 180 v210" stroke-width="12" opacity="0.7"/>
+    <path d="M780 180 v210" stroke-width="12" opacity="0.7"/>
+    <circle cx="420" cy="452" r="66" stroke-width="22"/>
+    <circle cx="780" cy="452" r="66" stroke-width="22"/>
+  </g>
+  <g fill="#e1b382">
+    <circle cx="600" cy="470" r="42"/>
+    <path d="M600 518 c-32 0 -56 24 -56 56 v92 c0 24 -20 44 -44 44 h-8 c-20 0 -36 16 -36 36 c0 20 16 36 36 36 h216 c20 0 36 -16 36 -36 c0 -20 -16 -36 -36 -36 h-8 c-24 0 -44 -20 -44 -44 v-92 c0 -32 -24 -56 -56 -56 z"/>
+  </g>
+  <g stroke="#e1b382" fill="none" stroke-width="4" opacity="0.15"><circle cx="600" cy="470" r="300"/></g>
+  <rect width="1200" height="900" filter="url(#grain-8)" opacity="0.9"/>
+   <rect width="1200" height="900" fill="url(#vig-8)"/>
+  <g font-family="'Dosis','Avenir Next',sans-serif">
+    <text x="80" y="804" fill="#ffffff" fill-opacity="0.94" font-size="52" font-weight="700" letter-spacing="1.5">Weightlifting</text>
+    <text x="82" y="846" fill="#e1b382" fill-opacity="0.85" font-size="24" font-weight="600" letter-spacing="6">GYMINY</text>
+  </g>
+</svg>
