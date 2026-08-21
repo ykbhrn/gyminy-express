@@ -2,7 +2,6 @@ require('dotenv').config()
 const express = require('express')
 const router = require('./config/routes')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 const logger = require('./lib/logger')
 const app = express()
 
@@ -19,7 +18,7 @@ mongoose.connect(
 
 app.use(express.static(`${__dirname}/frontend/build`))
 
-app.use(bodyParser.json())
+app.use(express.json())
 
 app.use(logger)
 
