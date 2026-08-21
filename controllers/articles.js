@@ -70,8 +70,6 @@ async function commentCreate(req, res, next) {
     const article = await Article.findById(articleId)
     if (!article) throw new Error('notFound')
     article.comments.push(req.body)
-    console.log(article)
-    console.log(req.body)
     await article.save()
     res.status(201).json(article)
   } catch (err) {

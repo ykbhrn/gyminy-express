@@ -12,9 +12,7 @@ async function register(req, res) {
 }
 async function login(req, res) {
   try {
-    console.log('user wanted: ', req.body)
     const user = await User.findOne({ email: req.body.email })
-    console.log('user found: ', user)
     if (!user || !user.validatePassword(req.body.password)) {
       throw new Error()
     }
