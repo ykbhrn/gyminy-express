@@ -15,5 +15,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.0",
     "mongoose-unique-validator": "^2.0.3"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "seed": "node db/seeds.js",
+    "seed:dry": "node db/seeds.js --dry-run"
   }
 }
