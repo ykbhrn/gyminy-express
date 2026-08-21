@@ -7,14 +7,14 @@ const app = express()
 
 const { port, dbURI } = require('./config/environment')
 
-mongoose.connect(
-  dbURI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-  (err) => {
-    if (err) return console.log(err)
-    console.log('Mongo is Connected')
-  }
-)
+// mongoose 6 removed useNewUrlParser/useUnifiedTopology/useCreateIndex:
+// the first two are now the only behaviour, the third no longer exists.
+mongoose.set('strictQuery', true)
+
+mongoose.connect(dbURI, (err) => {
+  if (err) return console.log(err)
+  console.log('Mongo is Connected')
+})
 
 app.use(express.static(`${__dirname}/frontend/build`))
 

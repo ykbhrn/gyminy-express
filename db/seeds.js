@@ -355,11 +355,8 @@ async function seed() {
 
   console.log(`seeding ${redact(dbURI)}${FORCE && !isLocal(dbURI) ? '  (forced)' : ''}`)
 
-  await mongoose.connect(dbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-  })
+  mongoose.set('strictQuery', true)
+  await mongoose.connect(dbURI)
 
   await Promise.all([
     User.deleteMany({}),
