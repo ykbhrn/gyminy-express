@@ -1505,3 +1505,146 @@ hr {
     }
   }
 }
+/* ---------------------------------------------------------------- About Us */
+
+.about-container {
+  background-image: url('./images/background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+.about-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 20px 0;
+}
+
+.about-section {
+  background: rgba(20, 20, 24, 0.82);
+  border-radius: 8px;
+  padding: 34px 38px;
+  margin-bottom: 26px;
+  color: #e9e9ec;
+
+  p {
+    font-family: $article-text-font;
+    font-size: 17px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.about-title {
+  font-family: $logo-font;
+  font-size: 46px;
+  color: white;
+  margin-bottom: 18px;
+}
+
+.about-heading {
+  font-family: $slogan;
+  font-size: 30px;
+  font-weight: bold;
+  color: $main;
+  margin-bottom: 16px;
+}
+
+.about-lead {
+  font-family: $slogan !important;
+  font-size: 22px !important;
+  color: white;
+  line-height: 1.5 !important;
+  margin-bottom: 20px !important;
+}
+
+.about-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.about-card {
+  flex: 1 1 240px;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 3px solid $main;
+  border-radius: 4px;
+  padding: 20px 22px;
+
+  p {
+    font-size: 15.5px;
+  }
+}
+
+.about-card-title {
+  font-family: $slogan;
+  font-size: 21px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.about-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.about-pill {
+  font-family: $slogan;
+  font-size: 15px;
+  font-weight: bold;
+  color: $main;
+  border: 1px solid rgba(255, 133, 27, 0.5);
+  border-radius: 20px;
+  padding: 6px 16px;
+}
+
+.about-cta {
+  text-align: center;
+}
+
+.about-button {
+  font-family: $slogan;
+  font-weight: bold;
+  background-color: $main;
+  color: white;
+  border: none;
+  padding: 10px 34px;
+  margin-top: 8px;
+
+  &:hover {
+    background-color: darken($main, 8%);
+    color: white;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    background-attachment: scroll;
+  }
+
+  .about-section {
+    padding: 24px 20px;
+  }
+
+  .about-title {
+    font-size: 34px;
+  }
+
+  .about-heading {
+    font-size: 24px;
+  }
+
+  .about-lead {
+    font-size: 19px !important;
+  }
+}

@@ -10,6 +10,7 @@ import AddPortfolio from './components/portfolio/AddPortfolio'
 import AddArticle from './components/portfolio/AddArticle'
 import SingleArticle from './components/portfolio/SingleArticle'
 import Home from './components/common/Home'
+import About from './components/common/About'
 import Navbar from './components/common/Navbar'
 import MyProfilePage from './components/common/MyProfilePage'
 import PublicProfilePage from './components/common/PublicProfile'
@@ -27,6 +28,7 @@ const App = () => (
     {isAuthenticated() && <Navbar /> }
     <Switch>
       <Route exact path='/' component={Home} />
+      <Route path='/about' component={About} />
       <Route path='/videos/:id' component={SinglePortfolio} />
       <Route path='/images/:id' component={SinglePortfolio} />
       <Route path='/articles/:id' component={SingleArticle} />
