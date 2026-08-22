@@ -38,7 +38,7 @@ const About = () => (
         <p>
           Distance used to decide who you could train with. Not anymore. Browse
           a coach's videos, articles and past sessions, and choose based on how
-          they actually coach — not what happens to be in your area. And for
+          they actually coach, not what happens to be in your area. And for
           coaches, that works both ways: your audience stops being your postcode
           and starts being anyone in the world who's looking for exactly what
           you teach.
@@ -53,7 +53,7 @@ const About = () => (
             <p>
               You coach. Publish a live session with a date, a time and a
               capacity, and it's instantly visible to everyone training in your
-              discipline — anywhere. When someone books, you're told; when the
+              discipline anywhere. When someone books, you're told; when the
               last place goes, the session closes itself.
             </p>
             <p>
@@ -71,7 +71,7 @@ const About = () => (
               to you and their work starts turning up in your feed.
             </p>
             <p>
-              Every session you book stays on your profile — the record of what
+              Every session you book stays on your profile. Record of what
               you've actually done builds up on its own.
             </p>
           </div>
@@ -84,10 +84,9 @@ const About = () => (
           <div className="about-card">
             <h3 className="about-card-title">Book real sessions</h3>
             <p>
-              Every session runs live over video — a date, a time, a real coach,
-              and a capacity that means something. Booking is immediate, the
-              coach is notified, and the session closes itself the moment it
-              fills.
+              Every session runs live over video: a date, a time, a real coach,
+              and a capacity. Booking is immediate, the coach is notified, and
+              the session closes itself the moment it fills.
             </p>
           </div>
           <div className="about-card">
@@ -113,8 +112,8 @@ const About = () => (
       <section className="about-section">
         <h2 className="about-heading">The disciplines</h2>
         <p>
-          Pick what you train when you join — it's what connects your sessions
-          to the people actually looking for them, wherever they are.
+          Pick what you train when you join, it's what connects your sessions to
+          the people actually looking for them, wherever they are.
         </p>
         <div className="about-pills">
           {disciplines.map((discipline) => (
@@ -128,10 +127,10 @@ const About = () => (
       <section className="about-section">
         <h2 className="about-heading">About the project</h2>
         <p>
-          Gyminy began as a capstone project — a full-stack build putting a
-          React frontend on an Express and MongoDB API, with authentication,
-          image and video hosting, booking, messaging and notifications all
-          written from scratch rather than assembled from a template.
+          Gyminy began as a capstone project: a full-stack build putting a React
+          frontend on an Express and MongoDB API, with authentication, image and
+          video hosting, booking, messaging and notifications all written from
+          scratch rather than assembled from a template.
         </p>
         <p>
           It sat untouched for a couple of years and was brought back up in
