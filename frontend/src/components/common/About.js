@@ -52,27 +52,27 @@ const About = () => (
             <h3 className="about-card-title">Athletes</h3>
             <p>
               You coach. Publish a live session with a date, a time and a
-              capacity, and it appears for everyone training in your discipline.
-              When someone books, you are told; when the last place goes, the
-              session marks itself full.
+              capacity, and it's instantly visible to everyone training in your
+              discipline — anywhere. When someone books, you're told; when the
+              last place goes, the session closes itself.
             </p>
             <p>
-              Your profile is your portfolio. Post the demonstrations, the
-              technique breakdowns and the writing that shows how you coach,
-              rather than asking people to take it on trust.
+              Your profile does the convincing for you. Post the demonstrations,
+              the technique breakdowns and the writing that show how you coach,
+              so people can see it before they ever have to take it on trust.
             </p>
           </div>
           <div className="about-card">
             <h3 className="about-card-title">Students</h3>
             <p>
-              You train. Pick the disciplines you care about when you sign up,
-              find sessions that fit, and book a place in one click. Follow the
-              coaches whose approach makes sense to you and their work turns up
-              in your feed.
+              You train. Pick the disciplines you care about, browse coaches by
+              what they actually show rather than where they're based, and book
+              a place in one click. Follow the ones whose approach makes sense
+              to you and their work starts turning up in your feed.
             </p>
             <p>
-              Everything you book stays on your profile, so the record of what
-              you have actually done builds up on its own.
+              Every session you book stays on your profile — the record of what
+              you've actually done builds up on its own.
             </p>
           </div>
         </div>
@@ -84,9 +84,9 @@ const About = () => (
           <div className="about-card">
             <h3 className="about-card-title">Book real sessions</h3>
             <p>
-              Every session runs live over video, with a date, a time, a
-              description and a hard limit on capacity. Booking is immediate,
-              the coach is notified, and the session closes itself when it
+              Every session runs live over video — a date, a time, a real coach,
+              and a capacity that means something. Booking is immediate, the
+              coach is notified, and the session closes itself the moment it
               fills.
             </p>
           </div>
@@ -95,15 +95,16 @@ const About = () => (
             <p>
               Photos, video and long-form articles all live on your profile.
               Film a lift from the side, write up what changed in your training
-              this month, or post the session you are proud of.
+              this month, or post the session you're proud of — it's what people
+              see before they ever book you.
             </p>
           </div>
           <div className="about-card">
             <h3 className="about-card-title">Talk to people</h3>
             <p>
               Follow other members, like and comment on what they post, search
-              for anyone by name, and message coaches directly when you have a
-              question that does not belong in a comment thread.
+              for anyone by name, and message coaches directly for the questions
+              that don't belong in a comment thread.
             </p>
           </div>
         </div>
@@ -112,8 +113,8 @@ const About = () => (
       <section className="about-section">
         <h2 className="about-heading">The disciplines</h2>
         <p>
-          Everyone picks what they train when they join, and it is what connects
-          sessions to the people looking for them.
+          Pick what you train when you join — it's what connects your sessions
+          to the people actually looking for them, wherever they are.
         </p>
         <div className="about-pills">
           {disciplines.map((discipline) => (
@@ -144,8 +145,9 @@ const About = () => (
       <section className="about-section about-cta">
         <h2 className="about-heading">Start training</h2>
         <p>
-          Sign up as an athlete if you have something to teach, or as a student
-          if you are looking for someone to teach you.
+          Sign up as an athlete if you have something to teach the world, or as
+          a student if you're ready to find the coach who's actually right for
+          you.
         </p>
         <Link to="/register">
           <button className="button about-button">Join GYMINY</button>
