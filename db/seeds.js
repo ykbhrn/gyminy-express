@@ -24,6 +24,7 @@ const Training = require('../models/training')
 const Chat = require('../models/chat')
 
 const data = require('./data')
+const legacy = require('./legacy')
 
 const argv = process.argv.slice(2)
 const DRY_RUN = argv.includes('--dry-run')
@@ -282,7 +283,26 @@ function build() {
     u.newNotification = u.notifications.length > 0
   })
 
-  return { users, images, videos, articles, trainings, chats }
+  /* ---------------------------------------------------------------- legacy */
+
+  // Content recovered from the pre-revival database. It keeps its original
+  // ObjectIds, its own createdAt dates and its own follow graph, so it sits
+  // alongside the generated set rather than being merged into it. The accounts
+  // get the shared demo password because the original hashes are unrecoverable.
+  const legacyUsers = legacy.users.map(u => ({
+    ...u,
+    password: data.DEMO_PASSWORD,
+    passwordConfirmation: data.DEMO_PASSWORD
+  }))
+
+  return {
+    users: [...users, ...legacyUsers],
+    images: [...images, ...legacy.images],
+    videos: [...videos, ...legacy.videos],
+    articles: [...articles, ...legacy.articles],
+    trainings: [...trainings, ...legacy.trainings],
+    chats: [...chats, ...legacy.chats]
+  }
 }
 
 /* ------------------------------------------------------------- validation */
@@ -380,16 +400,25 @@ async function seed() {
   await Video.insertMany(built.videos)
   await Article.insertMany(built.articles)
 
-  // insertMany stamps its own timestamps, so restore the staggered dates
+  // insertMany stamps its own timestamps, so restore the intended dates
   // through the driver, which does not apply Mongoose's timestamp plugin.
+  // Going via the driver also skips casting, and the legacy records carry their
+  // dates as ISO strings, so coerce explicitly or they land as strings.
   const restoreDates = (Model, docs) =>
     Model.collection.bulkWrite(
-      docs.map(d => ({
-        updateOne: {
-          filter: { _id: d._id },
-          update: { $set: { createdAt: d.createdAt, updatedAt: d.updatedAt } }
-        }
-      }))
+      docs
+        .filter(d => d.createdAt)
+        .map(d => ({
+          updateOne: {
+            filter: { _id: new mongoose.Types.ObjectId(d._id) },
+            update: {
+              $set: {
+                createdAt: new Date(d.createdAt),
+                updatedAt: new Date(d.updatedAt || d.createdAt)
+              }
+            }
+          }
+        }))
     )
 
   await Promise.all([

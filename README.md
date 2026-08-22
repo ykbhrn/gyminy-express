@@ -59,6 +59,31 @@ Seed imagery lives in `frontend/public/seed` and is generated SVG, so it needs
 no network access. The exercise videos are freely-licensed WebM files from
 Wikimedia Commons — note that WebM does not play in Safari.
 
+### What the seed contains
+
+Two sets, kept side by side rather than merged:
+
+- **`db/data.js`** — the generated set: 10 accounts, 7 trainings, 8 images,
+  7 videos, 3 articles, 3 chat threads, a follow graph.
+- **`db/legacy.js`** — content recovered from the original database as it stood
+  before the 2026 revival: 3 accounts, 5 trainings, 4 images, 3 videos and
+  4 articles, keeping their original ObjectIds and 2023 timestamps.
+
+Legacy records were normalised on import, in four ways:
+
+| Change | Why |
+| --- | --- |
+| Cloudinary URLs upgraded to `https://` | The originals were `http://` and would be blocked as mixed content once the app is served over HTTPS. |
+| Embedded `user` objects trimmed to a snapshot | The old app stored `req.currentUser`, i.e. the whole user document including the password hash, inside every image, training and comment. |
+| `article.user` turned from an ObjectId string into an object | The frontend reads `article.user.name`, so these four articles previously rendered their author as "undefined" in the list view. |
+| Password hashes dropped | The original plaintexts are unknown, so those accounts would be unusable. The seed gives them the same demo password as everything else. |
+
+`db/legacy.js` is generated. To rebuild it from a fresh dump:
+
+```bash
+node db/import-legacy.js path/to/dump.json
+```
+
 ## Deploying to Render
 
 `render.yaml` describes the service. Note that the `Procfile` in this repo is
