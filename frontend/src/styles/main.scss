@@ -107,7 +107,7 @@ a {
 .profile-choices-container {
   display: flex;
   justify-content: space-evenly;
-
+  flex-wrap: wrap;
 }
 
 .index {
@@ -378,7 +378,7 @@ a {
 }
 
 .article-image-container {
-  width: 100vw;
+  width: 100%;
   height: 400px;
   background-attachment: fixed;
   background-position: center top;
@@ -397,12 +397,14 @@ a {
 }
 
 .single-article-title {
-  width: 1000px;
+  width: 100%;
+  max-width: 1000px;
   margin-top: 20px;
 }
 
 .single-article-text {
-  width: 960px;
+  width: 100%;
+  max-width: 960px;
   font-family: $article-text-font;
   font-size: 20px;
   background: white;
@@ -1613,6 +1615,8 @@ hr {
 }
 
 .about-button {
+  width: auto;
+  max-width: 100%;
   font-family: $slogan;
   font-weight: bold;
   background-color: $main;
@@ -1646,5 +1650,177 @@ hr {
 
   .about-lead {
     font-size: 19px !important;
+  }
+}
+
+/* --------------------------------------------------------- Mobile layout */
+/*
+ * Structural fixes for phones. The rules above were written for desktop and
+ * rely on fixed pixel widths and large fixed padding, which push several pages
+ * wider than the viewport on a 375px screen. Kept last so they win on order.
+ */
+
+@media only screen and (max-width: 768px) {
+
+  /* 140px of side padding leaves ~95px of usable width on a phone */
+  .portfolio-container {
+    padding: 0 12px;
+  }
+
+  /* every .button is pinned to 300px further up, which overflows a 320px
+     screen once container padding is taken into account */
+  .button {
+    max-width: 100%;
+  }
+
+  /* the search icon sat behind a fixed 140px margin, dragging the whole
+     navbar past the right edge on every page */
+  .search {
+    margin: auto 0 auto 12px;
+  }
+
+  .logo-search {
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  /* Bulma's columns use negative side margins that need a padded parent;
+     without one they overhang by 0.75rem each side */
+  .columns {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* four 200px tiles with 30px margins cannot fit; wrap them into a grid and
+     stack each icon above its label rather than letting the text wrap beside it */
+  .profile-choices {
+    width: 44%;
+    height: auto;
+    margin: 8px;
+    padding: 10px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    img {
+      max-width: 70px;
+      height: auto;
+      margin-bottom: 6px;
+    }
+
+    span {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .small-profile-choices {
+    width: auto;
+    flex: 1 1 auto;
+    padding: 6px 10px;
+  }
+
+  .single-article-text {
+    padding: 20px 18px;
+    font-size: 16px;
+  }
+
+  .single-article-title {
+    font-size: 26px !important;
+    padding: 0 14px;
+  }
+
+  /* background-attachment: fixed is ignored or janky on most mobile browsers */
+  .article-image-container {
+    background-attachment: scroll;
+    height: 220px;
+  }
+
+  /* opacity on .navbar makes its whole subtree translucent, including the
+     fixed bottom bar, so page text showed through it. Use an alpha background
+     on the top bar instead and keep the bottom bar fully opaque. */
+  .navbar {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.96);
+  }
+
+  /* the bottom bar was offset by a percentage, leaving it floating off-centre */
+  .navbar-menu {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  /* navbar-end filled the bar but left-packed its items; spread them evenly
+     so the bottom bar reads as a tab bar and the targets are easier to hit */
+  .navbar-end {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  /* leave room for the fixed bottom bar so the last item is not covered */
+  .m-scene,
+  .single-article-container,
+  .portfolio-container,
+  .register-container {
+    padding-bottom: 70px;
+  }
+
+  .logout {
+    bottom: 10px;
+    right: 10px;
+
+    img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  /* a 20px-tall comment field is very hard to hit with a thumb */
+  .comment-add-container {
+    input {
+      height: 36px;
+    }
+  }
+
+  .comment-button {
+    min-height: 32px;
+    padding: 0 14px;
+    font-size: 11px;
+  }
+
+  /* nudge the bottom-bar icons closer to a comfortable touch target */
+  .navbar-menu .navbar-item {
+    width: 44px;
+    height: 44px;
+    padding: 6px;
+  }
+}
+
+/*
+ * Below 600px the base font drops to 12px and below 450px to 10px, which is
+ * inherited by form controls. iOS zooms the page whenever a focused field is
+ * under 16px, so pin the controls back regardless of the body size.
+ */
+@media only screen and (max-width: 600px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  .sign-container {
+    justify-content: center;
   }
 }
