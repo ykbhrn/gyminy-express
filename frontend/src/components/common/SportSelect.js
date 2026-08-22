@@ -19,7 +19,7 @@ class SportSelect extends React.Component {
 
 
   render() {
-    if (!this.state.sports) return null
+    // if (!this.state.sports) return null
     return (
       <div className="select is-multiple">
         <select multiple size="3"

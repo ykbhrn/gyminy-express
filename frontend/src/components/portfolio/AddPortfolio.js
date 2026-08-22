@@ -79,7 +79,7 @@ class AddPortfolio extends React.Component {
       }
 
       const res = await axios.post(uploadUrl, data)
-      console.log(res.data)
+
       this.setState({ isLoading: false })
       this.setUrl(res.data.url)
     } catch (err) {
